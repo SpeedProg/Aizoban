@@ -61,7 +61,7 @@ public class DownloadService extends Service implements Observer<File> {
     private final static int DOWNLOAD_NOTIFICATION_ID = 1337;
 
     private static final int DOWNLOAD_CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
-    private static final int DOWNLOAD_MAXIMUM_POOL_SIZE = 5;
+    private static final int DOWNLOAD_MAXIMUM_POOL_SIZE = 4;
     private static final int KEEP_ALIVE_TIME = 1;
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
 
@@ -280,14 +280,15 @@ public class DownloadService extends Service implements Observer<File> {
                                     File externalDirectory = Environment.getExternalStorageDirectory();
                                     File generalDirectory = new File(externalDirectory, getPackageName());
                                     File sourceDirectory = new File(generalDirectory, downloadChapter.getSource());
-                                    File chapterDirectory = new File(sourceDirectory, downloadChapter.getName());
+                                    File urlHashDirectory = new File(sourceDirectory, DiskUtils.hashKeyForDisk(downloadChapter.getUrl()));
+                                    File chapterDirectory = new File(urlHashDirectory, downloadChapter.getName());
 
                                     downloadChapter.setDirectory(chapterDirectory.getAbsolutePath());
                                 } else {
                                     File internalDirectory = getApplicationContext().getFilesDir();
-                                    File generalDirectory = new File(internalDirectory, "downloads");
-                                    File sourceDirectory = new File(generalDirectory, downloadChapter.getSource());
-                                    File chapterDirectory = new File(sourceDirectory, downloadChapter.getName());
+                                    File sourceDirectory = new File(internalDirectory, downloadChapter.getSource());
+                                    File urlHashDirectory = new File(sourceDirectory, DiskUtils.hashKeyForDisk(downloadChapter.getUrl()));
+                                    File chapterDirectory = new File(urlHashDirectory, downloadChapter.getName());
 
                                     downloadChapter.setDirectory(chapterDirectory.getAbsolutePath());
                                 }

@@ -1,7 +1,5 @@
 package com.jparkie.aizoban.controllers.networks;
 
-import android.util.Log;
-
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;

@@ -360,7 +360,7 @@ public class Italian_MangaEden implements Source {
         Chapter newChapter = DefaultFactory.Chapter.constructDefault();
 
         newChapter.setUrl("https://www.mangaeden.com/api/chapter/" + chapterNode.getString(3) + "/");
-        newChapter.setName(mangaName + " " + chapterNode.getInt(0));
+        newChapter.setName(mangaName + " " + chapterNode.getDouble(0));
         newChapter.setDate(chapterNode.getLong(1) * 1000);
 
         return newChapter;
