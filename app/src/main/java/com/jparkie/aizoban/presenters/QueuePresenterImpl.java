@@ -61,8 +61,6 @@ public class QueuePresenterImpl implements QueuePresenter {
         mQueueAdapter = new QueueAdapter(mQueueView.getContext());
 
         mQueueMapper.registerAdapter(mQueueAdapter);
-
-        queryNonCompletedDownloadChaptersFromDatabase();
     }
 
     @Override
@@ -79,6 +77,11 @@ public class QueuePresenterImpl implements QueuePresenter {
     @Override
     public void unregisterForEvents() {
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        queryNonCompletedDownloadChaptersFromDatabase();
     }
 
     @Override

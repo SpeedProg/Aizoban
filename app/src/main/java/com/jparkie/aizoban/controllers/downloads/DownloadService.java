@@ -308,8 +308,15 @@ public class DownloadService extends Service implements Observer<File> {
 
                 queueDownloadIntent.removeExtra(INTENT_QUEUE_DOWNLOAD);
 
-                stopForeground(false);
-                stopSelf();
+                if (mIsInitialized) {
+                    if (QueryManager.queryShouldDownloadServiceStop().toBlocking().single()) {
+                        stopForeground(false);
+                        stopSelf();
+                    }
+                } else {
+                    stopForeground(false);
+                    stopSelf();
+                }
             }
         }
     }

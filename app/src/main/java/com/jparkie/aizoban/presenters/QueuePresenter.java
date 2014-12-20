@@ -11,6 +11,8 @@ public interface QueuePresenter {
 
     public void unregisterForEvents();
 
+    public void onResume();
+
     public void saveState(Bundle outState);
 
     public void restoreState(Bundle savedState);

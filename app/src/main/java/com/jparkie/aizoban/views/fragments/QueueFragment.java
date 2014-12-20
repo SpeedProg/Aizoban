@@ -74,6 +74,13 @@ public class QueueFragment extends Fragment implements QueueView, QueueMapper {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        mQueuePresenter.onResume();
+    }
+
+    @Override
     public void onStop() {
         mQueuePresenter.unregisterForEvents();
 

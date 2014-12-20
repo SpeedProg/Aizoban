@@ -93,8 +93,6 @@ public class MangaPresenterOfflineImpl implements MangaPresenter {
         mMangaMapper.registerAdapter(mDownloadChapterListingsAdapter);
 
         initializeFavouriteManga();
-
-        queryBothMangaAndChaptersFromUrl();
     }
 
     @Override
@@ -117,7 +115,7 @@ public class MangaPresenterOfflineImpl implements MangaPresenter {
 
     @Override
     public void onResume() {
-        // Do Nothing.
+        queryBothMangaAndChaptersFromUrl();
     }
 
     @Override
