@@ -1,12 +1,7 @@
 package com.jparkie.aizoban.presenters.mapper;
 
-import android.os.Parcelable;
-import android.widget.BaseAdapter;
+import com.jparkie.aizoban.presenters.base.BaseAdapterMapper;
+import com.jparkie.aizoban.presenters.base.BasePositionStateMapper;
 
-public interface CatalogueMapper {
-    public void registerAdapter(BaseAdapter adapter);
-
-    public Parcelable getPositionState();
-
-    public void setPositionState(Parcelable state);
+public interface CatalogueMapper extends BaseAdapterMapper, BasePositionStateMapper {
 }

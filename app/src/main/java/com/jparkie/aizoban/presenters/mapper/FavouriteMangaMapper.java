@@ -1,15 +1,8 @@
 package com.jparkie.aizoban.presenters.mapper;
 
-import android.os.Parcelable;
-import android.util.SparseBooleanArray;
-import android.widget.BaseAdapter;
+import com.jparkie.aizoban.presenters.base.BaseAdapterMapper;
+import com.jparkie.aizoban.presenters.base.BasePositionStateMapper;
+import com.jparkie.aizoban.presenters.base.BaseSelectionMapper;
 
-public interface FavouriteMangaMapper {
-    public void registerAdapter(BaseAdapter adapter);
-
-    public SparseBooleanArray getCheckedItemPositions();
-
-    public Parcelable getPositionState();
-
-    public void setPositionState(Parcelable state);
+public interface FavouriteMangaMapper extends BaseAdapterMapper, BasePositionStateMapper, BaseSelectionMapper {
 }

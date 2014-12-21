@@ -1,13 +1,11 @@
 package com.jparkie.aizoban.presenters.mapper;
 
-import android.os.Parcelable;
-import android.widget.BaseAdapter;
+import com.jparkie.aizoban.presenters.base.BaseAdapterMapper;
+import com.jparkie.aizoban.presenters.base.BasePositionStateMapper;
 
 import java.util.List;
 
-public interface CatalogueFilterMapper {
-    public void registerAdapter(BaseAdapter adapter);
-
+public interface CatalogueFilterMapper extends BaseAdapterMapper, BasePositionStateMapper {
     public List<String> getSelectedGenres();
 
     public void setSelectedGenres(List<String> selectedGenres);
@@ -19,8 +17,4 @@ public interface CatalogueFilterMapper {
     public String getSelectedOrderBy();
 
     public void setSelectedOrderBy(String selectedOrderBy);
-
-    public Parcelable getPositionState();
-
-    public void setPositionState(Parcelable state);
 }

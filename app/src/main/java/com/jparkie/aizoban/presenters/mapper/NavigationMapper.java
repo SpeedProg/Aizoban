@@ -1,7 +1,6 @@
 package com.jparkie.aizoban.presenters.mapper;
 
-import android.widget.BaseAdapter;
+import com.jparkie.aizoban.presenters.base.BaseAdapterMapper;
 
-public interface NavigationMapper {
-    public void registerAdapter(BaseAdapter adapter);
+public interface NavigationMapper extends BaseAdapterMapper {
 }
