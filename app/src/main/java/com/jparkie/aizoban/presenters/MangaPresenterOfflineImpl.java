@@ -81,7 +81,7 @@ public class MangaPresenterOfflineImpl implements MangaPresenter {
     public void initializeViews() {
         mMangaView.initializeToolbar();
         mMangaView.initializeSwipeRefreshLayout();
-        mMangaView.initializeListView();
+        mMangaView.initializeAbsListView();
         mMangaView.initializeDeletionListView();
         mMangaView.initializeEmptyRelativeLayout();
     }

@@ -58,7 +58,7 @@ public class RecentChapterPresenterImpl implements RecentChapterPresenter {
     @Override
     public void initializeViews() {
         mRecentChapterView.initializeToolbar();
-        mRecentChapterView.initializeListView();
+        mRecentChapterView.initializeAbsListView();
         mRecentChapterView.initializeEmptyRelativeLayout();
     }
 

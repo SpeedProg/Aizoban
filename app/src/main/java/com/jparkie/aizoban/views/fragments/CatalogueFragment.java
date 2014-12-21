@@ -146,7 +146,7 @@ public class CatalogueFragment extends Fragment implements CatalogueView, Catalo
     }
 
     @Override
-    public void initializeGridView() {
+    public void initializeAbsListView() {
         if (mGridView != null) {
             mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

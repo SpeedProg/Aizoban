@@ -58,7 +58,7 @@ public class NavigationPresenterImpl implements NavigationPresenter {
 
     @Override
     public void initializeViews() {
-        mNavigationView.initializeListView();
+        mNavigationView.initializeAbsListView();
         mNavigationView.initializeSourceTextView(AizobanManager.getNameFromPreferenceSource().toBlocking().single());
 
         initializeThumbnailImageView();

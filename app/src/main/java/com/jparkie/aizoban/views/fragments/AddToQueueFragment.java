@@ -162,7 +162,7 @@ public class AddToQueueFragment extends DialogFragment implements AddToQueueView
     }
 
     @Override
-    public void selectAllItems() {
+    public void selectAll() {
         if (mListView != null) {
             for (int index = 0; index < mListView.getCount(); index++) {
                 mListView.setItemChecked(index, true);
@@ -171,7 +171,7 @@ public class AddToQueueFragment extends DialogFragment implements AddToQueueView
     }
 
     @Override
-    public void deselectAllItems() {
+    public void clear() {
         if (mListView != null) {
             for (int index = 0; index < mListView.getCount(); index++) {
                 mListView.setItemChecked(index, false);

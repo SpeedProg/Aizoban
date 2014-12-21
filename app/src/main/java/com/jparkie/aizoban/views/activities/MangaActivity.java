@@ -241,7 +241,7 @@ public class MangaActivity extends ActionBarActivity implements MangaView, Manga
     }
 
     @Override
-    public void initializeListView() {
+    public void initializeAbsListView() {
         if (mListView != null) {
             mListView.setVisibility(View.INVISIBLE);
 
@@ -349,6 +349,11 @@ public class MangaActivity extends ActionBarActivity implements MangaView, Manga
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void showEmptyRelativeLayout() {
+        // Do Nothing.
     }
 
     @Override

@@ -147,9 +147,9 @@ public class AddToQueuePresenterImpl implements AddToQueuePresenter {
     @Override
     public void onToggleButtonClick() {
         if (mAddToQueueMapper.getCheckedItemCount() == 0) {
-            mAddToQueueView.selectAllItems();
+            mAddToQueueView.selectAll();
         } else {
-            mAddToQueueView.deselectAllItems();
+            mAddToQueueView.clear();
         }
     }
 

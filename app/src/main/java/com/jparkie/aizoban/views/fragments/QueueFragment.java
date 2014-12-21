@@ -136,7 +136,7 @@ public class QueueFragment extends Fragment implements QueueView, QueueMapper {
     }
 
     @Override
-    public void initializeListView() {
+    public void initializeAbsListView() {
         if (mListView != null) {
             mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
             mListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {

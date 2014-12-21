@@ -57,7 +57,7 @@ public class LatestMangaPresenterImpl implements LatestMangaPresenter {
     public void initializeViews() {
         mLatestMangaView.initializeToolbar();
         mLatestMangaView.initializeSwipeRefreshLayout();
-        mLatestMangaView.initializeGridView();
+        mLatestMangaView.initializeAbsListView();
         mLatestMangaView.initializeEmptyRelativeLayout();
     }
 

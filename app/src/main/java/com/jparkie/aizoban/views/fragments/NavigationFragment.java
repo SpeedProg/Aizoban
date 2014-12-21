@@ -99,7 +99,7 @@ public class NavigationFragment extends Fragment implements NavigationView, Navi
     // NavigationView:
 
     @Override
-    public void initializeListView() {
+    public void initializeAbsListView() {
         if (mListView != null) {
             if (mHeaderView != null) {
                 mListView.addHeaderView(mHeaderView, null, false);
@@ -114,6 +114,11 @@ public class NavigationFragment extends Fragment implements NavigationView, Navi
                 }
             });
         }
+    }
+
+    @Override
+    public void scrollToTop() {
+        // Do Nothing.
     }
 
     @Override

@@ -1,15 +1,12 @@
 package com.jparkie.aizoban.views;
 
-import android.content.Context;
+import com.jparkie.aizoban.views.base.BaseContextView;
+import com.jparkie.aizoban.views.base.BaseToolbarView;
 
-public interface SettingsView {
-    public void initializeToolbar();
-
+public interface SettingsView extends BaseContextView, BaseToolbarView {
     public void toastClearedFavourite();
 
     public void toastClearedRecent();
 
     public void toastClearedImageCache();
-    
-    public Context getContext();
 }

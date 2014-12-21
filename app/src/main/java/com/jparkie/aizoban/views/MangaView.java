@@ -1,31 +1,22 @@
 package com.jparkie.aizoban.views;
 
-import android.content.Context;
+import com.jparkie.aizoban.views.base.BaseAbsListViewView;
+import com.jparkie.aizoban.views.base.BaseContextView;
+import com.jparkie.aizoban.views.base.BaseEmptyRelativeLayoutView;
+import com.jparkie.aizoban.views.base.BaseSelectionView;
+import com.jparkie.aizoban.views.base.BaseSwipeRefreshLayoutView;
+import com.jparkie.aizoban.views.base.BaseToolbarView;
 
-public interface MangaView {
-    public void initializeToolbar();
-
-    public void initializeSwipeRefreshLayout();
-
-    public void initializeListView();
-
+public interface MangaView extends BaseContextView, BaseToolbarView, BaseSwipeRefreshLayoutView, BaseEmptyRelativeLayoutView, BaseAbsListViewView, BaseSelectionView {
     public void initializeDeletionListView();
 
-    public void initializeEmptyRelativeLayout();
-
     public void initializeFavouriteButton(boolean isFavourite);
-
-    public void hideEmptyRelativeLayout();
 
     public void showListViewIfHidden();
 
     public void showChapterStatusError();
 
     public void hideChapterStatusError();
-
-    public void showRefreshing();
-
-    public void hideRefreshing();
 
     public void setTitle(String title);
 
@@ -47,13 +38,5 @@ public interface MangaView {
 
     public int getHeaderViewsCount();
 
-    public void scrollToTop();
-
-    public void selectAll();
-
-    public void clear();
-
     public void toastMangaError();
-
-    public Context getContext();
 }

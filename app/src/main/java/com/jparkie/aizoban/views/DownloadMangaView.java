@@ -1,19 +1,9 @@
 package com.jparkie.aizoban.views;
 
-import android.content.Context;
+import com.jparkie.aizoban.views.base.BaseAbsListViewView;
+import com.jparkie.aizoban.views.base.BaseContextView;
+import com.jparkie.aizoban.views.base.BaseEmptyRelativeLayoutView;
+import com.jparkie.aizoban.views.base.BaseToolbarView;
 
-public interface DownloadMangaView {
-    public void initializeToolbar();
-
-    public void initializeListView();
-
-    public void initializeEmptyRelativeLayout();
-
-    public void hideEmptyRelativeLayout();
-
-    public void showEmptyRelativeLayout();
-
-    public void scrollToTop();
-
-    public Context getContext();
+public interface DownloadMangaView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BaseAbsListViewView {
 }

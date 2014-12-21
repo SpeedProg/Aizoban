@@ -1,19 +1,9 @@
 package com.jparkie.aizoban.views;
 
-import android.content.Context;
+import com.jparkie.aizoban.views.base.BaseContextView;
+import com.jparkie.aizoban.views.base.BaseEmptyRelativeLayoutView;
+import com.jparkie.aizoban.views.base.BaseSelectionView;
 
-public interface AddToQueueView {
-    public void initializeEmptyRelativeLayout();
-
-    public void hideEmptyRelativeLayout();
-
-    public void showEmptyRelativeLayout();
-
+public interface AddToQueueView extends BaseContextView, BaseEmptyRelativeLayoutView, BaseSelectionView {
     public void overrideToggleButton();
-
-    public void selectAllItems();
-
-    public void deselectAllItems();
-
-    public Context getContext();
 }

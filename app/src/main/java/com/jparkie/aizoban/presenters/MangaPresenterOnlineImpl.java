@@ -77,7 +77,7 @@ public class MangaPresenterOnlineImpl implements MangaPresenter {
     public void initializeViews() {
         mMangaView.initializeToolbar();
         mMangaView.initializeSwipeRefreshLayout();
-        mMangaView.initializeListView();
+        mMangaView.initializeAbsListView();
         mMangaView.initializeEmptyRelativeLayout();
     }
 

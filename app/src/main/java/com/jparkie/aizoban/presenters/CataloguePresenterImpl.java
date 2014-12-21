@@ -57,7 +57,7 @@ public class CataloguePresenterImpl implements CataloguePresenter {
     @Override
     public void initializeViews() {
         mCatalogueView.initializeToolbar();
-        mCatalogueView.initializeGridView();
+        mCatalogueView.initializeAbsListView();
         mCatalogueView.initializeEmptyRelativeLayout();
     }
 

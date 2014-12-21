@@ -314,6 +314,11 @@ public class ChapterActivity extends ActionBarActivity implements ChapterView, C
     }
 
     @Override
+    public void showEmptyRelativeLayout() {
+        // Do Nothing.
+    }
+
+    @Override
     public int getDisplayWidth() {
         return getResources().getDisplayMetrics().widthPixels;
     }

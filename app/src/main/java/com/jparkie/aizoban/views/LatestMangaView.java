@@ -1,25 +1,11 @@
 package com.jparkie.aizoban.views;
 
-import android.content.Context;
+import com.jparkie.aizoban.views.base.BaseAbsListViewView;
+import com.jparkie.aizoban.views.base.BaseContextView;
+import com.jparkie.aizoban.views.base.BaseEmptyRelativeLayoutView;
+import com.jparkie.aizoban.views.base.BaseSwipeRefreshLayoutView;
+import com.jparkie.aizoban.views.base.BaseToolbarView;
 
-public interface LatestMangaView {
-    public void initializeToolbar();
-
-    public void initializeSwipeRefreshLayout();
-
-    public void initializeGridView();
-
-    public void initializeEmptyRelativeLayout();
-
-    public void hideEmptyRelativeLayout();
-
-    public void showRefreshing();
-
-    public void hideRefreshing();
-
-    public void scrollToTop();
-
+public interface LatestMangaView extends BaseContextView, BaseToolbarView, BaseSwipeRefreshLayoutView, BaseEmptyRelativeLayoutView, BaseAbsListViewView {
     public void toastLatestError();
-
-    public Context getContext();
 }

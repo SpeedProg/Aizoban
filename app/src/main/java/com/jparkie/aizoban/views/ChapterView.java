@@ -1,18 +1,15 @@
 package com.jparkie.aizoban.views;
 
-import android.content.Context;
 import android.content.Intent;
 
-public interface ChapterView {
-    public void initializeToolbar();
+import com.jparkie.aizoban.views.base.BaseContextView;
+import com.jparkie.aizoban.views.base.BaseEmptyRelativeLayoutView;
+import com.jparkie.aizoban.views.base.BaseToolbarView;
 
+public interface ChapterView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView {
     public void initializeViewPager();
 
-    public void initializeEmptyRelativeLayout();
-
     public void initializeButtons();
-
-    public void hideEmptyRelativeLayout();
 
     public int getDisplayWidth();
 
@@ -39,6 +36,4 @@ public interface ChapterView {
     public void toastNoNextChapter();
 
     public void finishAndLaunchActivity(Intent launchIntent, boolean isFadeTransition);
-
-    public Context getContext();
 }

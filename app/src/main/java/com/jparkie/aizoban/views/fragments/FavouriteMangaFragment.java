@@ -153,7 +153,7 @@ public class FavouriteMangaFragment extends Fragment implements FavouriteMangaVi
     }
 
     @Override
-    public void initializeListView() {
+    public void initializeAbsListView() {
         if (mListView != null) {
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

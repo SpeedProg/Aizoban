@@ -136,7 +136,7 @@ public class DownloadMangaFragment extends Fragment implements DownloadMangaView
     }
 
     @Override
-    public void initializeListView() {
+    public void initializeAbsListView() {
         if (mListView != null) {
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

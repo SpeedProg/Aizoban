@@ -1,23 +1,10 @@
 package com.jparkie.aizoban.views;
 
-import android.content.Context;
+import com.jparkie.aizoban.views.base.BaseAbsListViewView;
+import com.jparkie.aizoban.views.base.BaseContextView;
+import com.jparkie.aizoban.views.base.BaseEmptyRelativeLayoutView;
+import com.jparkie.aizoban.views.base.BaseSelectionView;
+import com.jparkie.aizoban.views.base.BaseToolbarView;
 
-public interface FavouriteMangaView {
-    public void initializeToolbar();
-
-    public void initializeListView();
-
-    public void initializeEmptyRelativeLayout();
-
-    public void hideEmptyRelativeLayout();
-
-    public void showEmptyRelativeLayout();
-
-    public void scrollToTop();
-
-    public void selectAll();
-
-    public void clear();
-
-    public Context getContext();
+public interface FavouriteMangaView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BaseAbsListViewView, BaseSelectionView {
 }

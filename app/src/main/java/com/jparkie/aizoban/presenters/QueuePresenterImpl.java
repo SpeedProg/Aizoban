@@ -52,7 +52,7 @@ public class QueuePresenterImpl implements QueuePresenter {
     @Override
     public void initializeViews() {
         mQueueView.initializeToolbar();
-        mQueueView.initializeListView();
+        mQueueView.initializeAbsListView();
         mQueueView.initializeEmptyRelativeLayout();
     }
 

@@ -58,7 +58,7 @@ public class FavouriteMangaPresenterImpl implements FavouriteMangaPresenter {
     @Override
     public void initializeViews() {
         mFavouriteMangaView.initializeToolbar();
-        mFavouriteMangaView.initializeListView();
+        mFavouriteMangaView.initializeAbsListView();
         mFavouriteMangaView.initializeEmptyRelativeLayout();
     }
 

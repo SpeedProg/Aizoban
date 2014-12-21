@@ -129,7 +129,7 @@ public class LatestMangaFragment extends Fragment implements LatestMangaView, La
     }
 
     @Override
-    public void initializeGridView() {
+    public void initializeAbsListView() {
         if (mGridView != null) {
             mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -155,6 +155,11 @@ public class LatestMangaFragment extends Fragment implements LatestMangaView, La
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void showEmptyRelativeLayout() {
+        // Do Nothing.
     }
 
     @Override

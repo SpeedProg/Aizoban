@@ -153,7 +153,7 @@ public class RecentChapterFragment extends Fragment implements RecentChapterView
     }
 
     @Override
-    public void initializeListView() {
+    public void initializeAbsListView() {
         if (mListView != null) {
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

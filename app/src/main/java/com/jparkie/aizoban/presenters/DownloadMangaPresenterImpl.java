@@ -53,7 +53,7 @@ public class DownloadMangaPresenterImpl implements DownloadMangaPresenter {
     @Override
     public void initializeViews() {
         mDownloadMangaView.initializeToolbar();
-        mDownloadMangaView.initializeListView();
+        mDownloadMangaView.initializeAbsListView();
         mDownloadMangaView.initializeEmptyRelativeLayout();
     }
 
