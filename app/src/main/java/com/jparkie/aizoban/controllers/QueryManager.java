@@ -30,6 +30,9 @@ import rx.Subscriber;
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 public class QueryManager {
+    private static final Object mAddPagesLock = new Object();
+    private static final Object mAddMangaLock = new Object();
+
     public static Observable<Cursor> queryMangaFromRequest(final RequestWrapper request) {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override
@@ -495,53 +498,64 @@ public class QueryManager {
         });
     }
 
-    public static synchronized Observable<DownloadManga> addDownloadMangaIfNone(final RequestWrapper request) {
+    public static Observable<DownloadManga> addDownloadMangaIfNone(final RequestWrapper request) {
         return Observable.create(new Observable.OnSubscribe<DownloadManga>() {
             @Override
             public void call(Subscriber<? super DownloadManga> subscriber) {
-                try {
-                    ApplicationSQLiteOpenHelper applicationSQLiteOpenHelper = ApplicationSQLiteOpenHelper.getInstance();
-                    SQLiteDatabase applicationDatabase = applicationSQLiteOpenHelper.getWritableDatabase();
-                    StringBuilder selection = new StringBuilder();
-                    List<String> selectionArgs = new ArrayList<String>();
+                synchronized (mAddMangaLock) {
+                    try {
+                        ApplicationSQLiteOpenHelper applicationSQLiteOpenHelper = ApplicationSQLiteOpenHelper.getInstance();
+                        SQLiteDatabase applicationDatabase = applicationSQLiteOpenHelper.getWritableDatabase();
+                        StringBuilder selection = new StringBuilder();
+                        List<String> selectionArgs = new ArrayList<String>();
 
-                    selection.append(ApplicationContract.DownloadManga.COLUMN_SOURCE + " = ?");
-                    selectionArgs.add(request.getSource());
-                    selection.append(" AND ").append(ApplicationContract.DownloadManga.COLUMN_URL + " = ?");
-                    selectionArgs.add(request.getUrl());
+                        selection.append(ApplicationContract.DownloadManga.COLUMN_SOURCE + " = ?");
+                        selectionArgs.add(request.getSource());
+                        selection.append(" AND ").append(ApplicationContract.DownloadManga.COLUMN_URL + " = ?");
+                        selectionArgs.add(request.getUrl());
 
-                    DownloadManga mangaToDownload = cupboard().withDatabase(applicationDatabase).query(DownloadManga.class)
-                            .withSelection(selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]))
-                            .limit(1)
-                            .get();
+                        DownloadManga mangaToDownload = null;
 
-                    if (mangaToDownload == null) {
-                        Cursor mangaCursor = QueryManager.queryMangaFromRequest(request)
-                                .toBlocking()
-                                .single();
+                        applicationDatabase.beginTransaction();
+                        try {
+                            mangaToDownload = cupboard().withDatabase(applicationDatabase).query(DownloadManga.class)
+                                    .withSelection(selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]))
+                                    .limit(1)
+                                    .get();
 
-                        Manga requestManga = cupboard().withCursor(mangaCursor).get(Manga.class);
+                            if (mangaToDownload == null) {
+                                Cursor mangaCursor = QueryManager.queryMangaFromRequest(request)
+                                        .toBlocking()
+                                        .single();
 
-                        if (requestManga != null) {
-                            mangaToDownload = DefaultFactory.DownloadManga.constructDefault();
-                            mangaToDownload.setSource(requestManga.getSource());
-                            mangaToDownload.setUrl(requestManga.getUrl());
-                            mangaToDownload.setArtist(requestManga.getArtist());
-                            mangaToDownload.setAuthor(requestManga.getAuthor());
-                            mangaToDownload.setDescription(requestManga.getDescription());
-                            mangaToDownload.setGenre(requestManga.getGenre());
-                            mangaToDownload.setName(requestManga.getName());
-                            mangaToDownload.setCompleted(requestManga.isCompleted());
-                            mangaToDownload.setThumbnailUrl(requestManga.getThumbnailUrl());
+                                Manga requestManga = cupboard().withCursor(mangaCursor).get(Manga.class);
 
-                            cupboard().withDatabase(applicationDatabase).put(mangaToDownload);
+                                if (requestManga != null) {
+                                    mangaToDownload = DefaultFactory.DownloadManga.constructDefault();
+                                    mangaToDownload.setSource(requestManga.getSource());
+                                    mangaToDownload.setUrl(requestManga.getUrl());
+                                    mangaToDownload.setArtist(requestManga.getArtist());
+                                    mangaToDownload.setAuthor(requestManga.getAuthor());
+                                    mangaToDownload.setDescription(requestManga.getDescription());
+                                    mangaToDownload.setGenre(requestManga.getGenre());
+                                    mangaToDownload.setName(requestManga.getName());
+                                    mangaToDownload.setCompleted(requestManga.isCompleted());
+                                    mangaToDownload.setThumbnailUrl(requestManga.getThumbnailUrl());
+
+                                    cupboard().withDatabase(applicationDatabase).put(mangaToDownload);
+                                }
+                            }
+
+                            applicationDatabase.setTransactionSuccessful();
+                        } finally {
+                            applicationDatabase.endTransaction();
                         }
-                    }
 
-                    subscriber.onNext(mangaToDownload);
-                    subscriber.onCompleted();
-                } catch (Throwable e) {
-                    subscriber.onError(e);
+                        subscriber.onNext(mangaToDownload);
+                        subscriber.onCompleted();
+                    } catch (Throwable e) {
+                        subscriber.onError(e);
+                    }
                 }
             }
         });
@@ -718,40 +732,42 @@ public class QueryManager {
         });
     }
 
-    public static synchronized Observable<List<DownloadPage>> addDownloadPagesForDownloadChapter(final DownloadChapter downloadChapter, final List<String> imageUrls) {
+    public static Observable<List<DownloadPage>> addDownloadPagesForDownloadChapter(final DownloadChapter downloadChapter, final List<String> imageUrls) {
         return Observable.create(new Observable.OnSubscribe<List<DownloadPage>>() {
             @Override
             public void call(Subscriber<? super List<DownloadPage>> subscriber) {
-                try {
-                    List<DownloadPage> downloadPageList = new ArrayList<DownloadPage>(imageUrls.size());
-                    for (int index = 0; index < imageUrls.size(); index++) {
-                        DownloadPage downloadPage = DefaultFactory.DownloadPage.constructDefault();
-                        downloadPage.setUrl(imageUrls.get(index));
-                        downloadPage.setParentUrl(downloadChapter.getUrl());
-                        downloadPage.setDirectory(downloadChapter.getDirectory());
-                        downloadPage.setName(String.valueOf(index));
-                        downloadPage.setFlag(DownloadUtils.FLAG_PENDING);
-
-                        downloadPageList.add(downloadPage);
-                    }
-
-                    ApplicationSQLiteOpenHelper applicationSQLiteOpenHelper = ApplicationSQLiteOpenHelper.getInstance();
-                    SQLiteDatabase sqLiteDatabase = applicationSQLiteOpenHelper.getWritableDatabase();
-
-                    sqLiteDatabase.beginTransaction();
+                synchronized (mAddPagesLock) {
                     try {
-                        for (DownloadPage downloadPage : downloadPageList) {
-                            cupboard().withDatabase(sqLiteDatabase).put(downloadPage);
-                        }
-                        sqLiteDatabase.setTransactionSuccessful();
-                    } finally {
-                        sqLiteDatabase.endTransaction();
-                    }
+                        List<DownloadPage> downloadPageList = new ArrayList<DownloadPage>(imageUrls.size());
+                        for (int index = 0; index < imageUrls.size(); index++) {
+                            DownloadPage downloadPage = DefaultFactory.DownloadPage.constructDefault();
+                            downloadPage.setUrl(imageUrls.get(index));
+                            downloadPage.setParentUrl(downloadChapter.getUrl());
+                            downloadPage.setDirectory(downloadChapter.getDirectory());
+                            downloadPage.setName(String.valueOf(index));
+                            downloadPage.setFlag(DownloadUtils.FLAG_PENDING);
 
-                    subscriber.onNext(downloadPageList);
-                    subscriber.onCompleted();
-                } catch (Throwable e) {
-                    subscriber.onError(e);
+                            downloadPageList.add(downloadPage);
+                        }
+
+                        ApplicationSQLiteOpenHelper applicationSQLiteOpenHelper = ApplicationSQLiteOpenHelper.getInstance();
+                        SQLiteDatabase sqLiteDatabase = applicationSQLiteOpenHelper.getWritableDatabase();
+
+                        sqLiteDatabase.beginTransaction();
+                        try {
+                            for (DownloadPage downloadPage : downloadPageList) {
+                                cupboard().withDatabase(sqLiteDatabase).put(downloadPage);
+                            }
+                            sqLiteDatabase.setTransactionSuccessful();
+                        } finally {
+                            sqLiteDatabase.endTransaction();
+                        }
+
+                        subscriber.onNext(downloadPageList);
+                        subscriber.onCompleted();
+                    } catch (Throwable e) {
+                        subscriber.onError(e);
+                    }
                 }
             }
         });
