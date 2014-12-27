@@ -18,7 +18,7 @@ This Android application allows users to browse a catalogue of mangas from vario
 
 ## Source
 
-The source code reflects beydond Version 1.0.2 of the application. It was architectured to test out the MVP design pattern backed by an Observable API to interact with the domain layer. Some points of interest in the source is the Observable API and the DownloadService. Specifically, the DownloadService downloaded chapters from a SQLite database backed task queue while handling network changes, application crashes, failure retries, and pausing through the use of RxJava. 
+The source code reflects beyond Version 1.0.2 of the application. It was architectured to test out the MVP design pattern backed by an Observable API to interact with the domain layer. Some points of interest in the source is the Observable API and the DownloadService. Specifically, the DownloadService downloaded chapters from a SQLite database backed task queue while handling network changes, application crashes, failure retries, and pausing through the use of RxJava. 
 
 ## Development Process
 
