@@ -7,6 +7,8 @@ import com.jparkie.aizoban.views.base.BaseEmptyRelativeLayoutView;
 import com.jparkie.aizoban.views.base.BaseToolbarView;
 
 public interface ChapterView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView {
+    public void initializeSystemUIVisibility();
+
     public void initializeViewPager();
 
     public void initializeButtons();

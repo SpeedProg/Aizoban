@@ -20,6 +20,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 public class DatabaseService extends IntentService {
     public static final String TAG = DatabaseService.class.getSimpleName();
@@ -34,11 +38,18 @@ public class DatabaseService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        handleDeleteFavouriteMangaIntent(intent);
-        handleDeleteRecentChaptersIntent(intent);
-        handleDeleteDownloadMangaIntent(intent);
-        handleDeleteDownloadChaptersIntent(intent);
+    protected void onHandleIntent(final Intent intent) {
+        Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(Subscriber<? super Object> subscriber) {
+                handleDeleteFavouriteMangaIntent(intent);
+                handleDeleteRecentChaptersIntent(intent);
+                handleDeleteDownloadMangaIntent(intent);
+                handleDeleteDownloadChaptersIntent(intent);
+            }
+        })
+        .subscribeOn(Schedulers.io())
+        .subscribe();
     }
 
     private void handleDeleteFavouriteMangaIntent(Intent deleteFavoriteMangaIntent) {

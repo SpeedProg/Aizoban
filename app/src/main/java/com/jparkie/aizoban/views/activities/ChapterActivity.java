@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -179,6 +183,21 @@ public class ChapterActivity extends ActionBarActivity implements ChapterView, C
     // ChapterView:
 
     @Override
+    public void initializeSystemUIVisibility() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            );
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.VISIBLE
+            );
+        }
+    }
+
+    @Override
     public void initializeToolbar() {
         if (mToolbar != null) {
             mToolbar.setTitle(R.string.fragment_chapter);
@@ -205,37 +224,17 @@ public class ChapterActivity extends ActionBarActivity implements ChapterView, C
             mViewPager.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                 @Override
                 public void onSystemUiVisibilityChange(int visibility) {
-                    if ((visibility & View.SYSTEM_UI_FLAG_LOW_PROFILE) != 0) {
-                        if (mToolbar != null) {
-                            mToolbar.animate()
-                                    .alpha(0f)
-                                    .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
-                                    .setListener(new AnimatorListenerAdapter() {
-                                        @Override
-                                        public void onAnimationEnd(Animator animation) {
-                                            mToolbar.setVisibility(View.GONE);
-                                        }
-                                    });
-                        }
-                        if (mPreviousButton != null) {
-                            mPreviousButton.hide(true);
-                        }
-                        if (mNextButton != null) {
-                            mNextButton.hide(true);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                            showControls();
+                        } else {
+                            hideControls();
                         }
                     } else {
-                        if (mToolbar != null) {
-                            mToolbar.setVisibility(View.VISIBLE);
-                            mToolbar.animate()
-                                    .alpha(0.4f)
-                                    .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
-                                    .setListener(null);
-                        }
-                        if (mPreviousButton != null) {
-                            mPreviousButton.show(true);
-                        }
-                        if (mNextButton != null) {
-                            mNextButton.show(true);
+                        if (visibility == View.VISIBLE) {
+                            showControls();
+                        } else {
+                            hideControls();
                         }
                     }
                 }
@@ -475,6 +474,44 @@ public class ChapterActivity extends ActionBarActivity implements ChapterView, C
     public void applyIsLockZoom(boolean isLockZoom) {
         if (mViewPager != null) {
             mViewPager.setIsLockZoom(isLockZoom);
+        }
+    }
+
+    private void hideControls() {
+        if (mToolbar != null) {
+            mToolbar.animate()
+                    .y(0)
+                    .translationY(-1 * mToolbar.getHeight())
+                    .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mToolbar.setVisibility(View.GONE);
+                        }
+                    });
+        }
+        if (mPreviousButton != null) {
+            mPreviousButton.hide(true);
+        }
+        if (mNextButton != null) {
+            mNextButton.hide(true);
+        }
+    }
+
+    private void showControls() {
+        if (mToolbar != null) {
+            mToolbar.setVisibility(View.VISIBLE);
+            mToolbar.animate()
+                    .translationY(mToolbar.getHeight())
+                    .y(0)
+                    .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                    .setListener(null);
+        }
+        if (mPreviousButton != null) {
+            mPreviousButton.show(true);
+        }
+        if (mNextButton != null) {
+            mNextButton.show(true);
         }
     }
 }

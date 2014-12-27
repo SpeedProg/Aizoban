@@ -2,6 +2,8 @@ package com.jparkie.aizoban.views.widgets;
 
 import android.content.Context;
 import android.graphics.Matrix;
+import android.os.Build;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -217,10 +219,34 @@ public class GestureViewPager extends ViewPager {
             } else {
                 final int visibility = getSystemUiVisibility();
 
-                if ((visibility & View.SYSTEM_UI_FLAG_LOW_PROFILE) != 0) {
-                    setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                        setSystemUiVisibility(
+                                View.SYSTEM_UI_FLAG_LOW_PROFILE
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        );
+                    } else {
+                        setSystemUiVisibility(
+                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        );
+                    }
                 } else {
-                    setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                    if (visibility == View.VISIBLE) {
+                        setSystemUiVisibility(
+                                View.SYSTEM_UI_FLAG_LOW_PROFILE
+                        );
+                    } else {
+                        setSystemUiVisibility(
+                                View.VISIBLE
+                        );
+                    }
                 }
             }
 

@@ -86,6 +86,7 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
 
     @Override
     public void initializeViews() {
+        mChapterView.initializeSystemUIVisibility();
         mChapterView.initializeToolbar();
         mChapterView.initializeViewPager();
         mChapterView.initializeEmptyRelativeLayout();
