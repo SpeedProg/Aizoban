@@ -3,7 +3,6 @@ package com.jparkie.aizoban.views.widgets;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.os.Build;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;

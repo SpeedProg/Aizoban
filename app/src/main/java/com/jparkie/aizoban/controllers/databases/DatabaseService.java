@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
 

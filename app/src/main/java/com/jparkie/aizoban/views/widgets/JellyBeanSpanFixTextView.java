@@ -15,9 +15,7 @@
 
 package com.jparkie.aizoban.views.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -26,6 +24,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.jparkie.aizoban.BuildConfig;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -167,12 +168,14 @@ public class JellyBeanSpanFixTextView extends TextView {
         return text.charAt(where) != ' ';
     }
 
+    @SuppressLint("WrongCall")
     private void setTextAndMeasure(CharSequence text, int widthMeasureSpec, int heightMeasureSpec) {
         setText(text);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    @SuppressLint("WrongCall")
     private void removeUnneededSpaces(int widthMeasureSpec, int heightMeasureSpec, SpannableStringBuilder builder, FixingResult result) {
         for (Object span : result.spansWithSpacesAfter) {
             int spanEnd = builder.getSpanEnd(span);
