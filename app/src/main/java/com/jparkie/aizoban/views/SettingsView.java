@@ -9,4 +9,6 @@ public interface SettingsView extends BaseContextView, BaseToolbarView {
     public void toastClearedRecent();
 
     public void toastClearedImageCache();
+
+    public void toastExternalStorageError();
 }

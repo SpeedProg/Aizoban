@@ -30,6 +30,7 @@ public class SettingsFragment extends PreferenceFragment implements SettingsView
         findPreference(getString(R.string.preference_clear_favourite_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_clear_recent_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_clear_image_cache_key)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.preference_download_directory_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_view_open_source_licenses_key)).setOnPreferenceClickListener(this);
 
     }
@@ -63,6 +64,11 @@ public class SettingsFragment extends PreferenceFragment implements SettingsView
     @Override
     public void toastClearedImageCache() {
         Toast.makeText(getActivity(), R.string.toast_cleared_image_cache, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void toastExternalStorageError() {
+        Toast.makeText(getActivity(), R.string.toast_external_storage_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

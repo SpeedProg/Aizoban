@@ -2,6 +2,8 @@ package com.jparkie.aizoban.presenters;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.support.v4.app.FragmentActivity;
 
@@ -45,6 +47,9 @@ public class SettingsPresenterImpl implements SettingsPresenter {
             return true;
         } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_clear_image_cache_key))) {
             clearImageCache();
+            return true;
+        } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_download_directory_key))) {
+            checkExternalStorageAvailability((CheckBoxPreference)preference);
             return true;
         } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_view_open_source_licenses_key))) {
             viewOpenSourceLicenses();
@@ -115,6 +120,20 @@ public class SettingsPresenterImpl implements SettingsPresenter {
                 .subscribe();
 
         mSettingsView.toastClearedImageCache();
+    }
+
+    private void checkExternalStorageAvailability(CheckBoxPreference isExternalStoragePreference){
+        if (isExternalStoragePreference != null) {
+            if (isExternalStoragePreference.isChecked()) {
+                if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                    isExternalStoragePreference.setChecked(true);
+                } else {
+                    isExternalStoragePreference.setChecked(false);
+
+                    mSettingsView.toastExternalStorageError();
+                }
+            }
+        }
     }
 
     private void viewOpenSourceLicenses() {
