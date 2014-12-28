@@ -32,6 +32,7 @@ import com.jparkie.aizoban.utils.wrappers.RequestWrapper;
 import com.jparkie.aizoban.views.activities.MainActivity;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,7 +41,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.event.EventBus;
+import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.observables.AndroidObservable;
 import rx.functions.Action0;
@@ -81,12 +84,21 @@ public class DownloadService extends Service implements Observer<File> {
     private boolean mIsStopping;
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        handleQueueDownloadIntent(intent);
-        handleCancelDownloadIntent(intent);
-        handleStartDownloadIntent(intent);
-        handleStopDownloadIntent(intent);
-        handleRestartDownloadIntent(intent);
+    public int onStartCommand(final Intent intent, int flags, int startId) {
+        Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(Subscriber<? super Void> subscriber) {
+                handleQueueDownloadIntent(intent);
+                handleCancelDownloadIntent(intent);
+                handleStartDownloadIntent(intent);
+                handleStopDownloadIntent(intent);
+                handleRestartDownloadIntent(intent);
+
+                subscriber.onCompleted();
+            }
+        })
+        .subscribeOn(Schedulers.newThread())
+        .subscribe();
 
         return START_STICKY;
     }
@@ -293,6 +305,24 @@ public class DownloadService extends Service implements Observer<File> {
                                     downloadChapter.setDirectory(chapterDirectory.getAbsolutePath());
                                 }
 
+                                if (isExternalStorage) {
+                                    File externalDirectory = Environment.getExternalStorageDirectory();
+                                    File generalDirectory = new File(externalDirectory, getPackageName());
+                                    File noMediaFile = new File(generalDirectory, ".nomedia");
+
+                                    if (!noMediaFile.exists()) {
+                                        if (!generalDirectory.exists()) {
+                                            generalDirectory.mkdirs();
+                                        }
+
+                                        try {
+                                            noMediaFile.createNewFile();
+                                        } catch (IOException e) {
+                                            // Do Nothing.
+                                        }
+                                    }
+                                }
+
                                 downloadChapter.setFlag(DownloadUtils.FLAG_PENDING);
 
                                 QueryManager.putObjectToApplicationDatabase(downloadChapter);
@@ -436,9 +466,6 @@ public class DownloadService extends Service implements Observer<File> {
         }
 
         if (mDownloadChapterPublishSubject != null) {
-            ApplicationSQLiteOpenHelper applicationSQLiteOpenHelper = ApplicationSQLiteOpenHelper.getInstance();
-            SQLiteDatabase sqLiteDatabase = applicationSQLiteOpenHelper.getWritableDatabase();
-
             int dequeueLimit = DOWNLOAD_MAXIMUM_POOL_SIZE;
 
             Cursor runningCursor = QueryManager.queryRunningDownloadChapters()
