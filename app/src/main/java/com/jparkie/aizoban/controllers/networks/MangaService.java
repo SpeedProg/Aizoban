@@ -14,8 +14,6 @@ public class MangaService {
     public static final int WRITE_TIMEOUT = 10;
     public static final int READ_TIMEOUT = 30;
 
-    private static MangaService sInstance;
-
     private OkHttpClient mClient;
 
     private MangaService() {
@@ -26,11 +24,7 @@ public class MangaService {
     }
 
     public static MangaService getInstance() {
-        if (sInstance == null) {
-            sInstance = new MangaService();
-        }
-
-        return sInstance;
+        return new MangaService();
     }
 
     public Observable<Response> getResponse(final String url) {
