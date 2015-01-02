@@ -160,12 +160,17 @@ public class DownloadService extends Service implements Observer<File> {
 
     private void initializeWakeLock() {
         mWakeLock = ((PowerManager)getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG + ":" + "WakeLock");
-        mWakeLock.acquire();
+
+        if (!mWakeLock.isHeld()) {
+            mWakeLock.acquire();
+        }
     }
 
     private void releaseWakeLock() {
         if (mWakeLock != null) {
-            mWakeLock.release();
+            if (mWakeLock.isHeld()) {
+                mWakeLock.release();
+            }
         }
     }
 
