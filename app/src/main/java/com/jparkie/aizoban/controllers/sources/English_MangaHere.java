@@ -90,6 +90,8 @@ public class English_MangaHere implements Source {
         genres.add("Sports");
         genres.add("Supernatural");
         genres.add("Tragedy");
+        genres.add("Yaoi");
+        genres.add("Yuri");
 
         return Observable.just(genres);
     }
