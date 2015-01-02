@@ -35,8 +35,8 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
 
     // Networking:
-    compile 'com.squareup.okhttp:okhttp:2.1.0'
-    compile 'com.squareup.okio:okio:1.1.0'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.squareup.okio:okio:1.2.0'
 
     // Cache:
     compile 'com.jakewharton:disklrucache:2.0.2'
