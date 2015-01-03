@@ -1,6 +1,5 @@
 Aizoban
 =======
-[View Project Site](http://jparkie.github.io/Aizoban/)
 
 ![Feature Graphic](https://cloud.githubusercontent.com/assets/9499097/5429148/16e40ee2-83af-11e4-9588-f52f1104b9c4.jpg)
 
@@ -19,7 +18,9 @@ This Android application allows users to browse a catalogue of mangas from vario
 
 ## Source
 
-The source code reflects beyond Version 1.0.3 of the application. It was architectured to test out the MVP design pattern backed by an Observable API to interact with the domain layer. Some points of interest in the source is the Observable API and the DownloadService. Specifically, the DownloadService downloaded chapters from a SQLite database backed task queue while handling network changes, application crashes, failure retries, and pausing through the use of RxJava. 
+The source code reflects beyond Version 1.0.3 of the application. It was architectured to test out the MVP design pattern backed by an Observable API to interact with the domain layer. Some points of interest in the source is the Observable API and the DownloadService. Specifically, the DownloadService downloaded chapters from a SQLite database backed task queue while handling network changes, application crashes, failure retries, and pausing through the use of RxJava.
+
+Import the project with Android Studio.
 
 ## Development Process
 
