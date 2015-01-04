@@ -64,7 +64,7 @@ public class DownloadService extends Service implements Observer<File> {
     private final static int DOWNLOAD_NOTIFICATION_ID = 1337;
 
     private static final int DOWNLOAD_CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
-    private static final int DOWNLOAD_MAXIMUM_POOL_SIZE = 4;
+    private static final int DOWNLOAD_MAXIMUM_POOL_SIZE = (DOWNLOAD_CORE_POOL_SIZE > 0) ? DOWNLOAD_CORE_POOL_SIZE : 2;
     private static final int KEEP_ALIVE_TIME = 1;
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS;
 
@@ -176,7 +176,7 @@ public class DownloadService extends Service implements Observer<File> {
 
     private void initializeThreadPoolExecutor() {
         mDownloadThreadPoolExecutor = new ThreadPoolExecutor(
-                DOWNLOAD_CORE_POOL_SIZE,
+                DOWNLOAD_MAXIMUM_POOL_SIZE,
                 DOWNLOAD_MAXIMUM_POOL_SIZE,
                 KEEP_ALIVE_TIME,
                 KEEP_ALIVE_TIME_UNIT,
