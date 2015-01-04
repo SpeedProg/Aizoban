@@ -69,7 +69,7 @@ public class English_MangaEden implements Source {
 
     @Override
     public Observable<UpdatePageMarker> pullLatestUpdatesFromNetwork(final UpdatePageMarker newUpdate) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(newUpdate.getNextPageUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -231,7 +231,7 @@ public class English_MangaEden implements Source {
 
     @Override
     public Observable<Manga> pullMangaFromNetwork(final RequestWrapper request) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(request.getUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -301,7 +301,7 @@ public class English_MangaEden implements Source {
 
     @Override
     public Observable<List<Chapter>> pullChaptersFromNetwork(final RequestWrapper request) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(request.getUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -418,7 +418,7 @@ public class English_MangaEden implements Source {
 
     @Override
     public Observable<String> pullImageUrlsFromNetwork(final RequestWrapper request) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(request.getUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -474,7 +474,7 @@ public class English_MangaEden implements Source {
 
     @Override
     public Observable<String> recursivelyConstructDatabase(final String url) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(url)
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override

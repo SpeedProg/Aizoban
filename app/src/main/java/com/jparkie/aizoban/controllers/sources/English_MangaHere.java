@@ -98,7 +98,7 @@ public class English_MangaHere implements Source {
 
     @Override
     public Observable<UpdatePageMarker> pullLatestUpdatesFromNetwork(final UpdatePageMarker newUpdate) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(newUpdate.getNextPageUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -257,7 +257,7 @@ public class English_MangaHere implements Source {
 
     @Override
     public Observable<Manga> pullMangaFromNetwork(final RequestWrapper request) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(request.getUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -334,7 +334,7 @@ public class English_MangaHere implements Source {
 
     @Override
     public Observable<List<Chapter>> pullChaptersFromNetwork(final RequestWrapper request) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(request.getUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -499,7 +499,7 @@ public class English_MangaHere implements Source {
     public Observable<String> pullImageUrlsFromNetwork(final RequestWrapper request) {
         final List<String> temporaryCachedImageUrls = new ArrayList<String>();
 
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(request.getUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -522,7 +522,7 @@ public class English_MangaHere implements Source {
                 .flatMap(new Func1<String, Observable<Response>>() {
                     @Override
                     public Observable<Response> call(String pageUrl) {
-                        return MangaService.getInstance().getResponse(pageUrl);
+                        return MangaService.getPermanentInstance().getResponse(pageUrl);
                     }
                 })
                 .flatMap(new Func1<Response, Observable<String>>() {
@@ -574,7 +574,7 @@ public class English_MangaHere implements Source {
 
     @Override
     public Observable<String> recursivelyConstructDatabase(final String url) {
-        return MangaService.getInstance()
+        return MangaService.getPermanentInstance()
                 .getResponse(url)
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override

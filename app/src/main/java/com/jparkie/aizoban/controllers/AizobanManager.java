@@ -77,6 +77,7 @@ public class AizobanManager {
 
     public static Observable<File> downloadChapterFromNetwork(final DownloadChapter downloadChapter) {
         final RequestWrapper downloadRequest = new RequestWrapper(downloadChapter.getSource(), downloadChapter.getUrl());
+        final MangaService mangaService = MangaService.getTemporaryInstance();
 
         final AtomicBoolean isUnsubscribed = new AtomicBoolean(false);
 
@@ -129,7 +130,7 @@ public class AizobanManager {
                                 .flatMap(new Func1<DownloadPage, Observable<File>>() {
                                     @Override
                                     public Observable<File> call(final DownloadPage downloadPage) {
-                                        return MangaService.getInstance()
+                                        return mangaService
                                                 .getResponse(downloadPage.getUrl())
                                                 .flatMap(new Func1<Response, Observable<File>>() {
                                                     @Override

@@ -28,7 +28,7 @@ dependencies {
     compile 'com.android.support:palette-v7:21.0.3'
 
     // Concurrency:
-    compile 'io.reactivex:rxjava:1.0.2'
+    compile 'io.reactivex:rxjava:1.0.4'
     compile 'io.reactivex:rxandroid:0.23.0'
 
     // Event Bus:
