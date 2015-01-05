@@ -9,6 +9,10 @@ import com.jparkie.aizoban.controllers.sources.Spanish_MangaHere;
 import com.jparkie.aizoban.utils.PreferenceUtils;
 
 public class SourceFactory {
+    private SourceFactory() {
+        throw new AssertionError();
+    }
+
     public static Source constructSourceFromPreferences() {
         String sourceName = PreferenceUtils.getSource();
 

@@ -36,6 +36,10 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class AizobanManager {
+    private AizobanManager() {
+        throw new AssertionError();
+    }
+
     public static Observable<String> getNameFromPreferenceSource() {
         return SourceFactory.constructSourceFromPreferences().getName();
     }

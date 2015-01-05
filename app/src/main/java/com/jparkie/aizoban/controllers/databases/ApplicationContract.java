@@ -4,6 +4,10 @@ public class ApplicationContract {
     public static final String DATABASE_NAME = "AizobanApplication.db";
     public static final int DATABASE_VERSION = 1;
 
+    private ApplicationContract() {
+        throw new AssertionError();
+    }
+
     public static final class Chapter {
         public static final String TABLE_NAME = "Chapter";
 
@@ -19,7 +23,9 @@ public class ApplicationContract {
 
         public static final String COLUMN_NUMBER = "Number";
 
-        private Chapter() {}
+        private Chapter() {
+            throw new AssertionError();
+        }
     }
 
     public static final class DownloadChapter {
@@ -39,7 +45,9 @@ public class ApplicationContract {
         public static final String COLUMN_TOTAL_PAGES = "TotalPages";
         public static final String COLUMN_FLAG = "Flag";
 
-        private DownloadChapter() {}
+        private DownloadChapter() {
+            throw new AssertionError();
+        }
     }
 
     public static final class DownloadManga {
@@ -58,7 +66,9 @@ public class ApplicationContract {
         public static final String COLUMN_COMPLETED = "Completed";
         public static final String COLUMN_THUMBNAIL_URL = "ThumbnailUrl";
 
-        private DownloadManga() {}
+        private DownloadManga() {
+            throw new AssertionError();
+        }
     }
 
     public static final class DownloadPage {
@@ -75,7 +85,9 @@ public class ApplicationContract {
 
         public static final String COLUMN_FLAG = "Flag";
 
-        private DownloadPage() {}
+        private DownloadPage() {
+            throw new AssertionError();
+        }
     }
 
     public static final class FavouriteManga {
@@ -89,7 +101,9 @@ public class ApplicationContract {
         public static final String COLUMN_NAME = "Name";
         public static final String COLUMN_THUMBNAIL_URL = "ThumbnailUrl";
 
-        private FavouriteManga() {}
+        private FavouriteManga() {
+            throw new AssertionError();
+        }
     }
 
     public static final class RecentChapter {
@@ -109,6 +123,8 @@ public class ApplicationContract {
 
         public static final String COLUMN_OFFLINE = "Offline";
 
-        private RecentChapter() {}
+        private RecentChapter() {
+            throw new AssertionError();
+        }
     }
 }

@@ -9,4 +9,8 @@ public class DownloadUtils {
     public static final int FLAG_RUNNING = 100;
     public static final int FLAG_COMPLETED = 200;
     public static final int FLAG_CANCELED = 1337;
+
+    private DownloadUtils() {
+        throw new AssertionError();
+    }
 }

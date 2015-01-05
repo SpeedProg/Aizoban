@@ -4,6 +4,10 @@ public class LibraryContract {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "AizobanLibrary.db";
 
+    private LibraryContract() {
+        throw new AssertionError();
+    }
+
     public static final class Manga {
         public static final String TABLE_NAME = "Manga";
 
@@ -26,6 +30,8 @@ public class LibraryContract {
 
         public static final String COLUMN_INITIALIZED = "Initialized";
 
-        private Manga() {}
+        private Manga() {
+            throw new AssertionError();
+        }
     }
 }

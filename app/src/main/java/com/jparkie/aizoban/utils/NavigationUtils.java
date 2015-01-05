@@ -9,4 +9,8 @@ public class NavigationUtils {
     public static int POSITION_RECENT = 5;
     public static int POSITION_QUEUE = 6;
     public static int POSITION_SETTINGS = 7;
+
+    private NavigationUtils() {
+        throw new AssertionError();
+    }
 }

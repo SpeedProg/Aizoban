@@ -27,4 +27,8 @@ public class PaletteUtils {
 
         return currentItem != null ? currentItem.getRgb() : defaultColor;
     }
+
+    private PaletteUtils() {
+        throw new AssertionError();
+    }
 }

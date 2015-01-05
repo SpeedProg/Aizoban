@@ -11,4 +11,8 @@ public class SearchUtils {
 
     public static final String ORDER_BY_NAME = LibraryContract.Manga.COLUMN_NAME;
     public static final String ORDER_BY_RANK = LibraryContract.Manga.COLUMN_RANK;
+
+    private SearchUtils() {
+        throw new AssertionError();
+    }
 }

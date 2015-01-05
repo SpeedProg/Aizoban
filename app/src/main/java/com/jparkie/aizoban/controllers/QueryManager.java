@@ -33,6 +33,10 @@ public class QueryManager {
     private static final Object mAddPagesLock = new Object();
     private static final Object mAddMangaLock = new Object();
 
+    private QueryManager() {
+        throw new AssertionError();
+    }
+
     public static Observable<Cursor> queryMangaFromRequest(final RequestWrapper request) {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override

@@ -7,6 +7,10 @@ import com.jparkie.aizoban.utils.SearchUtils;
 import java.util.ArrayList;
 
 public class DefaultFactory {
+    private DefaultFactory() {
+        throw new AssertionError();
+    }
+
     public static final class Chapter {
         public static final String DEFAULT_SOURCE = "No Source";
         public static final String DEFAULT_URL = "No Url";
@@ -18,7 +22,9 @@ public class DefaultFactory {
 
         public static final int DEFAULT_NUMBER = 0;
 
-        private Chapter() {}
+        private Chapter() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.models.Chapter constructDefault() {
             com.jparkie.aizoban.models.Chapter newInstance = new com.jparkie.aizoban.models.Chapter();
@@ -50,7 +56,9 @@ public class DefaultFactory {
         public static final int DEFAULT_TOTAL_PAGES = 0;
         public static final int DEFAULT_FLAG = DownloadUtils.FLAG_FAILED;
 
-        private DownloadChapter() {}
+        private DownloadChapter() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.models.downloads.DownloadChapter constructDefault() {
             com.jparkie.aizoban.models.downloads.DownloadChapter newInstance = new com.jparkie.aizoban.models.downloads.DownloadChapter();
@@ -83,7 +91,9 @@ public class DefaultFactory {
         public static final boolean DEFAULT_COMPLETED = false;
         public static final String DEFAULT_THUMBNAIL_URL = "No Thumbnail Url";
 
-        private DownloadManga() {}
+        private DownloadManga() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.models.downloads.DownloadManga constructDefault() {
             com.jparkie.aizoban.models.downloads.DownloadManga newInstance = new com.jparkie.aizoban.models.downloads.DownloadManga();
@@ -113,7 +123,9 @@ public class DefaultFactory {
 
         public static final int DEFAULT_FLAG = DownloadUtils.FLAG_FAILED;
 
-        private DownloadPage() {}
+        private DownloadPage() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.models.downloads.DownloadPage constructDefault() {
             com.jparkie.aizoban.models.downloads.DownloadPage newInstance = new com.jparkie.aizoban.models.downloads.DownloadPage();
@@ -138,7 +150,9 @@ public class DefaultFactory {
         public static final String DEFAULT_NAME = "No Name";
         public static final String DEFAULT_THUMBNAIL_URL = "No Thumbnail Url";
 
-        private FavouriteManga() {}
+        private FavouriteManga() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.models.databases.FavouriteManga constructDefault() {
             com.jparkie.aizoban.models.databases.FavouriteManga newInstance = new com.jparkie.aizoban.models.databases.FavouriteManga();
@@ -171,7 +185,9 @@ public class DefaultFactory {
 
         public static final boolean DEFAULT_INITIALIZED = false;
 
-        private Manga() {}
+        private Manga() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.models.Manga constructDefault() {
             com.jparkie.aizoban.models.Manga newInstance = new com.jparkie.aizoban.models.Manga();
@@ -210,7 +226,9 @@ public class DefaultFactory {
 
         public static final boolean DEFAULT_OFFLINE = false;
 
-        private RecentChapter() {}
+        private RecentChapter() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.models.databases.RecentChapter constructDefault() {
             com.jparkie.aizoban.models.databases.RecentChapter newInstance = new com.jparkie.aizoban.models.databases.RecentChapter();
@@ -236,7 +254,9 @@ public class DefaultFactory {
         public static final String DEFAULT_STATUS = SearchUtils.STATUS_ALL;
         public static final String DEFAULT_ORDER_BY = SearchUtils.ORDER_BY_RANK;
 
-        private SearchCatalogueWrapper() {}
+        private SearchCatalogueWrapper() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.utils.wrappers.SearchCatalogueWrapper constructDefault() {
             com.jparkie.aizoban.utils.wrappers.SearchCatalogueWrapper newInstance = new com.jparkie.aizoban.utils.wrappers.SearchCatalogueWrapper();
@@ -254,7 +274,9 @@ public class DefaultFactory {
         public static final String DEFAULT_NEXT_PAGE_URL = "No Next Page Url";
         public static final int DEFAULT_LAST_MANGA_POSITION = 0;
 
-        private UpdatePageMarker() {}
+        private UpdatePageMarker() {
+            throw new AssertionError();
+        }
 
         public static com.jparkie.aizoban.controllers.sources.UpdatePageMarker constructDefault() {
             return new com.jparkie.aizoban.controllers.sources.UpdatePageMarker(AizobanManager.getInitialUpdateUrlFromPreferenceSource().toBlocking().single(), DEFAULT_LAST_MANGA_POSITION);

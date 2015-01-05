@@ -9,6 +9,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class DiskUtils {
+    private DiskUtils() {
+        throw new AssertionError();
+    }
+
     public static String hashKeyForDisk(String key) {
         String cacheKey;
         try {

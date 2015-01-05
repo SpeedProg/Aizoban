@@ -8,6 +8,10 @@ import com.jparkie.aizoban.AizobanApplication;
 import com.jparkie.aizoban.R;
 
 public class PreferenceUtils {
+    private PreferenceUtils() {
+        throw new AssertionError();
+    }
+
     public static String getSource() {
         Context context = AizobanApplication.getInstance();
 
