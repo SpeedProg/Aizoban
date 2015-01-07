@@ -294,8 +294,9 @@ public class DownloadService extends Service implements Observer<File> {
 
                                 boolean isExternalStorage = PreferenceUtils.isExternalStorage();
                                 if (isExternalStorage) {
+                                    //  Hack Fix: http://stackoverflow.com/questions/3551821/android-write-to-sd-card-folder
                                     File externalDirectory = Environment.getExternalStorageDirectory();
-                                    File generalDirectory = new File(externalDirectory, getPackageName());
+                                    File generalDirectory = new File(externalDirectory.getAbsolutePath(), File.separator + getPackageName());
                                     File sourceDirectory = new File(generalDirectory, downloadChapter.getSource());
                                     File urlHashDirectory = new File(sourceDirectory, DiskUtils.hashKeyForDisk(downloadChapter.getUrl()));
 
@@ -310,7 +311,7 @@ public class DownloadService extends Service implements Observer<File> {
 
                                 if (isExternalStorage) {
                                     File externalDirectory = Environment.getExternalStorageDirectory();
-                                    File generalDirectory = new File(externalDirectory, getPackageName());
+                                    File generalDirectory = new File(externalDirectory.getAbsolutePath(), File.separator + getPackageName());
                                     File noMediaFile = new File(generalDirectory, ".nomedia");
 
                                     if (!noMediaFile.exists()) {
