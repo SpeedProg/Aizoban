@@ -298,16 +298,14 @@ public class DownloadService extends Service implements Observer<File> {
                                     File generalDirectory = new File(externalDirectory, getPackageName());
                                     File sourceDirectory = new File(generalDirectory, downloadChapter.getSource());
                                     File urlHashDirectory = new File(sourceDirectory, DiskUtils.hashKeyForDisk(downloadChapter.getUrl()));
-                                    File chapterDirectory = new File(urlHashDirectory, downloadChapter.getName());
 
-                                    downloadChapter.setDirectory(chapterDirectory.getAbsolutePath());
+                                    downloadChapter.setDirectory(urlHashDirectory.getAbsolutePath());
                                 } else {
                                     File internalDirectory = getApplicationContext().getFilesDir();
                                     File sourceDirectory = new File(internalDirectory, downloadChapter.getSource());
                                     File urlHashDirectory = new File(sourceDirectory, DiskUtils.hashKeyForDisk(downloadChapter.getUrl()));
-                                    File chapterDirectory = new File(urlHashDirectory, downloadChapter.getName());
 
-                                    downloadChapter.setDirectory(chapterDirectory.getAbsolutePath());
+                                    downloadChapter.setDirectory(urlHashDirectory.getAbsolutePath());
                                 }
 
                                 if (isExternalStorage) {
