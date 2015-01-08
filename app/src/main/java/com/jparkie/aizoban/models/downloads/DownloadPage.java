@@ -34,6 +34,9 @@ public class DownloadPage implements Parcelable {
 
     private DownloadPage(Parcel inputParcel) {
         _id = inputParcel.readLong();
+        if (_id < 0) {
+            _id = null;
+        }
 
         Url = inputParcel.readString();
         ParentUrl = inputParcel.readString();
@@ -96,7 +99,11 @@ public class DownloadPage implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel outputParcel, int flags) {
-        outputParcel.writeLong(_id);
+        if (_id != null) {
+            outputParcel.writeLong(_id);
+        } else {
+            outputParcel.writeLong(-1);
+        }
 
         outputParcel.writeString(Url);
         outputParcel.writeString(ParentUrl);

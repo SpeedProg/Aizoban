@@ -13,6 +13,7 @@
     <string name="action_left_to_right">Left-to-Right</string>
     <string name="action_lock_orientation">Lock Orientation</string>
     <string name="action_lock_zoom">Lock Zoom</string>
+    <string name="action_mark_read">Mark Read</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_right_to_left">Right-to-Left</string>
     <string name="action_search">Search</string>

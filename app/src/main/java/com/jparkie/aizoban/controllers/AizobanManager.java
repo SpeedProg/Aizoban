@@ -8,7 +8,7 @@ import com.bumptech.glide.request.FutureTarget;
 import com.jparkie.aizoban.AizobanApplication;
 import com.jparkie.aizoban.controllers.caches.CacheProvider;
 import com.jparkie.aizoban.controllers.databases.ApplicationContract;
-import com.jparkie.aizoban.controllers.events.DownloadChapterUpdateEvent;
+import com.jparkie.aizoban.controllers.events.DownloadChapterQueryEvent;
 import com.jparkie.aizoban.controllers.factories.SourceFactory;
 import com.jparkie.aizoban.controllers.networks.MangaService;
 import com.jparkie.aizoban.controllers.sources.UpdatePageMarker;
@@ -118,7 +118,7 @@ public class AizobanManager {
                                 .toBlocking()
                                 .single();
 
-                        EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                        EventBus.getDefault().post(new DownloadChapterQueryEvent());
                     }
                 })
                 .flatMap(new Func1<List<DownloadPage>, Observable<File>>() {
@@ -162,7 +162,7 @@ public class AizobanManager {
                                                                 .toBlocking()
                                                                 .single();
 
-                                                        EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                                                        EventBus.getDefault().post(new DownloadChapterQueryEvent());
                                                     }
                                                 });
                                     }
@@ -186,7 +186,7 @@ public class AizobanManager {
                                     .toBlocking()
                                     .single();
 
-                            EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                            EventBus.getDefault().post(new DownloadChapterQueryEvent());
                         }
                     }
                 })
@@ -222,7 +222,7 @@ public class AizobanManager {
                             }
                         }
 
-                        EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                        EventBus.getDefault().post(new DownloadChapterQueryEvent());
                     }
                 });
     }

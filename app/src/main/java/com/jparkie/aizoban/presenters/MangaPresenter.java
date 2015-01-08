@@ -34,6 +34,8 @@ public interface MangaPresenter {
 
     public void onOptionRefresh();
 
+    public void onOptionMarkRead();
+
     public void onOptionDownload();
 
     public void onOptionToTop();

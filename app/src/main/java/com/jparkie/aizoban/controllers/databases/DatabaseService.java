@@ -6,9 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.jparkie.aizoban.controllers.QueryManager;
-import com.jparkie.aizoban.controllers.events.DownloadChapterDeleteEvent;
-import com.jparkie.aizoban.controllers.events.FavouriteMangaDeleteEvent;
-import com.jparkie.aizoban.controllers.events.RecentChapterDeleteEvent;
+import com.jparkie.aizoban.controllers.events.ChapterQueryEvent;
+import com.jparkie.aizoban.controllers.events.DownloadChapterQueryEvent;
+import com.jparkie.aizoban.controllers.events.FavouriteMangaQueryEvent;
+import com.jparkie.aizoban.controllers.events.RecentChapterQueryEvent;
 import com.jparkie.aizoban.models.databases.FavouriteManga;
 import com.jparkie.aizoban.models.databases.RecentChapter;
 import com.jparkie.aizoban.models.downloads.DownloadChapter;
@@ -24,6 +25,7 @@ import de.greenrobot.event.EventBus;
 public class DatabaseService extends IntentService {
     public static final String TAG = DatabaseService.class.getSimpleName();
 
+    public static final String INTENT_CREATE_RECENT_CHAPTERS = TAG + ":" + "CreateRecentChaptersIntent";
     public static final String INTENT_DELETE_FAVOURITE_MANGA = TAG + ":" + "DeleteFavouriteMangaIntent";
     public static final String INTENT_DELETE_RECENT_CHAPTERS = TAG + ":" + "DeleteRecentChaptersIntent";
     public static final String INTENT_DELETE_DOWNLOAD_MANGA = TAG + ":" + "DeleteDownloadMangaIntent";
@@ -35,10 +37,41 @@ public class DatabaseService extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
+        handleCreateRecentChaptersIntent(intent);
         handleDeleteFavouriteMangaIntent(intent);
         handleDeleteRecentChaptersIntent(intent);
         handleDeleteDownloadMangaIntent(intent);
         handleDeleteDownloadChaptersIntent(intent);
+    }
+
+    private void handleCreateRecentChaptersIntent(Intent createRecentChaptersIntent) {
+        if (createRecentChaptersIntent != null) {
+            if (createRecentChaptersIntent.hasExtra(INTENT_CREATE_RECENT_CHAPTERS)) {
+                ArrayList<RecentChapter> recentChaptersToCreate = createRecentChaptersIntent.getParcelableArrayListExtra(INTENT_CREATE_RECENT_CHAPTERS);
+                if (recentChaptersToCreate != null) {
+                    ApplicationSQLiteOpenHelper applicationSQLiteOpenHelper = ApplicationSQLiteOpenHelper.getInstance();
+                    SQLiteDatabase sqLiteDatabase = applicationSQLiteOpenHelper.getWritableDatabase();
+
+                    sqLiteDatabase.beginTransaction();
+                    try {
+                        for (RecentChapter recentChapter : recentChaptersToCreate) {
+                            if (recentChapter != null) {
+                                QueryManager.putObjectToApplicationDatabase(recentChapter);
+                            }
+                        }
+                        sqLiteDatabase.setTransactionSuccessful();
+                    } finally {
+                        sqLiteDatabase.endTransaction();
+                    }
+                }
+
+                EventBus.getDefault().post(new ChapterQueryEvent());
+                EventBus.getDefault().post(new DownloadChapterQueryEvent());
+                EventBus.getDefault().post(new RecentChapterQueryEvent());
+
+                createRecentChaptersIntent.removeExtra(INTENT_CREATE_RECENT_CHAPTERS);
+            }
+        }
     }
 
     private void handleDeleteFavouriteMangaIntent(Intent deleteFavoriteMangaIntent) {
@@ -62,7 +95,7 @@ public class DatabaseService extends IntentService {
                     }
                 }
 
-                EventBus.getDefault().post(new FavouriteMangaDeleteEvent());
+                EventBus.getDefault().post(new FavouriteMangaQueryEvent());
 
                 deleteFavoriteMangaIntent.removeExtra(INTENT_DELETE_FAVOURITE_MANGA);
             }
@@ -90,7 +123,7 @@ public class DatabaseService extends IntentService {
                     }
                 }
 
-                EventBus.getDefault().post(new RecentChapterDeleteEvent());
+                EventBus.getDefault().post(new RecentChapterQueryEvent());
 
                 deleteRecentChaptersIntent.removeExtra(INTENT_DELETE_RECENT_CHAPTERS);
             }
@@ -141,7 +174,7 @@ public class DatabaseService extends IntentService {
                     }
                 }
 
-                EventBus.getDefault().post(new DownloadChapterDeleteEvent());
+                EventBus.getDefault().post(new DownloadChapterQueryEvent());
 
                 deleteDownloadChaptersIntent.removeExtra(INTENT_DELETE_DOWNLOAD_CHAPTERS);
             }

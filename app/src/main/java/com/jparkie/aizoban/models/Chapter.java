@@ -36,6 +36,9 @@ public class Chapter implements Parcelable {
 
     private Chapter(Parcel inputParcel) {
         _id = inputParcel.readLong();
+        if (_id < 0) {
+            _id = null;
+        }
 
         Source = inputParcel.readString();
         Url = inputParcel.readString();
@@ -117,6 +120,8 @@ public class Chapter implements Parcelable {
     public void writeToParcel(Parcel outputParcel, int flags) {
         if (_id != null) {
             outputParcel.writeLong(_id);
+        } else {
+            outputParcel.writeLong(-1);
         }
 
         outputParcel.writeString(Source);

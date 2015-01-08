@@ -9,7 +9,7 @@ import android.util.SparseBooleanArray;
 import com.jparkie.aizoban.BuildConfig;
 import com.jparkie.aizoban.controllers.QueryManager;
 import com.jparkie.aizoban.controllers.databases.DatabaseService;
-import com.jparkie.aizoban.controllers.events.FavouriteMangaDeleteEvent;
+import com.jparkie.aizoban.controllers.events.FavouriteMangaQueryEvent;
 import com.jparkie.aizoban.models.databases.FavouriteManga;
 import com.jparkie.aizoban.presenters.mapper.FavouriteMangaMapper;
 import com.jparkie.aizoban.utils.SearchUtils;
@@ -105,7 +105,7 @@ public class FavouriteMangaPresenterImpl implements FavouriteMangaPresenter {
         EventBus.getDefault().register(this);
     }
 
-    public void onEventMainThread(FavouriteMangaDeleteEvent event) {
+    public void onEventMainThread(FavouriteMangaQueryEvent event) {
         if (event != null) {
             queryFavouriteMangaFromDatabase();
         }

@@ -1,4 +1,4 @@
 package com.jparkie.aizoban.controllers.events;
 
-public class DownloadChapterUpdateEvent {
+public class RecentChapterQueryEvent {
 }

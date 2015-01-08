@@ -202,6 +202,9 @@ public class MangaActivity extends ActionBarActivity implements MangaView, Manga
             case R.id.action_refresh:
                 mMangaPresenter.onOptionRefresh();
                 return true;
+            case R.id.action_mark_read:
+                mMangaPresenter.onOptionMarkRead();
+                return true;
             case R.id.action_download:
                 mMangaPresenter.onOptionDownload();
                 return true;

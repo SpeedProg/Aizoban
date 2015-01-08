@@ -37,6 +37,9 @@ public class DownloadChapter implements Parcelable {
 
     private DownloadChapter(Parcel inputParcel) {
         _id = inputParcel.readLong();
+        if (_id < 0) {
+            _id = null;
+        }
 
         Source = inputParcel.readString();
         Url = inputParcel.readString();
@@ -126,7 +129,11 @@ public class DownloadChapter implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel outputParcel, int flags) {
-        outputParcel.writeLong(_id);
+        if (_id != null) {
+            outputParcel.writeLong(_id);
+        } else {
+            outputParcel.writeLong(-1);
+        }
 
         outputParcel.writeString(Source);
         outputParcel.writeString(Url);

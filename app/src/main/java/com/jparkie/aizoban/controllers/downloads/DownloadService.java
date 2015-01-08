@@ -20,7 +20,7 @@ import com.jparkie.aizoban.R;
 import com.jparkie.aizoban.controllers.AizobanManager;
 import com.jparkie.aizoban.controllers.QueryManager;
 import com.jparkie.aizoban.controllers.databases.ApplicationSQLiteOpenHelper;
-import com.jparkie.aizoban.controllers.events.DownloadChapterUpdateEvent;
+import com.jparkie.aizoban.controllers.events.DownloadChapterQueryEvent;
 import com.jparkie.aizoban.controllers.factories.DefaultFactory;
 import com.jparkie.aizoban.models.Chapter;
 import com.jparkie.aizoban.models.downloads.DownloadChapter;
@@ -338,7 +338,7 @@ public class DownloadService extends Service implements Observer<File> {
                     }
                 }
 
-                EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                EventBus.getDefault().post(new DownloadChapterQueryEvent());
 
                 queueDownloadIntent.removeExtra(INTENT_QUEUE_DOWNLOAD);
 
@@ -390,7 +390,7 @@ public class DownloadService extends Service implements Observer<File> {
                     }
                 }
 
-                EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                EventBus.getDefault().post(new DownloadChapterQueryEvent());
 
                 cancelDownloadIntent.removeExtra(INTENT_CANCEL_DOWNLOAD);
 
@@ -416,7 +416,7 @@ public class DownloadService extends Service implements Observer<File> {
             if (startDownloadIntent.hasExtra(INTENT_START_DOWNLOAD)) {
                 initialize();
 
-                EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                EventBus.getDefault().post(new DownloadChapterQueryEvent());
 
                 startDownloadIntent.removeExtra(INTENT_START_DOWNLOAD);
 
@@ -441,7 +441,7 @@ public class DownloadService extends Service implements Observer<File> {
 
                 pauseDownloadChapters();
 
-                EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                EventBus.getDefault().post(new DownloadChapterQueryEvent());
 
                 stopDownloadIntent.removeExtra(INTENT_STOP_DOWNLOAD);
 
@@ -502,7 +502,7 @@ public class DownloadService extends Service implements Observer<File> {
                             mDownloadChapterPublishSubject.onNext(streamDownloadChapter);
                         }
 
-                        EventBus.getDefault().post(new DownloadChapterUpdateEvent());
+                        EventBus.getDefault().post(new DownloadChapterQueryEvent());
                     }
                 }
             }

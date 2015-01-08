@@ -36,6 +36,9 @@ public class DownloadManga implements Parcelable {
 
     private DownloadManga(Parcel inputParcel) {
         _id = inputParcel.readLong();
+        if (_id < 0) {
+            _id = null;
+        }
 
         Source = inputParcel.readString();
         Url = inputParcel.readString();
@@ -134,6 +137,8 @@ public class DownloadManga implements Parcelable {
     public void writeToParcel(Parcel outputParcel, int flags) {
         if (_id != null) {
             outputParcel.writeLong(_id);
+        } else {
+            outputParcel.writeLong(-1);
         }
 
         outputParcel.writeString(Source);

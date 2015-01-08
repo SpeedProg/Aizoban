@@ -11,7 +11,7 @@ import android.util.SparseBooleanArray;
 import com.jparkie.aizoban.BuildConfig;
 import com.jparkie.aizoban.controllers.QueryManager;
 import com.jparkie.aizoban.controllers.databases.DatabaseService;
-import com.jparkie.aizoban.controllers.events.DownloadChapterDeleteEvent;
+import com.jparkie.aizoban.controllers.events.DownloadChapterQueryEvent;
 import com.jparkie.aizoban.controllers.factories.DefaultFactory;
 import com.jparkie.aizoban.models.Chapter;
 import com.jparkie.aizoban.models.databases.RecentChapter;
@@ -25,7 +25,7 @@ import com.jparkie.aizoban.views.activities.ChapterActivity;
 import com.jparkie.aizoban.views.activities.MangaActivity;
 import com.jparkie.aizoban.views.adapters.DownloadChapterListingsAdapter;
 import com.jparkie.aizoban.views.fragments.AddToQueueFragment;
-import com.jparkie.aizoban.views.fragments.CatalogueFilterFragment;
+import com.jparkie.aizoban.views.fragments.MarkReadFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +100,7 @@ public class MangaPresenterOfflineImpl implements MangaPresenter {
         EventBus.getDefault().register(this);
     }
 
-    public void onEventMainThread(DownloadChapterDeleteEvent event) {
+    public void onEventMainThread(DownloadChapterQueryEvent event) {
         if (event != null) {
             deleteDownloadMangaIfNoDownloadChapters();
 
@@ -229,8 +229,17 @@ public class MangaPresenterOfflineImpl implements MangaPresenter {
     }
 
     @Override
+    public void onOptionMarkRead() {
+        if (((FragmentActivity) mMangaView.getContext()).getSupportFragmentManager().findFragmentByTag(MarkReadFragment.TAG) == null) {
+            MarkReadFragment markReadFragment = MarkReadFragment.newOfflineInstance(mRequest);
+
+            markReadFragment.show(((FragmentActivity) mMangaView.getContext()).getSupportFragmentManager(), MarkReadFragment.TAG);
+        }
+    }
+
+    @Override
     public void onOptionDownload() {
-        if (((FragmentActivity) mMangaView.getContext()).getSupportFragmentManager().findFragmentByTag(CatalogueFilterFragment.TAG) == null) {
+        if (((FragmentActivity) mMangaView.getContext()).getSupportFragmentManager().findFragmentByTag(AddToQueueFragment.TAG) == null) {
             AddToQueueFragment addToQueueFragment = AddToQueueFragment.newInstance(mRequest);
 
             addToQueueFragment.show(((FragmentActivity) mMangaView.getContext()).getSupportFragmentManager(), AddToQueueFragment.TAG);

@@ -9,7 +9,7 @@ import android.util.SparseBooleanArray;
 import com.jparkie.aizoban.BuildConfig;
 import com.jparkie.aizoban.controllers.QueryManager;
 import com.jparkie.aizoban.controllers.downloads.DownloadService;
-import com.jparkie.aizoban.controllers.events.DownloadChapterUpdateEvent;
+import com.jparkie.aizoban.controllers.events.DownloadChapterQueryEvent;
 import com.jparkie.aizoban.models.downloads.DownloadChapter;
 import com.jparkie.aizoban.presenters.mapper.QueueMapper;
 import com.jparkie.aizoban.utils.DownloadUtils;
@@ -40,7 +40,7 @@ public class QueuePresenterImpl implements QueuePresenter {
 
     private Subscription mQueryDownloadChapterSubscription;
     private Subscription mServiceUpdateSubscription;
-    private PublishSubject<Observable<DownloadChapterUpdateEvent>> mServiceUpdatePublishSubject;
+    private PublishSubject<Observable<DownloadChapterQueryEvent>> mServiceUpdatePublishSubject;
 
     public QueuePresenterImpl(QueueView queueView, QueueMapper queueMapper) {
         mQueueView = queueView;
@@ -68,7 +68,7 @@ public class QueuePresenterImpl implements QueuePresenter {
         EventBus.getDefault().register(this);
     }
 
-    public void onEventMainThread(DownloadChapterUpdateEvent event) {
+    public void onEventMainThread(DownloadChapterQueryEvent event) {
         if (event != null) {
             mServiceUpdatePublishSubject.onNext(Observable.just(event));
         }
@@ -176,7 +176,7 @@ public class QueuePresenterImpl implements QueuePresenter {
                 .debounce(DownloadUtils.TIMEOUT, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DownloadChapterUpdateEvent>() {
+                .subscribe(new Observer<DownloadChapterQueryEvent>() {
                     @Override
                     public void onCompleted() {
                         queryNonCompletedDownloadChaptersFromDatabase();
@@ -190,7 +190,7 @@ public class QueuePresenterImpl implements QueuePresenter {
                     }
 
                     @Override
-                    public void onNext(DownloadChapterUpdateEvent downloadChapterUpdateEvent) {
+                    public void onNext(DownloadChapterQueryEvent downloadChapterUpdateEvent) {
                         // Do Nothing.
 
                         onCompleted();

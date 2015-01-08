@@ -9,7 +9,7 @@ import android.util.SparseBooleanArray;
 import com.jparkie.aizoban.BuildConfig;
 import com.jparkie.aizoban.controllers.QueryManager;
 import com.jparkie.aizoban.controllers.databases.DatabaseService;
-import com.jparkie.aizoban.controllers.events.RecentChapterDeleteEvent;
+import com.jparkie.aizoban.controllers.events.RecentChapterQueryEvent;
 import com.jparkie.aizoban.models.databases.RecentChapter;
 import com.jparkie.aizoban.presenters.mapper.RecentChapterMapper;
 import com.jparkie.aizoban.utils.SearchUtils;
@@ -105,7 +105,7 @@ public class RecentChapterPresenterImpl implements RecentChapterPresenter {
         EventBus.getDefault().register(this);
     }
 
-    public void onEventMainThread(RecentChapterDeleteEvent event) {
+    public void onEventMainThread(RecentChapterQueryEvent event) {
         if (event != null) {
             queryRecentChaptersFromDatabase();
         }

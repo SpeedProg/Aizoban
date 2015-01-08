@@ -31,6 +31,7 @@
     <!-- Dialog Names: -->
     <string name="dialog_catalogue_filter">Filter Catalogue</string>
     <string name="dialog_add_to_queue">Add To Queue</string>
+    <string name="dialog_mark_read">Mark Read</string>
     <string name="dialog_chapter_help">Chapter Help</string>
     <string name="dialog_disclaimer">Disclaimer</string>
     <string name="dialog_open_source_licenses">Open Source Licenses</string>
@@ -52,6 +53,8 @@
     <string name="manga_instructions">Swipe down to refresh</string>
     <string name="no_chapter">No Chapter</string>
     <string name="chapter_instructions">Select "Refresh" in the overflow menu</string>
+    <string name="no_available_chapters">No Available Chapters</string>
+    <string name="available_chapters_instructions">Any available chapter able to be marked read will be displayed here</string>
     <string name="no_available_downloads">No Available Downloads</string>
     <string name="available_downloads_instructions">Any available chapter for download will be displayed here</string>
 
@@ -115,6 +118,11 @@
     <string name="add_to_queue_dialog_button_queue">Queue</string>
     <string name="add_to_queue_dialog_button_toggle_all">Toggle All</string>
     <string name="add_to_queue_dialog_button_cancel">Cancel</string>
+
+    <!-- Mark Read Dialog Items: -->
+    <string name="mark_read_dialog_button_mark">Mark</string>
+    <string name="mark_read_dialog_button_toggle_all">Toggle All</string>
+    <string name="mark_read_dialog_button_cancel">Cancel</string>
 
     <!-- Chapter Items: -->
     <string name="chapter_subtitle_progress">Image Urls Fetched:</string>
