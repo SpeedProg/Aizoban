@@ -31,7 +31,7 @@ import com.jparkie.aizoban.views.ChapterView;
 import com.jparkie.aizoban.views.widgets.GestureViewPager;
 import com.melnykov.fab.FloatingActionButton;
 
-public class ChapterActivity extends ActionBarActivity implements ChapterView, ChapterMapper {
+public class ChapterActivity extends BaseActivity implements ChapterView, ChapterMapper {
     public static final String TAG = ChapterActivity.class.getSimpleName();
 
     public static final String PRESENTER_ARGUMENT_KEY = TAG + ":" + "PresenterArgumentKey";

@@ -19,7 +19,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class SplashActivity extends ActionBarActivity {
+public class SplashActivity extends BaseActivity {
     public static final String TAG = SplashActivity.class.getSimpleName();
 
     private Subscription mRestartSubscription;

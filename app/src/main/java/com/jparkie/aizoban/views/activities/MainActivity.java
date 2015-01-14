@@ -17,7 +17,7 @@ import com.jparkie.aizoban.presenters.MainPresenter;
 import com.jparkie.aizoban.presenters.MainPresenterImpl;
 import com.jparkie.aizoban.views.MainView;
 
-public class MainActivity extends ActionBarActivity implements MainView {
+public class MainActivity extends BaseActivity implements MainView {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     public static final String POSITION_ARGUMENT_KEY = TAG + ":" + "PositionArgumentKey";

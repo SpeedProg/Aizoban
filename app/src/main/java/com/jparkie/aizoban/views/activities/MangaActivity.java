@@ -43,7 +43,7 @@ import com.jparkie.aizoban.utils.wrappers.RequestWrapper;
 import com.jparkie.aizoban.views.MangaView;
 import com.melnykov.fab.FloatingActionButton;
 
-public class MangaActivity extends ActionBarActivity implements MangaView, MangaMapper {
+public class MangaActivity extends BaseActivity implements MangaView, MangaMapper {
     public static final String TAG = MangaActivity.class.getSimpleName();
 
     public static final String PRESENTER_ARGUMENT_KEY = TAG + ":" + "PresenterArgumentKey";
