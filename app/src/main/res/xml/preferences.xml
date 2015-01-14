@@ -45,6 +45,14 @@
     <PreferenceCategory
         android:key="@string/preference_category_viewer_key"
         android:title="@string/preference_category_viewer_title">
+        <ListPreference
+            android:key="@string/preference_view_type_key"
+            android:title="@string/preference_view_type_title"
+            android:summary="@string/preference_view_type_title_summary"
+            android:dialogTitle="@string/preference_view_type_title"
+            android:entries="@array/preference_view_type_entries"
+            android:entryValues="@array/preference_view_type_values"
+            android:defaultValue="@string/preference_view_type_default_value"/>
         <CheckBoxPreference
             android:key="@string/preference_lazy_loading_key"
             android:title="@string/preference_lazy_loading_title"

@@ -57,6 +57,20 @@
     <string name="preference_clear_recent_summary">Clear all recently read chapters from the recent list</string>
 
     <!-- Viewer: -->
+    <string name="preference_view_type_key">preference_view_type</string>
+    <string name="preference_view_type_title">Current View Type</string>
+    <string name="preference_view_type_title_summary">Choose the current view type to use for reading</string>
+    <string-array name="preference_view_type_entries">
+        <item>Fit Centre</item>
+        <item>Fit Width</item>
+        <item>Fit Height</item>
+    </string-array>
+    <string-array name="preference_view_type_values">
+        <item>Fit Centre</item>
+        <item>Fit Width</item>
+        <item>Fit Height</item>
+    </string-array>
+    <string name="preference_view_type_default_value">Fit Centre</string>
     <string name="preference_lazy_loading_key">preference_lazy_loading</string>
     <string name="preference_lazy_loading_title">Enable Lazy Loading</string>
     <string name="preference_lazy_loading_summary">To conserve bandwidth, enable lazy loading to load image pages dynamically</string>

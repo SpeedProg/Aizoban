@@ -19,6 +19,14 @@ public class PreferenceUtils {
         return sharedPreferences.getString(context.getString(R.string.preference_source_key), context.getString(R.string.preference_source_default_value));
     }
 
+    public static String getViewType() {
+        Context context = AizobanApplication.getInstance();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(context.getString(R.string.preference_view_type_key), context.getString(R.string.preference_view_type_default_value));
+    }
+
+
     public static boolean isLazyLoading() {
         Context context = AizobanApplication.getInstance();
 

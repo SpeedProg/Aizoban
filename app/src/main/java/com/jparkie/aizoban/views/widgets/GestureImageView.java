@@ -2,6 +2,7 @@ package com.jparkie.aizoban.views.widgets;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -9,21 +10,35 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.OverScroller;
 
+import com.jparkie.aizoban.utils.PreferenceUtils;
+
 public class GestureImageView extends ImageView {
+    public static final String VIEW_TYPE_FIT_CENTRE = "Fit Centre";
+    public static final String VIEW_TYPE_FIT_WIDTH = "Fit Width";
+    public static final String VIEW_TYPE_FIT_HEIGHT = "Fit Height";
+
     public static final float MIN_SCALE = 1.00f;
     public static final float MAX_SCALE = 3.00f;
 
     private static final float ZOOM_DURATION = 200f;
     private static final long RUNNABLE_DELAY_MS = 1000 / 60;
+
+    private String mViewType;
+
     private Matrix mBaseMatrix = new Matrix();
     private Matrix mSupplementaryMatrix = new Matrix();
     private Matrix mDisplayMatrix = new Matrix();
     private float[] mMatrixValues = new float[9];
+
+    private int mMaximumAcceleratedWidth;
+    private int mMaximumAcceleratedHeight;
     private float mBitmapWidth;
     private float mBitmapHeight;
+
     private FlingRunnable mFlingRunnable;
     private ZoomRunnable mZoomRunnable;
 
@@ -34,19 +49,29 @@ public class GestureImageView extends ImageView {
     public GestureImageView(Context context) {
         super(context);
 
-        mScaleGestureDetector = new ScaleGestureDetector(getContext(), new ImageViewScaleGestureListener());
+        initialize();
     }
 
     public GestureImageView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
-        mScaleGestureDetector = new ScaleGestureDetector(getContext(), new ImageViewScaleGestureListener());
+        initialize();
     }
 
     public GestureImageView(Context context, AttributeSet attributeSet, int definitionStyle) {
         super(context, attributeSet, definitionStyle);
 
-        mScaleGestureDetector = new ScaleGestureDetector(getContext(), new ImageViewScaleGestureListener());
+        initialize();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        if (canvas.isHardwareAccelerated()) {
+            mMaximumAcceleratedWidth = canvas.getMaximumBitmapWidth();
+            mMaximumAcceleratedHeight = canvas.getMaximumBitmapHeight();
+        }
     }
 
     @Override
@@ -76,7 +101,12 @@ public class GestureImageView extends ImageView {
         }
     }
 
-    public void initialize() {
+    private void initialize() {
+        mScaleGestureDetector = new ScaleGestureDetector(getContext(), new ImageViewScaleGestureListener());
+        mViewType = PreferenceUtils.getViewType();
+    }
+
+    public void initializeView() {
         if (!mInitialized) {
             setScaleType(ScaleType.MATRIX);
 
@@ -92,7 +122,15 @@ public class GestureImageView extends ImageView {
 
         float widthScale = Math.min(getWidth() / mBitmapWidth, 2.00f);
         float heightScale = Math.min(getHeight() / mBitmapHeight, 2.00f);
+
         float actualScale = Math.min(widthScale, heightScale);
+        if (mViewType.equals(VIEW_TYPE_FIT_CENTRE)) {
+            actualScale = Math.min(widthScale, heightScale);
+        } else if (mViewType.equals(VIEW_TYPE_FIT_WIDTH)) {
+            actualScale = widthScale;
+        } else if (mViewType.equals(VIEW_TYPE_FIT_HEIGHT)) {
+            actualScale = heightScale;
+        }
 
         mBaseMatrix.postScale(actualScale, actualScale);
         mBaseMatrix.postTranslate((getWidth() - mBitmapWidth * actualScale) / 2.00f, (getHeight() - mBitmapHeight * actualScale) / 2.00f);
@@ -137,6 +175,14 @@ public class GestureImageView extends ImageView {
         mDisplayMatrix.postConcat(mSupplementaryMatrix);
 
         return mDisplayMatrix;
+    }
+
+    public int getMaximumAcceleratedWidth() {
+        return mMaximumAcceleratedWidth;
+    }
+
+    public int getMaximumAcceleratedHeight() {
+        return mMaximumAcceleratedHeight;
     }
 
     private void center(boolean centerHorizontal, boolean centerVertical) {

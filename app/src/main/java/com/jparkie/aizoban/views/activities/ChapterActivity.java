@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -178,6 +179,13 @@ public class ChapterActivity extends ActionBarActivity implements ChapterView, C
     }
 
     // ChapterView:
+
+    @Override
+    public void initializeHardwareAcceleration() {
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+    }
 
     @Override
     public void initializeSystemUIVisibility() {

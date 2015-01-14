@@ -85,6 +85,7 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
 
     @Override
     public void initializeViews() {
+        mChapterView.initializeHardwareAcceleration();
         mChapterView.initializeSystemUIVisibility();
         mChapterView.initializeToolbar();
         mChapterView.initializeViewPager();
