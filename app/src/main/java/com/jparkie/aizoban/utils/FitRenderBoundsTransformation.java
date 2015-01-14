@@ -14,7 +14,7 @@ public class FitRenderBoundsTransformation extends BitmapTransformation {
     private static final int MAX_BITMAP_DIMENSION = 2048;
     private static final int PAINT_FLAGS = Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG;
 
-    private final GestureImageView mImageView;
+    private GestureImageView mImageView;
     private int mMaximumAcceleratedWidth;
     private int mMaximumAcceleratedHeight;
 
@@ -41,6 +41,7 @@ public class FitRenderBoundsTransformation extends BitmapTransformation {
 
         mMaximumAcceleratedWidth = (mImageView.getMaximumAcceleratedWidth() > MAX_BITMAP_DIMENSION) ? mImageView.getMaximumAcceleratedWidth() : MAX_BITMAP_DIMENSION;
         mMaximumAcceleratedHeight = (mImageView.getMaximumAcceleratedHeight() > MAX_BITMAP_DIMENSION) ? mImageView.getMaximumAcceleratedHeight() : MAX_BITMAP_DIMENSION;
+        mImageView = null;
 
         final int bitmapWidth = toFit.getWidth();
         final int bitmapHeight = toFit.getHeight();
