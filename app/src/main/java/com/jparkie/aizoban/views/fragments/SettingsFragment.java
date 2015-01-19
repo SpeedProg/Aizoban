@@ -2,6 +2,7 @@ package com.jparkie.aizoban.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -10,9 +11,10 @@ import android.widget.Toast;
 import com.jparkie.aizoban.R;
 import com.jparkie.aizoban.presenters.SettingsPresenter;
 import com.jparkie.aizoban.presenters.SettingsPresenterImpl;
+import com.jparkie.aizoban.presenters.mapper.SettingsMapper;
 import com.jparkie.aizoban.views.SettingsView;
 
-public class SettingsFragment extends PreferenceFragment implements SettingsView, Preference.OnPreferenceClickListener {
+public class SettingsFragment extends PreferenceFragment implements SettingsView, SettingsMapper, Preference.OnPreferenceClickListener {
     public static final String TAG = SettingsFragment.class.getSimpleName();
 
     private SettingsPresenter mSettingsPresenter;
@@ -21,7 +23,7 @@ public class SettingsFragment extends PreferenceFragment implements SettingsView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSettingsPresenter = new SettingsPresenterImpl(this);
+        mSettingsPresenter = new SettingsPresenterImpl(this, this);
 
         addPreferencesFromResource(R.xml.preferences);
 
@@ -30,9 +32,9 @@ public class SettingsFragment extends PreferenceFragment implements SettingsView
         findPreference(getString(R.string.preference_clear_favourite_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_clear_recent_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_clear_image_cache_key)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.preference_download_directory_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_view_open_source_licenses_key)).setOnPreferenceClickListener(this);
 
+        mSettingsPresenter.initializeDownloadDirectory();
     }
 
     @Override
@@ -74,6 +76,13 @@ public class SettingsFragment extends PreferenceFragment implements SettingsView
     @Override
     public Context getContext() {
         return getActivity();
+    }
+
+    // SettingsMapper:
+
+    @Override
+    public ListPreference getDownloadStoragePreference() {
+        return (ListPreference)findPreference(getString(R.string.preference_download_storage_key));
     }
 
     // Preference.OnPreferenceClickListener:

@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
@@ -294,8 +293,7 @@ public class DownloadService extends Service implements Observer<File> {
 
                                 boolean isExternalStorage = PreferenceUtils.isExternalStorage();
                                 if (isExternalStorage) {
-                                    //  Hack Fix: http://stackoverflow.com/questions/3551821/android-write-to-sd-card-folder
-                                    File externalDirectory = Environment.getExternalStorageDirectory();
+                                    File externalDirectory = new File(PreferenceUtils.getDownloadDirectory());
                                     File generalDirectory = new File(externalDirectory.getAbsolutePath(), File.separator + getPackageName());
                                     File sourceDirectory = new File(generalDirectory, downloadChapter.getSource());
                                     File urlHashDirectory = new File(sourceDirectory, DiskUtils.hashKeyForDisk(downloadChapter.getUrl()));
@@ -310,7 +308,7 @@ public class DownloadService extends Service implements Observer<File> {
                                 }
 
                                 if (isExternalStorage) {
-                                    File externalDirectory = Environment.getExternalStorageDirectory();
+                                    File externalDirectory = new File(PreferenceUtils.getDownloadDirectory());
                                     File generalDirectory = new File(externalDirectory.getAbsolutePath(), File.separator + getPackageName());
                                     File noMediaFile = new File(generalDirectory, ".nomedia");
 

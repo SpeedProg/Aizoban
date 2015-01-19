@@ -2,17 +2,22 @@ package com.jparkie.aizoban.presenters;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
-import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.support.v4.app.FragmentActivity;
 
+import com.jparkie.aizoban.AizobanApplication;
 import com.jparkie.aizoban.R;
 import com.jparkie.aizoban.controllers.AizobanManager;
 import com.jparkie.aizoban.controllers.QueryManager;
+import com.jparkie.aizoban.presenters.mapper.SettingsMapper;
+import com.jparkie.aizoban.utils.DiskUtils;
 import com.jparkie.aizoban.views.SettingsView;
 import com.jparkie.aizoban.views.fragments.DisclaimerFragment;
 import com.jparkie.aizoban.views.fragments.OpenSourceLicensesFragment;
+
+import java.io.File;
+import java.io.IOException;
 
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -21,9 +26,55 @@ public class SettingsPresenterImpl implements SettingsPresenter {
     public static final String TAG = SettingsPresenterImpl.class.getSimpleName();
 
     private SettingsView mSettingsView;
+    private SettingsMapper mSettingsMapper;
 
-    public SettingsPresenterImpl(SettingsView settingsView) {
+    public SettingsPresenterImpl(SettingsView settingsView, SettingsMapper settingsMapper) {
         mSettingsView = settingsView;
+        mSettingsMapper = settingsMapper;
+    }
+
+    @Override
+    public void initializeDownloadDirectory() {
+        ListPreference downloadPreference = mSettingsMapper.getDownloadStoragePreference();
+        if (downloadPreference != null) {
+            String[] downloadDirectories = DiskUtils.getStorageDirectories();
+
+            downloadPreference.setEntries(downloadDirectories);
+            downloadPreference.setEntryValues(downloadDirectories);
+
+            downloadPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    String downloadDirectory = (String)newValue;
+                    if (downloadDirectory != null) {
+                        File actualDirectory = new File(downloadDirectory);
+
+                        if (!actualDirectory.equals(AizobanApplication.getInstance().getFilesDir())) {
+                            boolean isWritable = actualDirectory.exists();
+
+                            if (isWritable) {
+                                try {
+                                    File tempFile = File.createTempFile("tempTestDirectory", "0", actualDirectory);
+                                    tempFile.delete();
+
+                                    isWritable = true;
+                                } catch (IOException e) {
+                                    isWritable = false;
+                                }
+                            }
+
+                            if (!isWritable) {
+                                mSettingsView.toastExternalStorageError();
+
+                                return false;
+                            }
+                        }
+                    }
+
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
@@ -47,9 +98,6 @@ public class SettingsPresenterImpl implements SettingsPresenter {
             return true;
         } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_clear_image_cache_key))) {
             clearImageCache();
-            return true;
-        } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_download_directory_key))) {
-            checkExternalStorageAvailability((CheckBoxPreference)preference);
             return true;
         } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_view_open_source_licenses_key))) {
             viewOpenSourceLicenses();
@@ -120,20 +168,6 @@ public class SettingsPresenterImpl implements SettingsPresenter {
                 .subscribe();
 
         mSettingsView.toastClearedImageCache();
-    }
-
-    private void checkExternalStorageAvailability(CheckBoxPreference isExternalStoragePreference){
-        if (isExternalStoragePreference != null) {
-            if (isExternalStoragePreference.isChecked()) {
-                if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                    isExternalStoragePreference.setChecked(true);
-                } else {
-                    isExternalStoragePreference.setChecked(false);
-
-                    mSettingsView.toastExternalStorageError();
-                }
-            }
-        }
     }
 
     private void viewOpenSourceLicenses() {

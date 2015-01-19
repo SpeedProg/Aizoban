@@ -1,7 +1,6 @@
 package com.jparkie.aizoban;
 
 import android.app.Application;
-import android.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.jparkie.aizoban.models.Chapter;
@@ -11,6 +10,7 @@ import com.jparkie.aizoban.models.databases.RecentChapter;
 import com.jparkie.aizoban.models.downloads.DownloadChapter;
 import com.jparkie.aizoban.models.downloads.DownloadManga;
 import com.jparkie.aizoban.models.downloads.DownloadPage;
+import com.jparkie.aizoban.utils.PreferenceUtils;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -60,6 +60,6 @@ public class AizobanApplication extends Application {
     }
 
     private void initializePreferences() {
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        PreferenceUtils.initializePreferences();
     }
 }

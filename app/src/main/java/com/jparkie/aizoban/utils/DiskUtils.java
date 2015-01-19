@@ -1,5 +1,11 @@
 package com.jparkie.aizoban.utils;
 
+import android.os.Build;
+import android.os.Environment;
+import android.text.TextUtils;
+
+import com.jparkie.aizoban.AizobanApplication;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,10 +13,68 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class DiskUtils {
+    private static final Pattern DIR_SEPORATOR = Pattern.compile("/");
+
     private DiskUtils() {
         throw new AssertionError();
+    }
+
+    // http://stackoverflow.com/questions/11281010/how-can-i-get-external-sd-card-path-for-android-4-0
+    public static String[] getStorageDirectories() {
+        final Set<String> storageDirectories = new HashSet<String>();
+        final String rawExternalStorage = System.getenv("EXTERNAL_STORAGE");
+        final String rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE");
+        final String rawEmulatedStorageTarget = System.getenv("EMULATED_STORAGE_TARGET");
+
+        storageDirectories.add(AizobanApplication.getInstance().getFilesDir().getAbsolutePath());
+
+        if(TextUtils.isEmpty(rawEmulatedStorageTarget)) {
+            if(TextUtils.isEmpty(rawExternalStorage)) {
+                storageDirectories.add("/storage/sdcard0");
+            } else {
+                storageDirectories.add(rawExternalStorage);
+            }
+        } else {
+            final String rawUserId;
+
+            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                rawUserId = "";
+            } else {
+                final String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+                final String[] folders = DIR_SEPORATOR.split(path);
+                final String lastFolder = folders[folders.length - 1];
+                boolean isDigit = false;
+
+                try {
+                    Integer.valueOf(lastFolder);
+                    isDigit = true;
+                } catch(NumberFormatException e) {
+                    // Do Nothing.
+                }
+
+                rawUserId = isDigit ? lastFolder : "";
+            }
+
+            if(TextUtils.isEmpty(rawUserId)) {
+                storageDirectories.add(rawEmulatedStorageTarget);
+            } else {
+                storageDirectories.add(rawEmulatedStorageTarget + File.separator + rawUserId);
+            }
+        }
+
+        if(!TextUtils.isEmpty(rawSecondaryStoragesStr)) {
+            final String[] rawSecondaryStorages = rawSecondaryStoragesStr.split(File.pathSeparator);
+
+            Collections.addAll(storageDirectories, rawSecondaryStorages);
+        }
+
+        return storageDirectories.toArray(new String[storageDirectories.size()]);
     }
 
     public static String hashKeyForDisk(String key) {

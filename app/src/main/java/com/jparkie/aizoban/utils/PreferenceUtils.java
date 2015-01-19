@@ -12,6 +12,19 @@ public class PreferenceUtils {
         throw new AssertionError();
     }
 
+    public static void initializePreferences() {
+        Context context = AizobanApplication.getInstance();
+
+        PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sharedPreferences.getString(context.getString(R.string.preference_download_storage_key), null) == null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(context.getString(R.string.preference_download_storage_key), context.getFilesDir().getAbsolutePath());
+            editor.commit();
+        }
+    }
+
     public static String getSource() {
         Context context = AizobanApplication.getInstance();
 
@@ -96,6 +109,16 @@ public class PreferenceUtils {
         Context context = AizobanApplication.getInstance();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_download_directory_key), false);
+        String preferenceDirectory = sharedPreferences.getString(context.getString(R.string.preference_download_storage_key), null);
+        String internalDirectory = context.getFilesDir().getAbsolutePath();
+
+        return !preferenceDirectory.equals(internalDirectory);
+    }
+
+    public static String getDownloadDirectory() {
+        Context context = AizobanApplication.getInstance();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(context.getString(R.string.preference_download_storage_key), context.getFilesDir().getAbsolutePath());
     }
 }

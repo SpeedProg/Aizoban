@@ -86,11 +86,11 @@
             android:title="@string/preference_download_wifi_title"
             android:summary="@string/preference_download_wifi_summary"
             android:defaultValue="true"/>
-        <CheckBoxPreference
-            android:key="@string/preference_download_directory_key"
-            android:title="@string/preference_download_directory_title"
-            android:summary="@string/preference_download_directory_title_summary"
-            android:defaultValue="false"/>
+        <ListPreference
+            android:key="@string/preference_download_storage_key"
+            android:title="@string/preference_download_storage_title"
+            android:summary="@string/preference_download_storage_title_summary"
+            android:dialogTitle="@string/preference_download_storage_title"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/preference_category_developer_key"

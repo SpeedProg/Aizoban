@@ -91,9 +91,9 @@
     <string name="preference_download_wifi_key">preference_download_wifi</string>
     <string name="preference_download_wifi_title">Download Wi-Fi Only</string>
     <string name="preference_download_wifi_summary">Download chapters only on a Wi-Fi connection</string>
-    <string name="preference_download_directory_key">preference_download_directory</string>
-    <string name="preference_download_directory_title">Enable External Storage</string>
-    <string name="preference_download_directory_title_summary">Download all chapters to external storage</string>
+    <string name="preference_download_storage_key">preference_storage_directory</string>
+    <string name="preference_download_storage_title">Current Download Directory</string>
+    <string name="preference_download_storage_title_summary">Download all chapters to the specified directory</string>
 
     <!-- Developer: -->
     <string name="preference_view_open_source_licenses_key">preference_view_open_source_licenses_key</string>
