@@ -32,8 +32,13 @@ public class DiskUtils {
         storageDirectories.add(AizobanApplication.getInstance().getFilesDir().getAbsolutePath());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            for (File storage : AizobanApplication.getInstance().getExternalFilesDirs(null)) {
-                storageDirectories.add(storage.getAbsolutePath());
+            File[] directories = AizobanApplication.getInstance().getExternalFilesDirs(null);
+            if (directories != null) {
+                for (File storage : directories) {
+                    if (storage != null) {
+                        storageDirectories.add(storage.getAbsolutePath());
+                    }
+                }
             }
         } else {
             final String rawExternalStorage = System.getenv("EXTERNAL_STORAGE");
