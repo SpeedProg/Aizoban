@@ -294,8 +294,7 @@ public class DownloadService extends Service implements Observer<File> {
                                 boolean isExternalStorage = PreferenceUtils.isExternalStorage();
                                 if (isExternalStorage) {
                                     File externalDirectory = new File(PreferenceUtils.getDownloadDirectory());
-                                    File generalDirectory = new File(externalDirectory.getAbsolutePath(), File.separator + getPackageName());
-                                    File sourceDirectory = new File(generalDirectory, downloadChapter.getSource());
+                                    File sourceDirectory = new File(externalDirectory, downloadChapter.getSource());
                                     File urlHashDirectory = new File(sourceDirectory, DiskUtils.hashKeyForDisk(downloadChapter.getUrl()));
 
                                     downloadChapter.setDirectory(urlHashDirectory.getAbsolutePath());
@@ -309,12 +308,11 @@ public class DownloadService extends Service implements Observer<File> {
 
                                 if (isExternalStorage) {
                                     File externalDirectory = new File(PreferenceUtils.getDownloadDirectory());
-                                    File generalDirectory = new File(externalDirectory.getAbsolutePath(), File.separator + getPackageName());
-                                    File noMediaFile = new File(generalDirectory, ".nomedia");
+                                    File noMediaFile = new File(externalDirectory, ".nomedia");
 
                                     if (!noMediaFile.exists()) {
-                                        if (!generalDirectory.exists()) {
-                                            generalDirectory.mkdirs();
+                                        if (!externalDirectory.exists()) {
+                                            externalDirectory.mkdirs();
                                         }
 
                                         try {

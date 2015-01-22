@@ -50,17 +50,15 @@ public class SettingsPresenterImpl implements SettingsPresenter {
                         File actualDirectory = new File(downloadDirectory);
 
                         if (!actualDirectory.equals(AizobanApplication.getInstance().getFilesDir())) {
-                            boolean isWritable = actualDirectory.exists();
+                            boolean isWritable = actualDirectory.mkdirs();
 
-                            if (isWritable) {
-                                try {
-                                    File tempFile = File.createTempFile("tempTestDirectory", "0", actualDirectory);
-                                    tempFile.delete();
+                            try {
+                                File tempFile = File.createTempFile("tempTestDirectory", "0", actualDirectory);
+                                tempFile.delete();
 
-                                    isWritable = true;
-                                } catch (IOException e) {
-                                    isWritable = false;
-                                }
+                                isWritable = true;
+                            } catch (IOException e) {
+                                isWritable = false;
                             }
 
                             if (!isWritable) {

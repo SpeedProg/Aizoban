@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -25,53 +24,62 @@ public class DiskUtils {
         throw new AssertionError();
     }
 
+    // http://stackoverflow.com/questions/13976982/removable-storage-external-sdcard-path-by-manufacturers
     // http://stackoverflow.com/questions/11281010/how-can-i-get-external-sd-card-path-for-android-4-0
     public static String[] getStorageDirectories() {
         final Set<String> storageDirectories = new HashSet<String>();
-        final String rawExternalStorage = System.getenv("EXTERNAL_STORAGE");
-        final String rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE");
-        final String rawEmulatedStorageTarget = System.getenv("EMULATED_STORAGE_TARGET");
 
         storageDirectories.add(AizobanApplication.getInstance().getFilesDir().getAbsolutePath());
 
-        if(TextUtils.isEmpty(rawEmulatedStorageTarget)) {
-            if(TextUtils.isEmpty(rawExternalStorage)) {
-                storageDirectories.add("/storage/sdcard0");
-            } else {
-                storageDirectories.add(rawExternalStorage);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            for (File storage : AizobanApplication.getInstance().getExternalFilesDirs(null)) {
+                storageDirectories.add(storage.getAbsolutePath());
             }
         } else {
-            final String rawUserId;
+            final String rawExternalStorage = System.getenv("EXTERNAL_STORAGE");
+            final String rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE");
+            final String rawEmulatedStorageTarget = System.getenv("EMULATED_STORAGE_TARGET");
 
-            if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                rawUserId = "";
+            if (TextUtils.isEmpty(rawEmulatedStorageTarget)) {
+                if (TextUtils.isEmpty(rawExternalStorage)) {
+                    storageDirectories.add("/storage/sdcard0" + File.separator + AizobanApplication.getInstance().getPackageName());
+                } else {
+                    storageDirectories.add(rawExternalStorage + File.separator + AizobanApplication.getInstance().getPackageName());
+                }
             } else {
-                final String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-                final String[] folders = DIR_SEPORATOR.split(path);
-                final String lastFolder = folders[folders.length - 1];
-                boolean isDigit = false;
+                final String rawUserId;
 
-                try {
-                    Integer.valueOf(lastFolder);
-                    isDigit = true;
-                } catch(NumberFormatException e) {
-                    // Do Nothing.
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    rawUserId = "";
+                } else {
+                    final String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+                    final String[] folders = DIR_SEPORATOR.split(path);
+                    final String lastFolder = folders[folders.length - 1];
+                    boolean isDigit = false;
+
+                    try {
+                        Integer.valueOf(lastFolder);
+                        isDigit = true;
+                    } catch (NumberFormatException e) {
+                        // Do Nothing.
+                    }
+
+                    rawUserId = isDigit ? lastFolder : "";
                 }
 
-                rawUserId = isDigit ? lastFolder : "";
+                if (TextUtils.isEmpty(rawUserId)) {
+                    storageDirectories.add(rawEmulatedStorageTarget + File.separator + AizobanApplication.getInstance().getPackageName());
+                } else {
+                    storageDirectories.add(rawEmulatedStorageTarget + File.separator + rawUserId + File.separator + AizobanApplication.getInstance().getPackageName());
+                }
             }
 
-            if(TextUtils.isEmpty(rawUserId)) {
-                storageDirectories.add(rawEmulatedStorageTarget);
-            } else {
-                storageDirectories.add(rawEmulatedStorageTarget + File.separator + rawUserId);
+            if (!TextUtils.isEmpty(rawSecondaryStoragesStr)) {
+                String[] rawSecondaryStorages = rawSecondaryStoragesStr.split(File.pathSeparator);
+                for (int index  = 0; index < rawSecondaryStorages.length; index++) {
+                    storageDirectories.add(rawSecondaryStorages[index] + File.separator + AizobanApplication.getInstance().getPackageName());
+                }
             }
-        }
-
-        if(!TextUtils.isEmpty(rawSecondaryStoragesStr)) {
-            final String[] rawSecondaryStorages = rawSecondaryStoragesStr.split(File.pathSeparator);
-
-            Collections.addAll(storageDirectories, rawSecondaryStorages);
         }
 
         return storageDirectories.toArray(new String[storageDirectories.size()]);
