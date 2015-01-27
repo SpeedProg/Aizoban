@@ -26,6 +26,7 @@ import com.jparkie.aizoban.views.activities.MangaActivity;
 import com.jparkie.aizoban.views.adapters.DownloadChapterListingsAdapter;
 import com.jparkie.aizoban.views.fragments.AddToQueueFragment;
 import com.jparkie.aizoban.views.fragments.MarkReadFragment;
+import com.jparkie.aizoban.views.fragments.ResumeChapterFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,7 @@ public class MangaPresenterOfflineImpl implements MangaPresenter {
     private Subscription mQueryBothMangaAndChaptersSubscription;
     private Subscription mQueryFavouriteMangaSubscription;
     private Subscription mQueryDeleteMangaSubscription;
+    private Subscription mQueryRecentChapterSubscription;
 
     public MangaPresenterOfflineImpl(MangaView mangaView, MangaMapper mangaMapper) {
         mMangaView = mangaView;
@@ -156,6 +158,10 @@ public class MangaPresenterOfflineImpl implements MangaPresenter {
             mQueryDeleteMangaSubscription.unsubscribe();
             mQueryDeleteMangaSubscription = null;
         }
+        if (mQueryRecentChapterSubscription != null) {
+            mQueryRecentChapterSubscription.unsubscribe();
+            mQueryRecentChapterSubscription = null;
+        }
     }
 
     @Override
@@ -186,8 +192,49 @@ public class MangaPresenterOfflineImpl implements MangaPresenter {
                 String chapterSource = selectedDownloadChapter.getSource();
                 String chapterUrl = selectedDownloadChapter.getUrl();
 
-                Intent downloadChapterIntent = ChapterActivity.constructOfflineChapterActivityIntent(mMangaView.getContext(), new RequestWrapper(chapterSource, chapterUrl), 0);
-                mMangaView.getContext().startActivity(downloadChapterIntent);
+                final RequestWrapper chapterRequest = new RequestWrapper(chapterSource, chapterUrl);
+
+                if (mQueryRecentChapterSubscription != null) {
+                    mQueryRecentChapterSubscription.unsubscribe();
+                    mQueryRecentChapterSubscription = null;
+                }
+
+                mQueryRecentChapterSubscription = QueryManager
+                        .queryRecentChapterFromRequest(chapterRequest, true)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Cursor>() {
+                            @Override
+                            public void onCompleted() {
+                                // Do Nothing.
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                if (BuildConfig.DEBUG) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onNext(Cursor recentChapterCursor) {
+                                if (recentChapterCursor != null) {
+                                    RecentChapter recentChapter = QueryManager.toObject(recentChapterCursor, RecentChapter.class);
+                                    if (recentChapter != null) {
+                                        if (((FragmentActivity) mMangaView.getContext()).getSupportFragmentManager().findFragmentByTag(ResumeChapterFragment.TAG) == null) {
+                                            ResumeChapterFragment resumeChapterFragment = ResumeChapterFragment.newInstance(recentChapter);
+
+                                            resumeChapterFragment.show(((FragmentActivity) mMangaView.getContext()).getSupportFragmentManager(), ResumeChapterFragment.TAG);
+                                        }
+
+                                        return;
+                                    }
+                                }
+
+                                Intent chapterIntent = ChapterActivity.constructOfflineChapterActivityIntent(mMangaView.getContext(), chapterRequest, 0);
+                                mMangaView.getContext().startActivity(chapterIntent);
+                            }
+                        });
             }
         }
     }

@@ -32,6 +32,7 @@
     <string name="dialog_catalogue_filter">Filter Catalogue</string>
     <string name="dialog_add_to_queue">Add To Queue</string>
     <string name="dialog_mark_read">Mark Read</string>
+    <string name="dialog_resume_chapter">Resume Chapter</string>
     <string name="dialog_chapter_help">Chapter Help</string>
     <string name="dialog_disclaimer">Disclaimer</string>
     <string name="dialog_open_source_licenses">Open Source Licenses</string>
@@ -123,6 +124,11 @@
     <string name="mark_read_dialog_button_mark">Mark</string>
     <string name="mark_read_dialog_button_toggle_all">Toggle All</string>
     <string name="mark_read_dialog_button_cancel">Cancel</string>
+
+    <!-- Resume Chapter Dialog Items: -->
+    <string name="resume_chapter_text">Found a recent chapter, would you like to resume that chapter where you last left off?</string>
+    <string name="resume_chapter_dialog_button_yes">Yes</string>
+    <string name="resume_chapter_dialog_button_no">No</string>
 
     <!-- Chapter Items: -->
     <string name="chapter_subtitle_progress">Image Urls Fetched:</string>
