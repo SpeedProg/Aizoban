@@ -528,7 +528,7 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
                             Chapter chapter = QueryManager.toObject(chapterCursor, Chapter.class);
 
                             return QueryManager
-                                    .queryAdjacentChapterFromRequestAndNumber(new RequestWrapper(mDownloadChapter.getSource(), chapter.getParentUrl()), chapter.getNumber() + 1);
+                                    .queryNextChapterFromRequestAndNumber(new RequestWrapper(mDownloadChapter.getSource(), chapter.getParentUrl()), chapter.getNumber());
                         }
                     })
                     .map(new Func1<Cursor, String>() {
@@ -611,7 +611,7 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
                             Chapter chapter = QueryManager.toObject(chapterCursor, Chapter.class);
 
                             return QueryManager
-                                    .queryAdjacentChapterFromRequestAndNumber(new RequestWrapper(mDownloadChapter.getSource(), chapter.getParentUrl()), chapter.getNumber() - 1);
+                                    .queryPreviousChapterFromRequestAndNumber(new RequestWrapper(mDownloadChapter.getSource(), chapter.getParentUrl()), chapter.getNumber());
                         }
                     })
                     .map(new Func1<Cursor, String>() {

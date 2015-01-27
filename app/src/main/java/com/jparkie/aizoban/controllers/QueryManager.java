@@ -241,7 +241,7 @@ public class QueryManager {
         });
     }
 
-    public static Observable<Cursor> queryAdjacentChapterFromRequestAndNumber(final RequestWrapper request, final int adjacentNumber) {
+    public static Observable<Cursor> queryNextChapterFromRequestAndNumber(final RequestWrapper request, final int currentNumber) {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override
             public void call(Subscriber<? super Cursor> subscriber) {
@@ -255,8 +255,39 @@ public class QueryManager {
                     selectionArgs.add(request.getSource());
                     selection.append(" AND ").append(ApplicationContract.Chapter.COLUMN_PARENT_URL + " = ?");
                     selectionArgs.add(request.getUrl());
-                    selection.append(" AND ").append(ApplicationContract.Chapter.COLUMN_NUMBER + " = ?");
-                    selectionArgs.add(String.valueOf(adjacentNumber));
+                    selection.append(" AND ").append(ApplicationContract.Chapter.COLUMN_NUMBER + " > ?");
+                    selectionArgs.add(String.valueOf(currentNumber));
+
+                    Cursor adjacentChapter = cupboard().withDatabase(sqLiteDatabase).query(Chapter.class)
+                            .withSelection(selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]))
+                            .limit(1)
+                            .getCursor();
+
+                    subscriber.onNext(adjacentChapter);
+                    subscriber.onCompleted();
+                } catch (Throwable e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    public static Observable<Cursor> queryPreviousChapterFromRequestAndNumber(final RequestWrapper request, final int currentNumber) {
+        return Observable.create(new Observable.OnSubscribe<Cursor>() {
+            @Override
+            public void call(Subscriber<? super Cursor> subscriber) {
+                try {
+                    ApplicationSQLiteOpenHelper applicationSQLiteOpenHelper = ApplicationSQLiteOpenHelper.getInstance();
+                    SQLiteDatabase sqLiteDatabase = applicationSQLiteOpenHelper.getWritableDatabase();
+                    StringBuilder selection = new StringBuilder();
+                    List<String> selectionArgs = new ArrayList<String>();
+
+                    selection.append(ApplicationContract.Chapter.COLUMN_SOURCE + " = ?");
+                    selectionArgs.add(request.getSource());
+                    selection.append(" AND ").append(ApplicationContract.Chapter.COLUMN_PARENT_URL + " = ?");
+                    selectionArgs.add(request.getUrl());
+                    selection.append(" AND ").append(ApplicationContract.Chapter.COLUMN_NUMBER + " < ?");
+                    selectionArgs.add(String.valueOf(currentNumber));
 
                     Cursor adjacentChapter = cupboard().withDatabase(sqLiteDatabase).query(Chapter.class)
                             .withSelection(selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]))
