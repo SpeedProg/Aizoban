@@ -321,7 +321,7 @@ public class MangaPresenterOnlineImpl implements MangaPresenter {
             Observable<Cursor> queryMangaFromUrlObservable = QueryManager
                     .queryMangaFromRequest(mRequest);
             Observable<Cursor> queryChaptersFromUrlObservable = QueryManager
-                    .queryChaptersOfMangaFromRequest(mRequest);
+                    .queryChaptersOfMangaFromRequest(mRequest, false);
             Observable<List<String>> queryRecentChapterUrlsObservable = QueryManager
                     .queryRecentChaptersOfMangaFromRequest(mRequest, false)
                     .flatMap(new Func1<Cursor, Observable<RecentChapter>>() {

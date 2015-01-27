@@ -172,7 +172,7 @@ public class MarkReadPresenterOnlineImpl implements MarkReadPresenter {
 
         if (mRequest != null) {
             Observable<Cursor> queryChaptersFromUrlObservable = QueryManager
-                    .queryChaptersOfMangaFromRequest(mRequest);
+                    .queryChaptersOfMangaFromRequest(mRequest, false);
             Observable<List<String>> queryRecentChaptersFromUrlObservable = QueryManager
                     .queryRecentChaptersOfMangaFromRequest(mRequest, false)
                     .flatMap(new Func1<Cursor, Observable<RecentChapter>>() {

@@ -161,7 +161,7 @@ public class AddToQueuePresenterImpl implements AddToQueuePresenter {
 
         if (mRequest != null) {
             Observable<Cursor> queryChaptersFromUrlObservable = QueryManager
-                    .queryChaptersOfMangaFromRequest(mRequest);
+                    .queryChaptersOfMangaFromRequest(mRequest, true);
             Observable<List<String>> queryDownloadChaptersFromUrlObservable = QueryManager
                     .queryDownloadChaptersOfDownloadManga(mRequest, false)
                     .flatMap(new Func1<Cursor, Observable<DownloadChapter>>() {

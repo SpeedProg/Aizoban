@@ -176,7 +176,7 @@ public class MarkReadPresenterOfflineImpl implements MarkReadPresenter {
             Observable<Cursor> queryDownloadChaptersFromUrlObservable = QueryManager
                     .queryDownloadChaptersOfDownloadManga(mRequest, true);
             Observable<List<String>> queryChapterUrlsFromUrlObservable = QueryManager
-                    .queryChaptersOfMangaFromRequest(mRequest)
+                    .queryChaptersOfMangaFromRequest(mRequest, false)
                     .flatMap(new Func1<Cursor, Observable<Chapter>>() {
                         @Override
                         public Observable<Chapter> call(Cursor chapterCursor) {

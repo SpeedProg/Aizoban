@@ -24,6 +24,7 @@ import com.jparkie.aizoban.utils.wrappers.SearchCatalogueWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.qbusict.cupboard.DatabaseCompartment;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -205,7 +206,7 @@ public class QueryManager {
         });
     }
 
-    public static Observable<Cursor> queryChaptersOfMangaFromRequest(final RequestWrapper request) {
+    public static Observable<Cursor> queryChaptersOfMangaFromRequest(final RequestWrapper request, final boolean isAscending) {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override
             public void call(Subscriber<? super Cursor> subscriber) {
@@ -220,10 +221,16 @@ public class QueryManager {
                     selection.append(" AND ").append(ApplicationContract.Chapter.COLUMN_PARENT_URL + " = ?");
                     selectionArgs.add(request.getUrl());
 
-                    Cursor chaptersOfMangaCursor = cupboard().withDatabase(sqLiteDatabase).query(Chapter.class)
-                            .withSelection(selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]))
-                            .orderBy(ApplicationContract.Chapter.COLUMN_NUMBER + " DESC")
-                            .getCursor();
+                    DatabaseCompartment.QueryBuilder<Chapter> chapterQueryBuilder = cupboard().withDatabase(sqLiteDatabase).query(Chapter.class)
+                            .withSelection(selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]));
+
+                    if (isAscending) {
+                        chapterQueryBuilder = chapterQueryBuilder.orderBy(ApplicationContract.Chapter.COLUMN_NUMBER + " ASC");
+                    } else {
+                        chapterQueryBuilder = chapterQueryBuilder.orderBy(ApplicationContract.Chapter.COLUMN_NUMBER + " DESC");
+                    }
+
+                    Cursor chaptersOfMangaCursor = chapterQueryBuilder.getCursor();
 
                     subscriber.onNext(chaptersOfMangaCursor);
                     subscriber.onCompleted();
