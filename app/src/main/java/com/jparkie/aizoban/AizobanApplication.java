@@ -48,8 +48,6 @@ public class AizobanApplication extends Application {
         super.onLowMemory();
 
         Glide.get(this).clearMemory();
-
-        Runtime.getRuntime().gc();
     }
 
     @Override
