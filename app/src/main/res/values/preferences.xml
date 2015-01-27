@@ -25,6 +25,28 @@
     <string name="preference_view_disclaimer_key">preference_view_disclaimer</string>
     <string name="preference_view_disclaimer_title">View Disclaimer</string>
     <string name="preference_view_disclaimer_summary">Please open and read this disclaimer for Aizōban</string>
+    <string name="preference_startup_key">preference_startup</string>
+    <string name="preference_startup_title">Current Startup Screen</string>
+    <string name="preference_startup_title_summary">Choose the current startup screen to open when launched</string>
+    <string-array name="preference_startup_entries">
+        <item>Catalogue</item>
+        <item>Latest Manga</item>
+        <item>Downloaded Manga</item>
+        <item>Favourite Manga</item>
+        <item>Recent Chapters</item>
+        <item>Download Queue</item>
+        <item>Settings</item>
+    </string-array>
+    <string-array name="preference_startup_values">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <string name="preference_startup_default_value">0</string>
 
     <!-- Catalogue: -->
     <string name="preference_source_key">preference_source</string>

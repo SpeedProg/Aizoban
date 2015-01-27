@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.jparkie.aizoban.BuildConfig;
 import com.jparkie.aizoban.R;
 import com.jparkie.aizoban.controllers.downloads.DownloadService;
+import com.jparkie.aizoban.utils.PreferenceUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,6 +58,7 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void onCompleted() {
                         Intent startActivity = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity.putExtra(MainActivity.POSITION_ARGUMENT_KEY, PreferenceUtils.getStartupScreen());
                         startActivity(startActivity);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         finish();

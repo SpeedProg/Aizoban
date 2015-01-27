@@ -25,6 +25,14 @@ public class PreferenceUtils {
         }
     }
 
+    public static int getStartupScreen() {
+        Context context = AizobanApplication.getInstance();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        // Hack Fix: http://stackoverflow.com/questions/5227478/getting-integer-or-index-values-from-a-list-preference
+        return Integer.valueOf(sharedPreferences.getString(context.getString(R.string.preference_startup_key), context.getString(R.string.preference_startup_default_value)));
+    }
+
     public static String getSource() {
         Context context = AizobanApplication.getInstance();
 

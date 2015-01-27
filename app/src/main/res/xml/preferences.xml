@@ -13,6 +13,14 @@
             android:key="@string/preference_view_disclaimer_key"
             android:title="@string/preference_view_disclaimer_title"
             android:summary="@string/preference_view_disclaimer_summary"/>
+        <ListPreference
+            android:key="@string/preference_startup_key"
+            android:title="@string/preference_startup_title"
+            android:summary="@string/preference_startup_title_summary"
+            android:dialogTitle="@string/preference_startup_title"
+            android:entries="@array/preference_startup_entries"
+            android:entryValues="@array/preference_startup_values"
+            android:defaultValue="@string/preference_startup_default_value"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/preference_category_catalogue_key"
