@@ -15,6 +15,7 @@ import com.jparkie.aizoban.models.databases.RecentChapter;
 import com.jparkie.aizoban.models.downloads.DownloadChapter;
 import com.jparkie.aizoban.presenters.mapper.ChapterMapper;
 import com.jparkie.aizoban.utils.PreferenceUtils;
+import com.jparkie.aizoban.utils.wrappers.DownloadChapterSortCursorWrapper;
 import com.jparkie.aizoban.utils.wrappers.RequestWrapper;
 import com.jparkie.aizoban.views.ChapterView;
 import com.jparkie.aizoban.views.activities.ChapterActivity;
@@ -27,12 +28,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 public class ChapterPresenterOfflineImpl implements ChapterPresenter {
@@ -520,44 +523,54 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
                 mQueryDownloadChapterSubscription = null;
             }
 
-            mQueryDownloadChapterSubscription = QueryManager
-                    .queryChapterFromRequest(new RequestWrapper(mDownloadChapter.getSource(), mDownloadChapter.getUrl()))
-                    .flatMap(new Func1<Cursor, Observable<Cursor>>() {
+            Observable<Cursor> queryDownloadChaptersFromUrlObservable = QueryManager
+                    .queryDownloadChaptersOfDownloadManga(new RequestWrapper(mDownloadChapter.getSource(), mDownloadChapter.getParentUrl()), true);
+            Observable<List<String>> queryChapterUrlsFromUrlObservable = QueryManager
+                    .queryChaptersOfMangaFromRequest(new RequestWrapper(mDownloadChapter.getSource(), mDownloadChapter.getParentUrl()), true)
+                    .flatMap(new Func1<Cursor, Observable<Chapter>>() {
                         @Override
-                        public Observable<Cursor> call(Cursor chapterCursor) {
-                            Chapter chapter = QueryManager.toObject(chapterCursor, Chapter.class);
-
-                            return QueryManager
-                                    .queryNextChapterFromRequestAndNumber(new RequestWrapper(mDownloadChapter.getSource(), chapter.getParentUrl()), chapter.getNumber());
+                        public Observable<Chapter> call(Cursor chapterCursor) {
+                            List<Chapter> chapters = QueryManager.toList(chapterCursor, Chapter.class);
+                            return Observable.from(chapters.toArray(new Chapter[chapters.size()]));
                         }
                     })
-                    .map(new Func1<Cursor, String>() {
+                    .flatMap(new Func1<Chapter, Observable<String>>() {
                         @Override
-                        public String call(Cursor adjacentCursor) {
-                            if (adjacentCursor != null && adjacentCursor.getCount() != 0) {
-                                Chapter adjacentChapter = QueryManager.toObject(adjacentCursor, Chapter.class);
+                        public Observable<String> call(Chapter chapter) {
+                            return Observable.just(chapter.getUrl());
+                        }
+                    })
+                    .toList();
 
-                                if (adjacentChapter != null) {
-                                    return adjacentChapter.getUrl();
+            mQueryDownloadChapterSubscription = Observable.zip(queryDownloadChaptersFromUrlObservable, queryChapterUrlsFromUrlObservable,
+                    new Func2<Cursor, List<String>, Cursor>() {
+                        @Override
+                        public Cursor call(Cursor downloadChapterCursor, List<String> sortedChapterUrls) {
+                            return new DownloadChapterSortCursorWrapper(downloadChapterCursor, sortedChapterUrls);
+                        }
+                    })
+                    .flatMap(new Func1<Cursor, Observable<List<DownloadChapter>>>() {
+                        @Override
+                        public Observable<List<DownloadChapter>> call(Cursor sortedDownloadChapterCursor) {
+                            List<DownloadChapter> downloadChapters = QueryManager.toList(sortedDownloadChapterCursor, DownloadChapter.class);
+                            return Observable.just(downloadChapters);
+                        }
+                    })
+                    .map(new Func1<List<DownloadChapter>, String>() {
+                        @Override
+                        public String call(List<DownloadChapter> downloadChapters) {
+                            DownloadChapter currentChapter = null;
+                            for (int index = 0; index < downloadChapters.size(); index++) {
+                                currentChapter = downloadChapters.get(index);
+                                if (currentChapter != null) {
+                                    if (currentChapter.getUrl().equals(mDownloadChapter.getUrl())) {
+                                        if (index + 1 < downloadChapters.size()) {
+                                            return downloadChapters.get(index + 1).getUrl();
+                                        } else {
+                                            break;
+                                        }
+                                    }
                                 }
-                            }
-
-                            return null;
-                        }
-                    })
-                    .flatMap(new Func1<String, Observable<Cursor>>() {
-                        @Override
-                        public Observable<Cursor> call(String adjacentChapterUrl) {
-                            return QueryManager
-                                    .queryDownloadChapterFromRequest(new RequestWrapper(mDownloadChapter.getSource(), adjacentChapterUrl));
-                        }
-                    })
-                    .map(new Func1<Cursor, String>() {
-                        @Override
-                        public String call(Cursor downloadChapterCursor) {
-                            DownloadChapter downloadChapter = QueryManager.toObject(downloadChapterCursor, DownloadChapter.class);
-                            if (downloadChapter != null) {
-                                return downloadChapter.getUrl();
                             }
 
                             return null;
@@ -603,44 +616,54 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
                 mQueryDownloadChapterSubscription = null;
             }
 
-            mQueryDownloadChapterSubscription = QueryManager
-                    .queryChapterFromRequest(new RequestWrapper(mDownloadChapter.getSource(), mDownloadChapter.getUrl()))
-                    .flatMap(new Func1<Cursor, Observable<Cursor>>() {
+            Observable<Cursor> queryDownloadChaptersFromUrlObservable = QueryManager
+                    .queryDownloadChaptersOfDownloadManga(new RequestWrapper(mDownloadChapter.getSource(), mDownloadChapter.getParentUrl()), true);
+            Observable<List<String>> queryChapterUrlsFromUrlObservable = QueryManager
+                    .queryChaptersOfMangaFromRequest(new RequestWrapper(mDownloadChapter.getSource(), mDownloadChapter.getParentUrl()), true)
+                    .flatMap(new Func1<Cursor, Observable<Chapter>>() {
                         @Override
-                        public Observable<Cursor> call(Cursor chapterCursor) {
-                            Chapter chapter = QueryManager.toObject(chapterCursor, Chapter.class);
-
-                            return QueryManager
-                                    .queryPreviousChapterFromRequestAndNumber(new RequestWrapper(mDownloadChapter.getSource(), chapter.getParentUrl()), chapter.getNumber());
+                        public Observable<Chapter> call(Cursor chapterCursor) {
+                            List<Chapter> chapters = QueryManager.toList(chapterCursor, Chapter.class);
+                            return Observable.from(chapters.toArray(new Chapter[chapters.size()]));
                         }
                     })
-                    .map(new Func1<Cursor, String>() {
+                    .flatMap(new Func1<Chapter, Observable<String>>() {
                         @Override
-                        public String call(Cursor adjacentCursor) {
-                            if (adjacentCursor != null && adjacentCursor.getCount() != 0) {
-                                Chapter adjacentChapter = QueryManager.toObject(adjacentCursor, Chapter.class);
+                        public Observable<String> call(Chapter chapter) {
+                            return Observable.just(chapter.getUrl());
+                        }
+                    })
+                    .toList();
 
-                                if (adjacentChapter != null) {
-                                    return adjacentChapter.getUrl();
+            mQueryDownloadChapterSubscription = Observable.zip(queryDownloadChaptersFromUrlObservable, queryChapterUrlsFromUrlObservable,
+                    new Func2<Cursor, List<String>, Cursor>() {
+                        @Override
+                        public Cursor call(Cursor downloadChapterCursor, List<String> sortedChapterUrls) {
+                            return new DownloadChapterSortCursorWrapper(downloadChapterCursor, sortedChapterUrls);
+                        }
+                    })
+                    .flatMap(new Func1<Cursor, Observable<List<DownloadChapter>>>() {
+                        @Override
+                        public Observable<List<DownloadChapter>> call(Cursor sortedDownloadChapterCursor) {
+                            List<DownloadChapter> downloadChapters = QueryManager.toList(sortedDownloadChapterCursor, DownloadChapter.class);
+                            return Observable.just(downloadChapters);
+                        }
+                    })
+                    .map(new Func1<List<DownloadChapter>, String>() {
+                        @Override
+                        public String call(List<DownloadChapter> downloadChapters) {
+                            DownloadChapter currentChapter = null;
+                            for (int index = 0; index < downloadChapters.size(); index++) {
+                                currentChapter = downloadChapters.get(index);
+                                if (currentChapter != null) {
+                                    if (currentChapter.getUrl().equals(mDownloadChapter.getUrl())) {
+                                        if (index - 1 >= 0) {
+                                            return downloadChapters.get(index - 1).getUrl();
+                                        } else {
+                                            break;
+                                        }
+                                    }
                                 }
-                            }
-
-                            return null;
-                        }
-                    })
-                    .flatMap(new Func1<String, Observable<Cursor>>() {
-                        @Override
-                        public Observable<Cursor> call(String adjacentChapterUrl) {
-                            return QueryManager
-                                    .queryDownloadChapterFromRequest(new RequestWrapper(mDownloadChapter.getSource(), adjacentChapterUrl));
-                        }
-                    })
-                    .map(new Func1<Cursor, String>() {
-                        @Override
-                        public String call(Cursor downloadChapterCursor) {
-                            DownloadChapter downloadChapter = QueryManager.toObject(downloadChapterCursor, DownloadChapter.class);
-                            if (downloadChapter != null) {
-                                return downloadChapter.getUrl();
                             }
 
                             return null;

@@ -572,7 +572,7 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
             }
 
             mQueryChapterSubscription = QueryManager
-                    .queryNextChapterFromRequestAndNumber(new RequestWrapper(mChapter.getSource(), mChapter.getParentUrl()), mChapter.getNumber())
+                    .queryAdjacentChapterFromRequestAndNumber(new RequestWrapper(mChapter.getSource(), mChapter.getParentUrl()), mChapter.getNumber() + 1)
                     .map(new Func1<Cursor, String>() {
                         @Override
                         public String call(Cursor adjacentCursor) {
@@ -628,7 +628,7 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
             }
 
             mQueryChapterSubscription = QueryManager
-                    .queryPreviousChapterFromRequestAndNumber(new RequestWrapper(mChapter.getSource(), mChapter.getParentUrl()), mChapter.getNumber())
+                    .queryAdjacentChapterFromRequestAndNumber(new RequestWrapper(mChapter.getSource(), mChapter.getParentUrl()), mChapter.getNumber() - 1)
                     .map(new Func1<Cursor, String>() {
                         @Override
                         public String call(Cursor adjacentCursor) {
