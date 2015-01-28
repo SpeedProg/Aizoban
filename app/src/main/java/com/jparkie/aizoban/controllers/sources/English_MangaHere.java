@@ -274,7 +274,11 @@ public class English_MangaHere implements Source {
     }
 
     private Manga parseHtmlToManga(RequestWrapper request, String unparsedHtml) {
-        Document parsedDocument = Jsoup.parse(unparsedHtml);
+        int beginIndex = unparsedHtml.indexOf("<ul class=\"detail_topText\">");
+        int endIndex = unparsedHtml.indexOf("</ul>", beginIndex);
+        String trimmedHtml = unparsedHtml.substring(beginIndex, endIndex);
+
+        Document parsedDocument = Jsoup.parse(trimmedHtml);
 
         Elements detailElements = parsedDocument.select("ul.detail_topText li");
 
@@ -351,7 +355,11 @@ public class English_MangaHere implements Source {
     }
 
     private List<Chapter> parseHtmlToChapters(RequestWrapper request, String unparsedHtml) {
-        Document parsedDocument = Jsoup.parse(unparsedHtml);
+        int beginIndex = unparsedHtml.indexOf("<ul>");
+        int endIndex = unparsedHtml.indexOf("</ul>", beginIndex);
+        String trimmedHtml = unparsedHtml.substring(beginIndex, endIndex);
+
+        Document parsedDocument = Jsoup.parse(trimmedHtml);
 
         List<Chapter> chapterList = scrapeChaptersFromParsedDocument(parsedDocument);
         chapterList = setSourceForChapterList(chapterList);
@@ -366,7 +374,7 @@ public class English_MangaHere implements Source {
     private List<Chapter> scrapeChaptersFromParsedDocument(Document parsedDocument) {
         List<Chapter> chapterList = new ArrayList<Chapter>();
 
-        Elements chapterElements = parsedDocument.select("div.detail_list > ul:not(.tab_comment)").first().getElementsByTag("li");
+        Elements chapterElements = parsedDocument.getElementsByTag("li");
         for (Element chapterElement : chapterElements) {
             Chapter currentChapter = constructChapterFromHtmlBlock(chapterElement);
 
@@ -552,7 +560,11 @@ public class English_MangaHere implements Source {
     }
 
     private List<String> parseHtmlToPageUrls(String unparsedHtml) {
-        Document parsedDocument = Jsoup.parse(unparsedHtml);
+        int beginIndex = unparsedHtml.indexOf("<div class=\"go_page clearfix\">");
+        int endIndex = unparsedHtml.indexOf("</div>", beginIndex);
+        String trimmedHtml = unparsedHtml.substring(beginIndex, endIndex);
+
+        Document parsedDocument = Jsoup.parse(trimmedHtml);
 
         List<String> pageUrlList = new ArrayList<String>();
 
@@ -565,7 +577,11 @@ public class English_MangaHere implements Source {
     }
 
     private String parseHtmlToImageUrl(String unparsedHtml) {
-        Document parsedDocument = Jsoup.parse(unparsedHtml);
+        int beginIndex = unparsedHtml.indexOf("<section class=\"read_img\" id=\"viewer\">");
+        int endIndex = unparsedHtml.indexOf("</section>", beginIndex);
+        String trimmedHtml = unparsedHtml.substring(beginIndex, endIndex);
+
+        Document parsedDocument = Jsoup.parse(trimmedHtml);
 
         Element imageElement = parsedDocument.getElementById("image");
 
