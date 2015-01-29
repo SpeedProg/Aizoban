@@ -22,7 +22,6 @@ import java.io.IOException;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class SettingsPresenterImpl implements SettingsPresenter {

@@ -105,10 +105,24 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        mChapterPresenter.registerForEvents();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
         mChapterPresenter.saveChapterToRecentChapters();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        mChapterPresenter.unregisterForEvents();
     }
 
     @Override
@@ -145,6 +159,9 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
                 return true;
             case R.id.action_refresh:
                 mChapterPresenter.onOptionRefresh();
+                return true;
+            case R.id.action_select_page:
+                mChapterPresenter.onOptionSelectPage();
                 return true;
             case R.id.action_direction:
                 mChapterPresenter.onOptionDirection();

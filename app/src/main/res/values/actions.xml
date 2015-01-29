@@ -18,6 +18,7 @@
     <string name="action_right_to_left">Right-to-Left</string>
     <string name="action_search">Search</string>
     <string name="action_select_all">Select All</string>
+    <string name="action_select_page">Select Page</string>
     <string name="action_start_downloader">Start Downloader</string>
     <string name="action_stop_downloader">Stop Downloader</string>
     <string name="action_to_top">To Top</string>

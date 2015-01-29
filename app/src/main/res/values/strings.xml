@@ -33,6 +33,7 @@
     <string name="dialog_add_to_queue">Add To Queue</string>
     <string name="dialog_mark_read">Mark Read</string>
     <string name="dialog_resume_chapter">Resume Chapter</string>
+    <string name="dialog_select_page">Select Page</string>
     <string name="dialog_chapter_help">Chapter Help</string>
     <string name="dialog_disclaimer">Disclaimer</string>
     <string name="dialog_open_source_licenses">Open Source Licenses</string>
@@ -133,7 +134,7 @@
     <!-- Chapter Items: -->
     <string name="chapter_subtitle_progress">Image Urls Fetched:</string>
     <string name="chapter_subtitle_page">Page:</string>
-    
+
     <!-- Chapter Help Dialog Items: -->
     <string name="chapter_help_dialog_text">
         <ul><li><b>Toolbar Title</b>: Tap the toolbar title to view the full title of the chapter.</li>\n

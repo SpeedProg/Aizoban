@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import com.bumptech.glide.Glide;
 import com.jparkie.aizoban.BuildConfig;
 import com.jparkie.aizoban.controllers.QueryManager;
+import com.jparkie.aizoban.controllers.events.SelectPageEvent;
 import com.jparkie.aizoban.controllers.factories.DefaultFactory;
 import com.jparkie.aizoban.models.Chapter;
 import com.jparkie.aizoban.models.databases.RecentChapter;
@@ -22,6 +23,7 @@ import com.jparkie.aizoban.views.activities.ChapterActivity;
 import com.jparkie.aizoban.views.activities.MangaActivity;
 import com.jparkie.aizoban.views.adapters.PagesAdapter;
 import com.jparkie.aizoban.views.fragments.ChapterHelpFragment;
+import com.jparkie.aizoban.views.fragments.SelectPageFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -135,6 +138,22 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
                 mChapterView.hideEmptyRelativeLayout();
             }
         }
+    }
+
+    @Override
+    public void registerForEvents() {
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEventMainThread(SelectPageEvent event) {
+        if (event != null) {
+            setPosition(event.getSelectPage());
+        }
+    }
+
+    @Override
+    public void unregisterForEvents() {
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -292,6 +311,19 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
     }
 
     @Override
+    public void onOptionSelectPage() {
+        if (mInitialized) {
+            if (mImageUrls != null) {
+                if (((FragmentActivity) mChapterView.getContext()).getSupportFragmentManager().findFragmentByTag(SelectPageFragment.TAG) == null) {
+                    SelectPageFragment selectPageFragment = SelectPageFragment.newInstance(getActualPosition(), mImageUrls.size());
+
+                    selectPageFragment.show(((FragmentActivity) mChapterView.getContext()).getSupportFragmentManager(), SelectPageFragment.TAG);
+                }
+            }
+        }
+    }
+
+    @Override
     public void onOptionDirection() {
         if (mInitialized) {
             mIsRightToLeftDirection = !mIsRightToLeftDirection;
@@ -412,7 +444,7 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
 
                                     updateAdapter();
 
-                                    initializePosition();
+                                    setPosition(mInitialPosition);
 
                                     mChapterView.hideEmptyRelativeLayout();
 
@@ -491,10 +523,10 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
         }
     }
 
-    private void initializePosition() {
+    private void setPosition(int position) {
         if (mPagesAdapter != null && mPagesAdapter.getCount() != 0) {
-            if (mInitialPosition >= 0 && mInitialPosition <= mPagesAdapter.getCount() - 1) {
-                int currentPosition = mInitialPosition;
+            if (position >= 0 && position <= mPagesAdapter.getCount() - 1) {
+                int currentPosition = position;
 
                 if (mIsRightToLeftDirection) {
                     currentPosition = mPagesAdapter.getCount() - currentPosition - 1;

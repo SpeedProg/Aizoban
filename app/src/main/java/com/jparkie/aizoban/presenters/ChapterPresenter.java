@@ -15,6 +15,10 @@ public interface ChapterPresenter {
 
     public void initializeDataFromUrl(FragmentManager fragmentManager);
 
+    public void registerForEvents();
+
+    public void unregisterForEvents();
+
     public void saveState(Bundle outState);
 
     public void restoreState(Bundle savedState);
@@ -40,6 +44,8 @@ public interface ChapterPresenter {
     public void onOptionParent();
 
     public void onOptionRefresh();
+
+    public void onOptionSelectPage();
 
     public void onOptionDirection();
 
