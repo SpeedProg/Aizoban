@@ -208,6 +208,16 @@ public class MangaPresenterOnlineImpl implements MangaPresenter {
 
                 mQueryRecentChapterSubscription = QueryManager
                         .queryRecentChapterFromRequest(chapterRequest, false)
+                        .map(new Func1<Cursor, Cursor>() {
+                            @Override
+                            public Cursor call(Cursor incomingCursor) {
+                                if (incomingCursor != null && incomingCursor.getCount() != 0) {
+                                    return incomingCursor;
+                                }
+
+                                return null;
+                            }
+                        })
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<Cursor>() {

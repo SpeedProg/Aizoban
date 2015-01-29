@@ -253,6 +253,7 @@ public class DefaultFactory {
         public static final String DEFAULT_NAME = null;
         public static final String DEFAULT_STATUS = SearchUtils.STATUS_ALL;
         public static final String DEFAULT_ORDER_BY = SearchUtils.ORDER_BY_RANK;
+        public static final int DEFAULT_OFFSET = 0;
 
         private SearchCatalogueWrapper() {
             throw new AssertionError();
@@ -265,6 +266,7 @@ public class DefaultFactory {
             newInstance.setStatusArgs(DEFAULT_STATUS);
             newInstance.setOrderByArgs(DEFAULT_ORDER_BY);
             newInstance.setGenresArgs(new ArrayList<String>());
+            newInstance.setOffsetArgs(DEFAULT_OFFSET);
 
             return newInstance;
         }

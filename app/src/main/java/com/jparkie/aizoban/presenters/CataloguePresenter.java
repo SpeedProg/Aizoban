@@ -25,6 +25,10 @@ public interface CataloguePresenter {
 
     public void onQueryTextChange(String query);
 
+    public void onPreviousClick();
+
+    public void onNextClick();
+
     public void onOptionFilter();
 
     public void onOptionToTop();

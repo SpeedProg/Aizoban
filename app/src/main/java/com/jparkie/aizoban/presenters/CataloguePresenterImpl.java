@@ -27,6 +27,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
@@ -59,6 +60,7 @@ public class CataloguePresenterImpl implements CataloguePresenter {
         mCatalogueView.initializeToolbar();
         mCatalogueView.initializeAbsListView();
         mCatalogueView.initializeEmptyRelativeLayout();
+        mCatalogueView.initializeButtons();
     }
 
     @Override
@@ -85,6 +87,7 @@ public class CataloguePresenterImpl implements CataloguePresenter {
                     public void onNext(String query) {
                         if (mSearchCatalogueWrapper != null) {
                             mSearchCatalogueWrapper.setNameArgs(query);
+                            mSearchCatalogueWrapper.setOffsetArgs(DefaultFactory.SearchCatalogueWrapper.DEFAULT_OFFSET);
                         }
 
                         onCompleted();
@@ -185,6 +188,41 @@ public class CataloguePresenterImpl implements CataloguePresenter {
     }
 
     @Override
+    public void onPreviousClick() {
+        if (mSearchCatalogueWrapper != null) {
+            int currentOffset = mSearchCatalogueWrapper.getOffsetArgs();
+            if (currentOffset - SearchUtils.LIMIT_COUNT >= 0) {
+                mSearchCatalogueWrapper.setOffsetArgs(currentOffset - SearchUtils.LIMIT_COUNT);
+
+                queryCatalogueMangaFromPreferenceSource();
+
+                return;
+            }
+        }
+
+        mCatalogueView.toastNoPreviousPage();
+    }
+
+    @Override
+    public void onNextClick() {
+        if (mSearchCatalogueWrapper != null) {
+            if (mCatalogueAdapter != null) {
+                if (mCatalogueAdapter.getCount() == SearchUtils.LIMIT_COUNT) {
+                    int currentOffset = mSearchCatalogueWrapper.getOffsetArgs();
+
+                    mSearchCatalogueWrapper.setOffsetArgs(currentOffset + SearchUtils.LIMIT_COUNT);
+
+                    queryCatalogueMangaFromPreferenceSource();
+
+                    return;
+                }
+            }
+        }
+
+        mCatalogueView.toastNoNextPage();
+    }
+
+    @Override
     public void onOptionFilter() {
         if (((FragmentActivity)mCatalogueView.getContext()).getSupportFragmentManager().findFragmentByTag(CatalogueFilterFragment.TAG) == null) {
             CatalogueFilterFragment catalogueFilterFragment = CatalogueFilterFragment.newInstance(mSearchCatalogueWrapper);
@@ -207,6 +245,16 @@ public class CataloguePresenterImpl implements CataloguePresenter {
         if (mSearchCatalogueWrapper != null) {
             mQueryCatalogueMangaSubscription = QueryManager
                     .queryCatalogueMangasFromPreferenceSource(mSearchCatalogueWrapper)
+                    .map(new Func1<Cursor, Cursor>() {
+                        @Override
+                        public Cursor call(Cursor incomingCursor) {
+                            if (incomingCursor != null && incomingCursor.getCount() != 0) {
+                                return incomingCursor;
+                            }
+
+                            return null;
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Cursor>() {
@@ -228,7 +276,7 @@ public class CataloguePresenterImpl implements CataloguePresenter {
                                 mCatalogueAdapter.setCursor(cursor);
                             }
 
-                            if (cursor != null && cursor.getCount() != 0) {
+                            if (cursor != null) {
                                 mCatalogueView.hideEmptyRelativeLayout();
                             } else {
                                 mCatalogueView.showEmptyRelativeLayout();

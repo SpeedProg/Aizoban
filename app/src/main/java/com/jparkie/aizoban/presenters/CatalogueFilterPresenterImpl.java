@@ -101,6 +101,7 @@ public class CatalogueFilterPresenterImpl implements CatalogueFilterPresenter {
         mSearchCatalogueWrapper.setGenresArgs(mCatalogueFilterMapper.getSelectedGenres());
         mSearchCatalogueWrapper.setStatusArgs(mCatalogueFilterMapper.getSelectedStatus());
         mSearchCatalogueWrapper.setOrderByArgs(mCatalogueFilterMapper.getSelectedOrderBy());
+        mSearchCatalogueWrapper.setOffsetArgs(DefaultFactory.SearchCatalogueWrapper.DEFAULT_OFFSET);
 
         EventBus.getDefault().post(new SearchCatalogueWrapperSubmitEvent(mSearchCatalogueWrapper));
     }

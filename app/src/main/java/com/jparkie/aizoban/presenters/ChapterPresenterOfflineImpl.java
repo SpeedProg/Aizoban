@@ -390,6 +390,16 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
         if (mRequest != null) {
             mQueryDownloadChapterSubscription = QueryManager
                     .queryDownloadChapterFromRequest(mRequest)
+                    .map(new Func1<Cursor, Cursor>() {
+                        @Override
+                        public Cursor call(Cursor incomingCursor) {
+                            if (incomingCursor != null && incomingCursor.getCount() != 0) {
+                                return incomingCursor;
+                            }
+
+                            return null;
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Cursor>() {
@@ -424,7 +434,7 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
 
                         @Override
                         public void onNext(Cursor chapterCursor) {
-                            if (chapterCursor != null && chapterCursor.getCount() != 0) {
+                            if (chapterCursor != null) {
                                 mDownloadChapter = QueryManager.toObject(chapterCursor, DownloadChapter.class);
                             }
                         }

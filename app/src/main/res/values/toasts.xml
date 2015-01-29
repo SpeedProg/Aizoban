@@ -11,6 +11,8 @@
     <string name="toast_manga_error">Unable to load manga updates. Please try again later.</string>
     <string name="toast_no_next_chapter">No next chapter</string>
     <string name="toast_no_previous_chapter">No previous chapter</string>
+    <string name="toast_no_next_page">No next page</string>
+    <string name="toast_no_previous_page">No previous page</string>
     <string name="toast_not_initialized">Not initialized. Please try again later.</string>
 
 </resources>

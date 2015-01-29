@@ -186,6 +186,16 @@ public class AddToQueuePresenterImpl implements AddToQueuePresenter {
                             return new DownloadChapterFilteringCursorWrapper(chaptersCursor, downloadChapterUrls);
                         }
                     })
+                    .map(new Func1<Cursor, Cursor>() {
+                        @Override
+                        public Cursor call(Cursor incomingCursor) {
+                            if (incomingCursor != null && incomingCursor.getCount() != 0) {
+                                return incomingCursor;
+                            }
+
+                            return null;
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Cursor>() {
@@ -207,7 +217,7 @@ public class AddToQueuePresenterImpl implements AddToQueuePresenter {
                                 mAddToQueueAdapter.setCursor(filteredCursor);
                             }
 
-                            if (filteredCursor != null && filteredCursor.getCount() != 0) {
+                            if (filteredCursor != null) {
                                 mAddToQueueView.hideEmptyRelativeLayout();
                             } else {
                                 mAddToQueueView.showEmptyRelativeLayout();

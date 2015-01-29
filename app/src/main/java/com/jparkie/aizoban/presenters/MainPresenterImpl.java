@@ -29,6 +29,7 @@ import de.greenrobot.event.EventBus;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class MainPresenterImpl implements MainPresenter {
@@ -190,6 +191,16 @@ public class MainPresenterImpl implements MainPresenter {
 
         mQueryRandomMangaSubscription = QueryManager
                 .queryExploreMangaFromPreferenceSource()
+                .map(new Func1<Cursor, Cursor>() {
+                    @Override
+                    public Cursor call(Cursor incomingCursor) {
+                        if (incomingCursor != null && incomingCursor.getCount() != 0) {
+                            return incomingCursor;
+                        }
+
+                        return null;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Cursor>() {
@@ -207,7 +218,7 @@ public class MainPresenterImpl implements MainPresenter {
 
                     @Override
                     public void onNext(Cursor exploreCursor) {
-                        if (exploreCursor != null && exploreCursor.getCount() != 0) {
+                        if (exploreCursor != null) {
                             Manga exploreManga = QueryManager.toObject(exploreCursor, Manga.class);
                             if (exploreManga != null) {
                                 String mangaSource = exploreManga.getSource();

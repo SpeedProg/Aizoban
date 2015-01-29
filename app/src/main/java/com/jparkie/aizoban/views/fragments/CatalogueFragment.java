@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,12 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jparkie.aizoban.AizobanApplication;
 import com.jparkie.aizoban.R;
@@ -28,6 +31,7 @@ import com.jparkie.aizoban.presenters.CataloguePresenter;
 import com.jparkie.aizoban.presenters.CataloguePresenterImpl;
 import com.jparkie.aizoban.presenters.mapper.CatalogueMapper;
 import com.jparkie.aizoban.views.CatalogueView;
+import com.melnykov.fab.FloatingActionButton;
 
 public class CatalogueFragment extends Fragment implements CatalogueView, CatalogueMapper {
     public static final String TAG = CatalogueFragment.class.getSimpleName();
@@ -36,6 +40,8 @@ public class CatalogueFragment extends Fragment implements CatalogueView, Catalo
 
     private GridView mGridView;
     private RelativeLayout mEmptyRelativeLayout;
+    private FloatingActionButton mPreviousButton;
+    private FloatingActionButton mNextButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,8 @@ public class CatalogueFragment extends Fragment implements CatalogueView, Catalo
 
         mGridView = (GridView) catalogueView.findViewById(R.id.gridView);
         mEmptyRelativeLayout = (RelativeLayout) catalogueView.findViewById(R.id.emptyRelativeLayout);
+        mPreviousButton = (FloatingActionButton) catalogueView.findViewById(R.id.previousButton);
+        mNextButton = (FloatingActionButton) catalogueView.findViewById(R.id.nextButton);
 
         return catalogueView;
     }
@@ -168,6 +176,31 @@ public class CatalogueFragment extends Fragment implements CatalogueView, Catalo
     }
 
     @Override
+    public void initializeButtons() {
+        if (mPreviousButton != null) {
+            mPreviousButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCataloguePresenter.onPreviousClick();
+                }
+            });
+        }
+        if (mNextButton != null) {
+            mNextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCataloguePresenter.onNextClick();
+                }
+            });
+        }
+        if (mGridView != null) {
+            if (mPreviousButton != null && mNextButton != null) {
+                mGridView.setOnScrollListener(new FloatingActionButtonsOnScrollListenerImpl());
+            }
+        }
+    }
+
+    @Override
     public void hideEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
@@ -186,6 +219,16 @@ public class CatalogueFragment extends Fragment implements CatalogueView, Catalo
         if (mGridView != null) {
             mGridView.smoothScrollToPosition(0);
         }
+    }
+
+    @Override
+    public void toastNoPreviousPage() {
+        Toast.makeText(getActivity(), R.string.toast_no_previous_page, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void toastNoNextPage() {
+        Toast.makeText(getActivity(), R.string.toast_no_next_page, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -215,6 +258,79 @@ public class CatalogueFragment extends Fragment implements CatalogueView, Catalo
     public void setPositionState(Parcelable state) {
         if (mGridView != null) {
             mGridView.onRestoreInstanceState(state);
+        }
+    }
+
+    // OnScrollListener():
+
+    private class FloatingActionButtonsOnScrollListenerImpl implements AbsListView.OnScrollListener {
+        private int mLastScrollY;
+        private int mPreviousFirstVisibleItem;
+        private int mScrollThreshold;
+
+        public FloatingActionButtonsOnScrollListenerImpl() {
+            mScrollThreshold = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            // Do Nothing.
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if(totalItemCount == 0) {
+                return;
+            }
+
+            if (firstVisibleItem == mPreviousFirstVisibleItem) {
+                int newScrollY = getTopItemScrollY();
+
+                boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
+                if (isSignificantDelta) {
+                    if (mLastScrollY > newScrollY) {
+                        hideFloatinActionButtons();
+                    } else {
+                        showFloatinActionButtons();
+                    }
+                }
+
+                mLastScrollY = newScrollY;
+            } else {
+                if (firstVisibleItem > mPreviousFirstVisibleItem) {
+                    hideFloatinActionButtons();
+                } else {
+                    showFloatinActionButtons();
+                }
+
+                mLastScrollY = getTopItemScrollY();
+
+                mPreviousFirstVisibleItem = firstVisibleItem;
+            }
+        }
+
+        private int getTopItemScrollY() {
+            if (mGridView == null || mGridView.getChildAt(0) == null) {
+                return 0;
+            }
+
+            View topChild = mGridView.getChildAt(0);
+
+            return topChild.getTop();
+        }
+
+        private void showFloatinActionButtons() {
+            if (mPreviousButton != null && mNextButton != null) {
+                mPreviousButton.show();
+                mNextButton.show();
+            }
+        }
+
+        private void hideFloatinActionButtons() {
+            if (mPreviousButton != null && mNextButton != null) {
+                mPreviousButton.hide();
+                mNextButton.hide();
+            }
         }
     }
 }

@@ -26,6 +26,7 @@ public class SearchCatalogueWrapper implements Parcelable {
     private String mStatusArgs;
     private String mOrderByArgs;
     private List<String> mGenresArgs;
+    private int mOffsetArgs;
 
     public SearchCatalogueWrapper() {
     }
@@ -37,6 +38,8 @@ public class SearchCatalogueWrapper implements Parcelable {
 
         mGenresArgs = new ArrayList<String>();
         inputParcel.readStringList(mGenresArgs);
+
+        mOffsetArgs = inputParcel.readInt();
     }
 
     public String getNameArgs() {
@@ -71,6 +74,14 @@ public class SearchCatalogueWrapper implements Parcelable {
         mGenresArgs = genresArgs;
     }
 
+    public int getOffsetArgs() {
+        return mOffsetArgs;
+    }
+
+    public void setOffsetArgs(int offsetArgs) {
+        mOffsetArgs = offsetArgs;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -82,5 +93,6 @@ public class SearchCatalogueWrapper implements Parcelable {
         outputParcel.writeString(mStatusArgs);
         outputParcel.writeString(mOrderByArgs);
         outputParcel.writeStringList(mGenresArgs);
+        outputParcel.writeInt(mOffsetArgs);
     }
 }

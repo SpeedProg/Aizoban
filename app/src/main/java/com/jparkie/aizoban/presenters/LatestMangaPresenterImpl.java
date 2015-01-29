@@ -20,6 +20,7 @@ import com.jparkie.aizoban.views.adapters.LatestMangaAdapter;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class LatestMangaPresenterImpl implements LatestMangaPresenter {
@@ -184,6 +185,16 @@ public class LatestMangaPresenterImpl implements LatestMangaPresenter {
 
         mQueryLatestMangaSubscription = QueryManager
                 .queryLatestMangasFromPreferenceSource()
+                .map(new Func1<Cursor, Cursor>() {
+                    @Override
+                    public Cursor call(Cursor incomingCursor) {
+                        if (incomingCursor != null && incomingCursor.getCount() != 0) {
+                            return incomingCursor;
+                        }
+
+                        return null;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Cursor>() {
@@ -205,7 +216,7 @@ public class LatestMangaPresenterImpl implements LatestMangaPresenter {
                             mLatestMangaAdapter.setCursor(cursor);
                         }
 
-                        if (cursor != null && cursor.getCount() != 0) {
+                        if (cursor != null) {
                             mLatestMangaView.hideEmptyRelativeLayout();
                         }
                     }

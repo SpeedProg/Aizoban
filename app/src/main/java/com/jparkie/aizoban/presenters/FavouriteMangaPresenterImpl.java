@@ -26,6 +26,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
@@ -229,6 +230,16 @@ public class FavouriteMangaPresenterImpl implements FavouriteMangaPresenter {
         if (mSearchName != null) {
             mQueryFavouriteMangaSubscription = QueryManager
                     .queryFavouriteMangasFromName(mSearchName)
+                    .map(new Func1<Cursor, Cursor>() {
+                        @Override
+                        public Cursor call(Cursor incomingCursor) {
+                            if (incomingCursor != null && incomingCursor.getCount() != 0) {
+                                return incomingCursor;
+                            }
+
+                            return null;
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Cursor>() {
@@ -250,7 +261,7 @@ public class FavouriteMangaPresenterImpl implements FavouriteMangaPresenter {
                                 mFavouriteMangaAdapter.setCursor(cursor);
                             }
 
-                            if (cursor != null && cursor.getCount() != 0) {
+                            if (cursor != null) {
                                 mFavouriteMangaView.hideEmptyRelativeLayout();
                             } else {
                                 mFavouriteMangaView.showEmptyRelativeLayout();

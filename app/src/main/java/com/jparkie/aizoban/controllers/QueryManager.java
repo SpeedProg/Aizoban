@@ -74,40 +74,51 @@ public class QueryManager {
                 try {
                     LibrarySQLiteOpenHelper librarySQLiteOpenHelper = LibrarySQLiteOpenHelper.getInstance();
                     SQLiteDatabase sqLiteDatabase = librarySQLiteOpenHelper.getWritableDatabase();
-                    StringBuilder selection = new StringBuilder();
-                    List<String> selectionArgs = new ArrayList<String>();
-                    String orderBy = null;
 
-                    selection.append(LibraryContract.Manga.COLUMN_SOURCE + " = ?");
-                    selectionArgs.add(AizobanManager.getNameFromPreferenceSource().toBlocking().single());
-                    selection.append(" AND ").append(LibraryContract.Manga.COLUMN_NAME + " != ?");
-                    selectionArgs.add(String.valueOf(DefaultFactory.Manga.DEFAULT_NAME));
-                    selection.append(" AND ").append(LibraryContract.Manga.COLUMN_RANK + " != ?");
-                    selectionArgs.add(String.valueOf(DefaultFactory.Manga.DEFAULT_RANK));
+                    StringBuilder mangaSelection = new StringBuilder();
+                    List<String> mangaSelectionArgs = new ArrayList<String>();
+                    String mangaOrderBy = null;
+                    String mangaLimit = null;
+
+                    mangaSelection.append(LibraryContract.Manga.COLUMN_SOURCE + " = ?");
+                    mangaSelectionArgs.add(AizobanManager.getNameFromPreferenceSource().toBlocking().single());
+                    mangaSelection.append(" AND ").append(LibraryContract.Manga.COLUMN_NAME + " != ?");
+                    mangaSelectionArgs.add(String.valueOf(DefaultFactory.Manga.DEFAULT_NAME));
+                    mangaSelection.append(" AND ").append(LibraryContract.Manga.COLUMN_RANK + " != ?");
+                    mangaSelectionArgs.add(String.valueOf(DefaultFactory.Manga.DEFAULT_RANK));
 
                     if (searchCatalogueWrapper != null) {
                         for (String currentGenre : searchCatalogueWrapper.getGenresArgs()) {
-                            selection.append(" AND ").append(LibraryContract.Manga.COLUMN_GENRE + " LIKE ?");
-                            selectionArgs.add("%" + currentGenre + "%");
+                            mangaSelection.append(" AND ").append(LibraryContract.Manga.COLUMN_GENRE + " LIKE ?");
+                            mangaSelectionArgs.add("%" + currentGenre + "%");
                         }
 
                         if (searchCatalogueWrapper.getNameArgs() != null) {
-                            selection.append(" AND ").append(LibraryContract.Manga.COLUMN_NAME + " LIKE ?");
-                            selectionArgs.add("%" + searchCatalogueWrapper.getNameArgs() + "%");
+                            mangaSelection.append(" AND ").append(LibraryContract.Manga.COLUMN_NAME + " LIKE ?");
+                            mangaSelectionArgs.add("%" + searchCatalogueWrapper.getNameArgs() + "%");
                         }
                         if (searchCatalogueWrapper.getStatusArgs() != null && !searchCatalogueWrapper.getStatusArgs().equals(SearchUtils.STATUS_ALL)) {
-                            selection.append(" AND ").append(LibraryContract.Manga.COLUMN_COMPLETED + " = ?");
-                            selectionArgs.add(searchCatalogueWrapper.getStatusArgs());
+                            mangaSelection.append(" AND ").append(LibraryContract.Manga.COLUMN_COMPLETED + " = ?");
+                            mangaSelectionArgs.add(searchCatalogueWrapper.getStatusArgs());
                         }
                         if (searchCatalogueWrapper.getOrderByArgs() != null) {
-                            orderBy = searchCatalogueWrapper.getOrderByArgs() + " ASC";
+                            mangaOrderBy = searchCatalogueWrapper.getOrderByArgs() + " ASC";
+                        }
+                        if (searchCatalogueWrapper.getOffsetArgs() > -1) {
+                            mangaLimit = String.valueOf(searchCatalogueWrapper.getOffsetArgs()) + "," + String.valueOf(SearchUtils.LIMIT_COUNT);
                         }
                     }
 
-                    Cursor catalogueMangasCursor = cupboard().withDatabase(sqLiteDatabase).query(Manga.class)
-                            .withSelection(selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]))
-                            .orderBy(orderBy)
-                            .getCursor();
+                    Cursor catalogueMangasCursor = sqLiteDatabase.query(
+                            cupboard().getTable(Manga.class),
+                            new String[]{LibraryContract.Manga.COLUMN_NAME, LibraryContract.Manga.COLUMN_SOURCE, LibraryContract.Manga.COLUMN_THUMBNAIL_URL, LibraryContract.Manga.COLUMN_URL},
+                            mangaSelection.toString(),
+                            mangaSelectionArgs.toArray(new String[mangaSelectionArgs.size()]),
+                            null,
+                            null,
+                            mangaOrderBy,
+                            mangaLimit
+                    );
 
                     subscriber.onNext(catalogueMangasCursor);
                     subscriber.onCompleted();
@@ -134,6 +145,7 @@ public class QueryManager {
                     selectionArgs.add(String.valueOf(DefaultFactory.Manga.DEFAULT_UPDATED));
 
                     Cursor latestMangasCursor = cupboard().withDatabase(sqLiteDatabase).query(Manga.class)
+                            .withProjection(new String[]{LibraryContract.Manga.COLUMN_ID, LibraryContract.Manga.COLUMN_NAME, LibraryContract.Manga.COLUMN_SOURCE, LibraryContract.Manga.COLUMN_THUMBNAIL_URL, LibraryContract.Manga.COLUMN_URL, LibraryContract.Manga.COLUMN_UPDATE_COUNT, LibraryContract.Manga.COLUMN_UPDATED})
                             .withSelection(selection.toString(), selectionArgs.toArray(new String[selectionArgs.size()]))
                             .orderBy(LibraryContract.Manga.COLUMN_UPDATED + " DESC")
                             .getCursor();
