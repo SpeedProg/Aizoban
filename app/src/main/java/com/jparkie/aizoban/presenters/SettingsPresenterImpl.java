@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.support.v4.app.FragmentActivity;
 
 import com.jparkie.aizoban.AizobanApplication;
+import com.jparkie.aizoban.BuildConfig;
 import com.jparkie.aizoban.R;
 import com.jparkie.aizoban.controllers.AizobanManager;
 import com.jparkie.aizoban.controllers.QueryManager;
@@ -19,6 +20,8 @@ import com.jparkie.aizoban.views.fragments.OpenSourceLicensesFragment;
 import java.io.File;
 import java.io.IOException;
 
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -88,6 +91,9 @@ public class SettingsPresenterImpl implements SettingsPresenter {
         } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_view_disclaimer_key))) {
             displayDisclaimer();
             return true;
+        } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_clear_latest_key))) {
+            clearLatestMangaList();
+            return true;
         } else if (preference.getKey().equals(mSettingsView.getContext().getString(R.string.preference_clear_favourite_key))) {
             clearFavouriteMangaList();
             return true;
@@ -123,49 +129,104 @@ public class SettingsPresenterImpl implements SettingsPresenter {
         }
     }
 
+    private void clearLatestMangaList() {
+        QueryManager
+                .clearLatestUpdatesMangas()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        mSettingsView.toastClearedLatest();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (BuildConfig.DEBUG) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        // Do Nothing.
+                    }
+                });
+    }
+
     private void clearFavouriteMangaList() {
         QueryManager
                 .deleteAllFavouriteMangas()
-                .onErrorReturn(new Func1<Throwable, Integer>() {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
                     @Override
-                    public Integer call(Throwable throwable) {
-                        return 0;
+                    public void onCompleted() {
+                        mSettingsView.toastClearedFavourite();
                     }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .subscribe();
 
-        mSettingsView.toastClearedFavourite();
+                    @Override
+                    public void onError(Throwable e) {
+                        if (BuildConfig.DEBUG) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        // Do Nothing.
+                    }
+                });
     }
 
     private void clearRecentChapterList() {
         QueryManager
                 .deleteAllRecentChapters()
-                .onErrorReturn(new Func1<Throwable, Integer>() {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
                     @Override
-                    public Integer call(Throwable throwable) {
-                        return 0;
+                    public void onCompleted() {
+                        mSettingsView.toastClearedRecent();
                     }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .subscribe();
 
-        mSettingsView.toastClearedRecent();
+                    @Override
+                    public void onError(Throwable e) {
+                        if (BuildConfig.DEBUG) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        // Do Nothing.
+                    }
+                });
     }
 
     private void clearImageCache() {
         AizobanManager
                 .clearImageCache()
-                .onErrorReturn(new Func1<Throwable, Boolean>() {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
                     @Override
-                    public Boolean call(Throwable throwable) {
-                        return false;
+                    public void onCompleted() {
+                        mSettingsView.toastClearedImageCache();
                     }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .subscribe();
 
-        mSettingsView.toastClearedImageCache();
+                    @Override
+                    public void onError(Throwable e) {
+                        if (BuildConfig.DEBUG) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        // Do Nothing.
+                    }
+                });
     }
 
     private void viewOpenSourceLicenses() {

@@ -35,6 +35,14 @@
             android:defaultValue="@string/preference_source_default_value"/>
     </PreferenceCategory>
     <PreferenceCategory
+        android:key="@string/preference_category_latest_key"
+        android:title="@string/preference_category_latest_title">
+        <Preference
+            android:key="@string/preference_clear_latest_key"
+            android:title="@string/preference_clear_latest_title"
+            android:summary="@string/preference_clear_latest_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="@string/preference_category_favourite_key"
         android:title="@string/preference_category_favourite_title">
         <Preference

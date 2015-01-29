@@ -189,6 +189,34 @@ public class QueryManager {
         });
     }
 
+    public static Observable<Integer> clearLatestUpdatesMangas() {
+        return Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                try {
+                    LibrarySQLiteOpenHelper librarySQLiteOpenHelper = LibrarySQLiteOpenHelper.getInstance();
+                    SQLiteDatabase sqLiteDatabase = librarySQLiteOpenHelper.getWritableDatabase();
+
+                    ContentValues updateValues = new ContentValues(2);
+                    updateValues.put(LibraryContract.Manga.COLUMN_UPDATE_COUNT, DefaultFactory.Manga.DEFAULT_UPDATE_COUNT);
+                    updateValues.put(LibraryContract.Manga.COLUMN_UPDATED, DefaultFactory.Manga.DEFAULT_UPDATED);
+
+                    int numberCleared = sqLiteDatabase.update(
+                            cupboard().getTable(Manga.class),
+                            updateValues,
+                            LibraryContract.Manga.COLUMN_UPDATED + " != ?",
+                            new String[]{String.valueOf(DefaultFactory.Manga.DEFAULT_UPDATED)}
+                    );
+
+                    subscriber.onNext(numberCleared);
+                    subscriber.onCompleted();
+                } catch (Throwable e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
     public static Observable<Cursor> queryChapterFromRequest(final RequestWrapper request) {
         return Observable.create(new Observable.OnSubscribe<Cursor>() {
             @Override

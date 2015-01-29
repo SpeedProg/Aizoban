@@ -29,6 +29,7 @@ public class SettingsFragment extends PreferenceFragment implements SettingsView
 
         findPreference(getString(R.string.preference_view_google_play_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_view_disclaimer_key)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.preference_clear_latest_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_clear_favourite_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_clear_recent_key)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.preference_clear_image_cache_key)).setOnPreferenceClickListener(this);
@@ -51,6 +52,11 @@ public class SettingsFragment extends PreferenceFragment implements SettingsView
         if (getActivity() instanceof ActionBarActivity) {
             ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.fragment_settings);
         }
+    }
+
+    @Override
+    public void toastClearedLatest() {
+        Toast.makeText(getActivity(), R.string.toast_cleared_latest, Toast.LENGTH_SHORT).show();
     }
 
     @Override

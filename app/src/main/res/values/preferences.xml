@@ -7,6 +7,8 @@
     <string name="preference_category_general_title">General</string>
     <string name="preference_category_catalogue_key">preference_category_catalogue</string>
     <string name="preference_category_catalogue_title">Catalogue</string>
+    <string name="preference_category_latest_key">preference_category_latest</string>
+    <string name="preference_category_latest_title">Latest Manga</string>
     <string name="preference_category_favourite_key">preference_category_favourite</string>
     <string name="preference_category_favourite_title">Favourite Manga</string>
     <string name="preference_category_recent_key">preference_category_recent</string>
@@ -67,6 +69,11 @@
         <item>MangaHere (ES)</item>
     </string-array>
     <string name="preference_source_default_value">MangaEden (EN)</string>
+
+    <!-- Latest Manga: -->
+    <string name="preference_clear_latest_key">preference_clear_latest</string>
+    <string name="preference_clear_latest_title">Clear Latest Manga</string>
+    <string name="preference_clear_latest_summary">Clear all latest manga from the latest list</string>
 
     <!-- Favorite Manga: -->
     <string name="preference_clear_favourite_key">preference_clear_favourite</string>
