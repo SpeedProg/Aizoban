@@ -9,7 +9,7 @@ This Android application allows users to browse a catalogue of mangas from vario
 
 ### APK Download
 
-[**Direct Download**: (Version 1.1.3)](Aizoban/Aizoban_21.apk)
+[**Direct Download**: (Version 1.2.0)](Aizoban/Aizoban_22.apk)
 
 <a href="https://play.google.com/store/apps/details?id=com.jparkie.aizoban">
   <img alt="Get it on Google Play"
@@ -18,7 +18,7 @@ This Android application allows users to browse a catalogue of mangas from vario
 
 ## Source
 
-The source code reflects beyond Version 1.0.3 of the application. It was architectured to test out the MVP design pattern backed by an Observable API to interact with the domain layer. Some points of interest in the source is the Observable API and the DownloadService. Specifically, the DownloadService downloaded chapters from a SQLite database backed task queue while handling network changes, application crashes, failure retries, and pausing through the use of RxJava.
+The source code reflects beyond Version 1.0.0 of the application. It was architectured to test out the MVP design pattern backed by an Observable API to interact with the domain layer. Some points of interest in the source is the Observable API and the DownloadService. Specifically, the DownloadService downloaded chapters from a SQLite database backed task queue while handling network changes, application crashes, failure retries, and pausing through the use of RxJava.
 
 Import the project with Android Studio.
 
