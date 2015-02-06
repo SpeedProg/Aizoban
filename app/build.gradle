@@ -48,7 +48,7 @@ dependencies {
     compile 'org.jsoup:jsoup:1.8.1'
 
     // Imaging:
-    compile 'com.github.bumptech.glide:glide:3.5.0'
+    compile 'com.github.bumptech.glide:glide:3.5.1'
 
     // UI:
     compile 'com.melnykov:floatingactionbutton:1.1.0'
