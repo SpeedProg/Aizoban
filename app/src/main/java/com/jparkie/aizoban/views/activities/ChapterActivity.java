@@ -47,6 +47,7 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
     private RelativeLayout mEmptyRelativeLayout;
     private FloatingActionButton mPreviousButton;
     private FloatingActionButton mNextButton;
+    private TextView mPageNumberView;
 
     public static Intent constructOnlineChapterActivityIntent(Context context, RequestWrapper chapterRequest, int position) {
         Intent argumentIntent = new Intent(context, ChapterActivity.class);
@@ -90,6 +91,7 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
         mEmptyRelativeLayout = (RelativeLayout) findViewById(R.id.emptyRelativeLayout);
         mPreviousButton = (FloatingActionButton) findViewById(R.id.previousButton);
         mNextButton = (FloatingActionButton) findViewById(R.id.nextButton);
+        mPageNumberView = (TextView) findViewById(R.id.numberTextView);
 
         if (savedInstanceState != null) {
             mChapterPresenter.restoreState(savedInstanceState);
@@ -327,6 +329,14 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
     }
 
     @Override
+    public void initializeTextView() {
+        if (mPageNumberView != null) {
+            mPageNumberView.setVisibility(View.GONE);
+            mPageNumberView.getBackground().setAlpha(100);
+        }
+    }
+
+    @Override
     public void hideEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
@@ -377,6 +387,15 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
                 currentSubtitle.append(mViewPager.getAdapter().getCount());
 
                 mToolbar.setSubtitle(currentSubtitle.toString());
+            }
+        }
+    }
+
+    @Override
+    public void setImmersivePositionText(int position) {
+        if (mPageNumberView != null) {
+            if (mViewPager.getAdapter() != null) {
+                mPageNumberView.setText(position + "/" + mViewPager.getAdapter().getCount());
             }
         }
     }
@@ -500,16 +519,18 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
 
     private void hideControls() {
         if (mToolbar != null) {
-            mToolbar.animate()
-                    .y(0)
-                    .translationY(-1 * mToolbar.getHeight())
-                    .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mToolbar.setVisibility(View.GONE);
-                        }
-                    });
+            if (mToolbar.getVisibility() != View.GONE) {
+                mToolbar.animate()
+                        .y(0)
+                        .translationY(-1 * mToolbar.getHeight())
+                        .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mToolbar.setVisibility(View.GONE);
+                            }
+                        });
+            }
         }
         if (mPreviousButton != null) {
             mPreviousButton.hide(true);
@@ -517,22 +538,46 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
         if (mNextButton != null) {
             mNextButton.hide(true);
         }
+        if (mPageNumberView != null) {
+            if (mPageNumberView.getVisibility() != View.VISIBLE) {
+                mPageNumberView.setVisibility(View.VISIBLE);
+                mPageNumberView.animate()
+                        .alpha(1.0f)
+                        .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                        .setListener(null);
+            }
+        }
     }
 
     private void showControls() {
         if (mToolbar != null) {
-            mToolbar.setVisibility(View.VISIBLE);
-            mToolbar.animate()
-                    .translationY(mToolbar.getHeight())
-                    .y(0)
-                    .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
-                    .setListener(null);
+            if (mToolbar.getVisibility() != View.VISIBLE) {
+                mToolbar.setVisibility(View.VISIBLE);
+                mToolbar.animate()
+                        .translationY(mToolbar.getHeight())
+                        .y(0)
+                        .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                        .setListener(null);
+            }
         }
         if (mPreviousButton != null) {
             mPreviousButton.show(true);
         }
         if (mNextButton != null) {
             mNextButton.show(true);
+        }
+        if (mPageNumberView != null) {
+            if (mPageNumberView.getVisibility() != View.GONE) {
+                mPageNumberView.animate()
+                        .alpha(0.0f)
+                        .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mPageNumberView.setVisibility(View.GONE);
+                            }
+                        });
+            }
         }
     }
 }

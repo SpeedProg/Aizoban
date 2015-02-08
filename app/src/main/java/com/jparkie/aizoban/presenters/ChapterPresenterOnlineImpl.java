@@ -94,6 +94,7 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
         mChapterView.initializeViewPager();
         mChapterView.initializeEmptyRelativeLayout();
         mChapterView.initializeButtons();
+        mChapterView.initializeTextView();
     }
 
     @Override
@@ -259,6 +260,7 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
     @Override
     public void onPageSelected(int position) {
         mChapterView.setSubtitlePositionText(getActualPosition() + 1);
+        mChapterView.setImmersivePositionText(getActualPosition() + 1);
 
         mChapterMapper.applyViewSettings();
     }
@@ -488,6 +490,7 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
                             preLoadImagesToCache();
 
                             mChapterView.setSubtitlePositionText(getActualPosition() + 1);
+                            mChapterView.setImmersivePositionText(getActualPosition() + 1);
 
                             mChapterView.hideEmptyRelativeLayout();
 

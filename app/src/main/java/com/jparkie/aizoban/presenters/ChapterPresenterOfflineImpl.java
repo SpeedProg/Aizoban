@@ -98,6 +98,7 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
         mChapterView.initializeViewPager();
         mChapterView.initializeEmptyRelativeLayout();
         mChapterView.initializeButtons();
+        mChapterView.initializeTextView();
     }
 
     @Override
@@ -255,6 +256,7 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
     @Override
     public void onPageSelected(int position) {
         mChapterView.setSubtitlePositionText(getActualPosition() + 1);
+        mChapterView.setImmersivePositionText(getActualPosition() + 1);
 
         mChapterMapper.applyViewSettings();
     }
@@ -451,6 +453,7 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
                                     mChapterView.setTitleText(mDownloadChapter.getName());
 
                                     mChapterView.setSubtitlePositionText(getActualPosition() + 1);
+                                    mChapterView.setImmersivePositionText(getActualPosition() + 1);
 
                                     mInitialized = true;
                                 }
