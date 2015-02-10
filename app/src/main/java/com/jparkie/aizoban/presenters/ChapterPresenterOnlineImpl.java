@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.jparkie.aizoban.BuildConfig;
 import com.jparkie.aizoban.controllers.AizobanManager;
 import com.jparkie.aizoban.controllers.QueryManager;
@@ -526,12 +527,9 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
             }
 
             if (mImageUrls != null) {
-                int displayWidth = mChapterView.getDisplayWidth();
-                int displayHeight = mChapterView.getDisplayHeight();
-
                 mDownloadImageUrlsSubscription = AizobanManager
-                        .cacheFromImagesOfSize(mImageUrls, displayWidth, displayHeight)
-                        .subscribe(new Observer<File>() {
+                        .cacheFromImagesOfSize(mImageUrls)
+                        .subscribe(new Observer<GlideDrawable>() {
                             @Override
                             public void onCompleted() {
                                 // Do Nothing.
@@ -545,7 +543,7 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
                             }
 
                             @Override
-                            public void onNext(File file) {
+                            public void onNext(GlideDrawable glideDrawable) {
                                 // Do Nothing.
                             }
                         });

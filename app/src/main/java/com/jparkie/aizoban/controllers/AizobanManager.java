@@ -4,7 +4,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.target.Target;
 import com.jparkie.aizoban.AizobanApplication;
 import com.jparkie.aizoban.controllers.caches.CacheProvider;
 import com.jparkie.aizoban.controllers.databases.ApplicationContract;
@@ -227,16 +230,18 @@ public class AizobanManager {
                 });
     }
 
-    public static Observable<File> cacheFromImagesOfSize(final List<String> imageUrls, final int cacheWidth, final int cacheHeight) {
-        return Observable.create(new Observable.OnSubscribe<File>() {
+    public static Observable<GlideDrawable> cacheFromImagesOfSize(final List<String> imageUrls) {
+        return Observable.create(new Observable.OnSubscribe<GlideDrawable>() {
             @Override
-            public void call(Subscriber<? super File> subscriber) {
+            public void call(Subscriber<? super GlideDrawable> subscriber) {
                 try {
                     for (String imageUrl : imageUrls) {
                         if (!subscriber.isUnsubscribed()) {
-                            FutureTarget<File> cacheFuture = Glide.with(AizobanApplication.getInstance())
+                            FutureTarget<GlideDrawable> cacheFuture = Glide.with(AizobanApplication.getInstance())
                                     .load(imageUrl)
-                                    .downloadOnly(cacheWidth, cacheHeight);
+                                    .skipMemoryCache(true)
+                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                    .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
 
                             subscriber.onNext(cacheFuture.get(MangaService.READ_TIMEOUT, TimeUnit.SECONDS));
                         }

@@ -349,16 +349,6 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
     }
 
     @Override
-    public int getDisplayWidth() {
-        return getResources().getDisplayMetrics().widthPixels;
-    }
-
-    @Override
-    public int getDisplayHeight() {
-        return getResources().getDisplayMetrics().heightPixels;
-    }
-
-    @Override
     public void setTitleText(String title) {
         if (mToolbar != null) {
             mToolbar.setTitle(title);
