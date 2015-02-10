@@ -46,24 +46,26 @@ public class FitRenderBoundsTransformation extends BitmapTransformation {
         final int bitmapWidth = toFit.getWidth();
         final int bitmapHeight = toFit.getHeight();
 
-        final float widthPercentage = (bitmapWidth > mMaximumAcceleratedWidth) ? mMaximumAcceleratedWidth / (float) bitmapWidth : outWidth / (float) bitmapWidth;
-        final float heightPercentage = (bitmapHeight > mMaximumAcceleratedHeight) ? mMaximumAcceleratedHeight / (float) bitmapHeight : outHeight / (float) bitmapHeight;
-        final float minPercentage = Math.min(widthPercentage, heightPercentage);
+        if (bitmapWidth > mMaximumAcceleratedWidth || bitmapHeight > mMaximumAcceleratedHeight) {
+            final float minPercentage = Math.min(mMaximumAcceleratedWidth / (float) bitmapWidth, mMaximumAcceleratedHeight / (float) bitmapHeight);
 
-        final int targetWidth = Math.round(minPercentage * bitmapWidth);
-        final int targetHeight = Math.round(minPercentage * bitmapHeight);
+            final int targetWidth = (int)(minPercentage * bitmapWidth);
+            final int targetHeight = (int)(minPercentage * bitmapHeight);
 
-        Bitmap.Config config = toFit.getConfig() != null ? toFit.getConfig() : Bitmap.Config.ARGB_8888;
-        Bitmap toReuse = pool.get(targetWidth, targetHeight, config);
-        if (toReuse == null) {
-            toReuse = Bitmap.createBitmap(targetWidth, targetHeight, config);
+            Bitmap.Config config = toFit.getConfig() != null ? toFit.getConfig() : Bitmap.Config.ARGB_8888;
+            Bitmap toReuse = pool.get(targetWidth, targetHeight, config);
+            if (toReuse == null) {
+                toReuse = Bitmap.createBitmap(targetWidth, targetHeight, config);
+            }
+            Canvas canvas = new Canvas(toReuse);
+            Matrix matrix = new Matrix();
+            matrix.setScale(minPercentage, minPercentage);
+            Paint paint = new Paint(PAINT_FLAGS);
+            canvas.drawBitmap(toFit, matrix, paint);
+
+            return toReuse;
         }
-        Canvas canvas = new Canvas(toReuse);
-        Matrix matrix = new Matrix();
-        matrix.setScale(minPercentage, minPercentage);
-        Paint paint = new Paint(PAINT_FLAGS);
-        canvas.drawBitmap(toFit, matrix, paint);
 
-        return toReuse;
+        return toFit;
     }
 }
