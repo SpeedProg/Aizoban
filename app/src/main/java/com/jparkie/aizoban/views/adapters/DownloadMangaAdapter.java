@@ -79,6 +79,7 @@ public class DownloadMangaAdapter extends BaseCursorAdapter {
                     .animate(android.R.anim.fade_in)
                     .placeholder(placeHolderDrawable)
                     .error(errorHolderDrawable)
+                    .fitCenter()
                     .into(new GlideDrawableImageViewTarget(mThumbnailImageView) {
                         @Override
                         public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {

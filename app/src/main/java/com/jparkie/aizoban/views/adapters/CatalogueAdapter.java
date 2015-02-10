@@ -107,6 +107,7 @@ public class CatalogueAdapter extends BaseCursorAdapter {
                     .animate(android.R.anim.fade_in)
                     .placeholder(mPlaceHolderDrawable)
                     .error(mErrorHolderDrawable)
+                    .fitCenter()
                     .into(new PaletteBitmapTarget(mThumbnailImageView) {
                         @Override
                         public void onResourceReady(PaletteBitmapWrapper resource, GlideAnimation<? super PaletteBitmapWrapper> glideAnimation) {
