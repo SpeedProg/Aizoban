@@ -33,6 +33,8 @@ import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.FuncN;
+import rx.schedulers.Schedulers;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -507,7 +509,9 @@ public class English_MangaHere implements Source {
     public Observable<String> pullImageUrlsFromNetwork(final RequestWrapper request) {
         final List<String> temporaryCachedImageUrls = new ArrayList<String>();
 
-        return MangaService.getPermanentInstance()
+        final MangaService currentService = MangaService.getTemporaryInstance();
+
+        return currentService.getPermanentInstance()
                 .getResponse(request.getUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -527,22 +531,48 @@ public class English_MangaHere implements Source {
                         return Observable.from(pageUrls.toArray(new String[pageUrls.size()]));
                     }
                 })
-                .flatMap(new Func1<String, Observable<Response>>() {
+                .buffer(5)
+                .concatMap(new Func1<List<String>, Observable<? extends List<String>>>() {
                     @Override
-                    public Observable<Response> call(String pageUrl) {
-                        return MangaService.getPermanentInstance().getResponse(pageUrl);
+                    public Observable<? extends List<String>> call(List<String> batchedPageUrls) {
+                        List<Observable<String>> imageUrlObservables = new ArrayList<Observable<String>>();
+                        for (String pageUrl : batchedPageUrls) {
+                            Observable<String> temporaryObservable = currentService
+                                    .getResponse(pageUrl)
+                                    .flatMap(new Func1<Response, Observable<String>>() {
+                                        @Override
+                                        public Observable<String> call(Response response) {
+                                            return MangaService.mapResponseToString(response);
+                                        }
+                                    })
+                                    .flatMap(new Func1<String, Observable<String>>() {
+                                        @Override
+                                        public Observable<String> call(String unparsedHtml) {
+                                            return Observable.just(parseHtmlToImageUrl(unparsedHtml));
+                                        }
+                                    })
+                                    .subscribeOn(Schedulers.io());
+
+                            imageUrlObservables.add(temporaryObservable);
+                        }
+
+                        return Observable.zip(imageUrlObservables, new FuncN<List<String>>() {
+                            @Override
+                            public List<String> call(Object... args) {
+                                List<String> imageUrls = new ArrayList<String>();
+                                for (Object uncastImageUrl : args) {
+                                    imageUrls.add(String.valueOf(uncastImageUrl));
+                                }
+
+                                return imageUrls;
+                            }
+                        });
                     }
                 })
-                .flatMap(new Func1<Response, Observable<String>>() {
+                .concatMap(new Func1<List<String>, Observable<String>>() {
                     @Override
-                    public Observable<String> call(Response response) {
-                        return MangaService.mapResponseToString(response);
-                    }
-                })
-                .flatMap(new Func1<String, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(String unparsedHtml) {
-                        return Observable.just(parseHtmlToImageUrl(unparsedHtml));
+                    public Observable<String> call(List<String> batchedImageUrls) {
+                        return Observable.from(batchedImageUrls.toArray(new String[batchedImageUrls.size()]));
                     }
                 })
                 .doOnNext(new Action1<String>() {
