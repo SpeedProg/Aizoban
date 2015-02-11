@@ -55,6 +55,7 @@
     <string name="preference_source_title">Current Source</string>
     <string name="preference_source_title_summary">Choose the current manga source to use for reading</string>
     <string-array name="preference_source_entries">
+        <item>Batoto (EN)</item>
         <item>MangaEden (EN)</item>
         <item>MangaHere (EN)</item>
         <item>MangaReader (EN)</item>
@@ -62,6 +63,7 @@
         <item>MangaHere (ES)</item>
     </string-array>
     <string-array name="preference_source_values">
+        <item>Batoto (EN)</item>
         <item>MangaEden (EN)</item>
         <item>MangaHere (EN)</item>
         <item>MangaReader (EN)</item>

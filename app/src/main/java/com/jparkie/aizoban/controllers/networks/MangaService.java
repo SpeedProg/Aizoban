@@ -1,5 +1,6 @@
 package com.jparkie.aizoban.controllers.networks;
 
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -45,6 +46,25 @@ public class MangaService {
                     Request request = new Request.Builder()
                             .url(url)
                             .header("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64)")
+                            .build();
+
+                    subscriber.onNext(mClient.newCall(request).execute());
+                    subscriber.onCompleted();
+                } catch (Throwable e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    public Observable<Response> getCustomResponse(final String url, final Headers headers) {
+        return Observable.create(new Observable.OnSubscribe<Response>() {
+            @Override
+            public void call(Subscriber<? super Response> subscriber) {
+                try {
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .headers(headers)
                             .build();
 
                     subscriber.onNext(mClient.newCall(request).execute());

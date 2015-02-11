@@ -1,5 +1,6 @@
 package com.jparkie.aizoban.controllers.factories;
 
+import com.jparkie.aizoban.controllers.sources.English_Batoto;
 import com.jparkie.aizoban.controllers.sources.English_MangaEden;
 import com.jparkie.aizoban.controllers.sources.English_MangaHere;
 import com.jparkie.aizoban.controllers.sources.English_MangaReader;
@@ -18,7 +19,9 @@ public class SourceFactory {
 
         Source currentSource = null;
 
-        if (sourceName.equalsIgnoreCase(English_MangaEden.NAME)) {
+        if (sourceName.equalsIgnoreCase(English_Batoto.NAME)) {
+            currentSource = new English_Batoto();
+        } else if (sourceName.equalsIgnoreCase(English_MangaEden.NAME)) {
             currentSource = new English_MangaEden();
         } else if (sourceName.equalsIgnoreCase(English_MangaHere.NAME)) {
             currentSource = new English_MangaHere();
@@ -38,7 +41,9 @@ public class SourceFactory {
     public static Source constructSourceFromName(String sourceName) {
         Source currentSource = null;
 
-        if (sourceName.equalsIgnoreCase(English_MangaEden.NAME)) {
+        if (sourceName.equalsIgnoreCase(English_Batoto.NAME)) {
+            currentSource = new English_Batoto();
+        } else if (sourceName.equalsIgnoreCase(English_MangaEden.NAME)) {
             currentSource = new English_MangaEden();
         } else if (sourceName.equalsIgnoreCase(English_MangaHere.NAME)) {
             currentSource = new English_MangaHere();
@@ -58,7 +63,9 @@ public class SourceFactory {
     public static Source constructSourceFromUrl(String url) {
         Source currentSource = null;
 
-        if (url.contains(English_MangaEden.BASE_URL)) {
+        if (url.contains(English_Batoto.BASE_URL)) {
+            currentSource = new English_Batoto();
+        } else if (url.contains(English_MangaEden.BASE_URL)) {
             currentSource = new English_MangaEden();
         } else if (url.contains(English_MangaHere.BASE_URL)) {
             currentSource = new English_MangaHere();

@@ -115,6 +115,7 @@
 
     <!-- Chapter Listings Items: -->
     <string name="chapter_list_item_new">NEW</string>
+    <string name="chapter_list_item_no_date">No Date</string>
 
     <!-- Add To Queue Dialog Items: -->
     <string name="add_to_queue_dialog_button_queue">Queue</string>

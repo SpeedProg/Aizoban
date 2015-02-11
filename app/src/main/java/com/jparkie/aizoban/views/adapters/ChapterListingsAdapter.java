@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jparkie.aizoban.R;
+import com.jparkie.aizoban.controllers.factories.DefaultFactory;
 import com.jparkie.aizoban.models.Chapter;
 
 import java.text.DateFormat;
@@ -111,10 +112,14 @@ public class ChapterListingsAdapter extends BaseCursorAdapter {
         }
 
         private void setDate(long date) {
-            Date updatedDate = new Date(date);
-            DateFormat createdDateFormatter = DateFormat.getDateInstance();
+            if (date != DefaultFactory.Chapter.DEFAULT_DATE) {
+                Date updatedDate = new Date(date);
+                DateFormat createdDateFormatter = DateFormat.getDateInstance();
 
-            mDateTextView.setText(createdDateFormatter.format(updatedDate));
+                mDateTextView.setText(createdDateFormatter.format(updatedDate));
+            } else {
+                mDateTextView.setText(R.string.chapter_list_item_no_date);
+            }
         }
 
         private void setNew(boolean isNew) {
