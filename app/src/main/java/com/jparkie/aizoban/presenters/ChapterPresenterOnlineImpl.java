@@ -25,7 +25,6 @@ import com.jparkie.aizoban.views.adapters.PagesAdapter;
 import com.jparkie.aizoban.views.fragments.ChapterHelpFragment;
 import com.jparkie.aizoban.views.fragments.SelectPageFragment;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
