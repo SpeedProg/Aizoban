@@ -225,7 +225,6 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
         if (mToolbar != null) {
             mToolbar.setTitle(R.string.fragment_chapter);
             mToolbar.setBackgroundColor(getResources().getColor(R.color.primaryBlue500));
-            mToolbar.setAlpha(0.4f);
             mToolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -307,8 +306,6 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
     @Override
     public void initializeButtons() {
         if (mPreviousButton != null) {
-            mPreviousButton.setAlpha(0.4f);
-
             mPreviousButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -317,8 +314,6 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
             });
         }
         if (mNextButton != null) {
-            mNextButton.setAlpha(0.4f);
-
             mNextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

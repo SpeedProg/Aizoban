@@ -10,19 +10,19 @@ public class PaletteUtils {
             currentItem = palette.getVibrantSwatch();
         }
         if (currentItem == null) {
-            currentItem = palette.getLightVibrantSwatch();
+            currentItem = palette.getDarkVibrantSwatch();;
         }
         if (currentItem == null) {
-            currentItem = palette.getDarkVibrantSwatch();
+            currentItem = palette.getLightVibrantSwatch();
         }
         if (currentItem == null) {
             currentItem = palette.getMutedSwatch();
         }
         if (currentItem == null) {
-            currentItem = palette.getLightMutedSwatch();
+            currentItem = palette.getDarkMutedSwatch();
         }
         if (currentItem == null) {
-            currentItem = palette.getDarkMutedSwatch();
+            currentItem = palette.getLightMutedSwatch();
         }
 
         return currentItem != null ? currentItem.getRgb() : defaultColor;
