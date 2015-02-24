@@ -149,6 +149,7 @@ public class RecentChapterFragment extends Fragment implements RecentChapterView
     public void initializeToolbar() {
         if (getActivity() instanceof ActionBarActivity) {
             ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.fragment_recent_chapter);
+            ((ActionBarActivity)getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 

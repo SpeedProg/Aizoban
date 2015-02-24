@@ -540,7 +540,8 @@ public class English_Batoto implements Source {
                     public void call() {
                         CacheProvider.getInstance().putImageUrlsToDiskCache(request.getUrl(), temporaryCachedImageUrls);
                     }
-                });
+                })
+                .onBackpressureBuffer();
     }
 
     private List<String> parseHtmlToPageUrls(String unparsedHtml) {

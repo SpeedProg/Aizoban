@@ -132,6 +132,7 @@ public class DownloadMangaFragment extends Fragment implements DownloadMangaView
     public void initializeToolbar() {
         if (getActivity() instanceof ActionBarActivity) {
             ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.fragment_download_manga);
+            ((ActionBarActivity)getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 

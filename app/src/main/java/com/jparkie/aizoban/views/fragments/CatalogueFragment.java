@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
@@ -150,6 +151,7 @@ public class CatalogueFragment extends Fragment implements CatalogueView, Catalo
     public void initializeToolbar() {
         if (getActivity() instanceof ActionBarActivity) {
             ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.fragment_catalogue);
+            ((ActionBarActivity)getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 
@@ -196,6 +198,17 @@ public class CatalogueFragment extends Fragment implements CatalogueView, Catalo
         if (mGridView != null) {
             if (mPreviousButton != null && mNextButton != null) {
                 mGridView.setOnScrollListener(new FloatingActionButtonsOnScrollListenerImpl());
+            }
+        }
+    }
+
+    @Override
+    public void setSubtitlePositionText(int position) {
+        ActionBar supportActionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+
+        if (supportActionBar != null) {
+            if (mGridView.getAdapter() != null) {
+                supportActionBar.setSubtitle(getString(R.string.catalogue_subtitle_page) + " " + position);
             }
         }
     }

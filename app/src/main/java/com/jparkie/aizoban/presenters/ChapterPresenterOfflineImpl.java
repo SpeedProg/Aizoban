@@ -455,6 +455,8 @@ public class ChapterPresenterOfflineImpl implements ChapterPresenter {
                                     mChapterView.setSubtitlePositionText(getActualPosition() + 1);
                                     mChapterView.setImmersivePositionText(getActualPosition() + 1);
 
+                                    mChapterView.initializeFullscreen();
+
                                     mInitialized = true;
                                 }
                             }

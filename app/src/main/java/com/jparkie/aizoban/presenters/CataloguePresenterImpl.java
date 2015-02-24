@@ -281,6 +281,8 @@ public class CataloguePresenterImpl implements CataloguePresenter {
                             } else {
                                 mCatalogueView.showEmptyRelativeLayout();
                             }
+
+                            mCatalogueView.setSubtitlePositionText(getPageNumber());
                         }
                     });
         }
@@ -292,5 +294,9 @@ public class CataloguePresenterImpl implements CataloguePresenter {
 
             mPositionSavedState = null;
         }
+    }
+
+    private int getPageNumber() {
+        return (mSearchCatalogueWrapper != null) ? (mSearchCatalogueWrapper.getOffsetArgs() + SearchUtils.LIMIT_COUNT) / SearchUtils.LIMIT_COUNT : 0;
     }
 }

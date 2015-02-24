@@ -511,7 +511,7 @@ public class English_MangaHere implements Source {
 
         final MangaService currentService = MangaService.getTemporaryInstance();
 
-        return currentService.getPermanentInstance()
+        return currentService
                 .getResponse(request.getUrl())
                 .flatMap(new Func1<Response, Observable<String>>() {
                     @Override
@@ -586,7 +586,8 @@ public class English_MangaHere implements Source {
                     public void call() {
                         CacheProvider.getInstance().putImageUrlsToDiskCache(request.getUrl(), temporaryCachedImageUrls);
                     }
-                });
+                })
+                .onBackpressureBuffer();
     }
 
     private List<String> parseHtmlToPageUrls(String unparsedHtml) {

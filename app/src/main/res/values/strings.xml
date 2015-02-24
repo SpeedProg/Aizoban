@@ -60,6 +60,9 @@
     <string name="no_available_downloads">No Available Downloads</string>
     <string name="available_downloads_instructions">Any available chapter for download will be displayed here</string>
 
+    <!-- Catalogue Fragment: -->
+    <string name="catalogue_subtitle_page">Page:</string>
+
     <!-- Catalogue Filter Dialog Items: -->
     <string name="catalogue_filter_title_genres">Genres</string>
     <string name="catalogue_filter_title_status">Status</string>

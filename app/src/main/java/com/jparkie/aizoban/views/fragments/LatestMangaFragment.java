@@ -111,6 +111,7 @@ public class LatestMangaFragment extends Fragment implements LatestMangaView, La
     public void initializeToolbar() {
         if (getActivity() instanceof ActionBarActivity) {
             ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.fragment_latest_manga);
+            ((ActionBarActivity)getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 

@@ -17,6 +17,12 @@ public interface ChapterView extends BaseContextView, BaseToolbarView, BaseEmpty
 
     public void initializeTextView();
 
+    public void initializeFullscreen();
+
+    public void enableFullscreen();
+
+    public void disableFullscreen();
+
     public void setTitleText(String title);
 
     public void setSubtitleProgressText(int imageUrlsCount);

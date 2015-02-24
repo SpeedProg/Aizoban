@@ -494,6 +494,8 @@ public class ChapterPresenterOnlineImpl implements ChapterPresenter {
 
                             mChapterView.hideEmptyRelativeLayout();
 
+                            mChapterView.initializeFullscreen();
+
                             mInitialized = true;
                         }
 

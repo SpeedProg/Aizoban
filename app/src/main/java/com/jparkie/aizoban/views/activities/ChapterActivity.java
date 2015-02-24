@@ -30,6 +30,14 @@ import com.jparkie.aizoban.views.ChapterView;
 import com.jparkie.aizoban.views.widgets.GestureViewPager;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+
 public class ChapterActivity extends BaseActivity implements ChapterView, ChapterMapper {
     public static final String TAG = ChapterActivity.class.getSimpleName();
 
@@ -48,6 +56,8 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
     private FloatingActionButton mPreviousButton;
     private FloatingActionButton mNextButton;
     private TextView mPageNumberView;
+
+    private boolean mSystemUIVisibility;
 
     public static Intent constructOnlineChapterActivityIntent(Context context, RequestWrapper chapterRequest, int position) {
         Intent argumentIntent = new Intent(context, ChapterActivity.class);
@@ -218,6 +228,8 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
                     View.VISIBLE
             );
         }
+
+        mSystemUIVisibility = true;
     }
 
     @Override
@@ -242,25 +254,6 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
         if (mViewPager != null) {
             mViewPager.setOffscreenPageLimit(2);
             mViewPager.setPageMargin(16);
-
-            mViewPager.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-                @Override
-                public void onSystemUiVisibilityChange(int visibility) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                            showControls();
-                        } else {
-                            hideControls();
-                        }
-                    } else {
-                        if (visibility == View.VISIBLE) {
-                            showControls();
-                        } else {
-                            hideControls();
-                        }
-                    }
-                }
-            });
 
             mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -288,6 +281,17 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
                 @Override
                 public void onLastPageOut() {
                     mChapterPresenter.onLastPageOut();
+                }
+            });
+
+            mViewPager.setOnChapterSingleTapListener(new GestureViewPager.OnChapterSingleTapListener() {
+                @Override
+                public void onSingleTap() {
+                    if (mSystemUIVisibility) {
+                        enableFullscreen();
+                    } else {
+                        disableFullscreen();
+                    }
                 }
             });
         }
@@ -332,6 +336,19 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
     }
 
     @Override
+    public void initializeFullscreen() {
+        Observable.just(null)
+                .delay(2500, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object nullObject) {
+                        enableFullscreen();
+                    }
+                });
+        }
+
+    @Override
     public void hideEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
@@ -341,6 +358,50 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
     @Override
     public void showEmptyRelativeLayout() {
         // Do Nothing.
+    }
+
+    @Override
+    public void enableFullscreen() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LOW_PROFILE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            );
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LOW_PROFILE
+            );
+        }
+
+        hideControls();
+        showPageView();
+
+        mSystemUIVisibility = false;
+    }
+
+    @Override
+    public void disableFullscreen() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            );
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.VISIBLE
+            );
+        }
+
+        showControls();
+        hidePageView();
+
+        mSystemUIVisibility = true;
     }
 
     @Override
@@ -523,15 +584,6 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
         if (mNextButton != null) {
             mNextButton.hide(true);
         }
-        if (mPageNumberView != null) {
-            if (mPageNumberView.getVisibility() != View.VISIBLE) {
-                mPageNumberView.setVisibility(View.VISIBLE);
-                mPageNumberView.animate()
-                        .alpha(1.0f)
-                        .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
-                        .setListener(null);
-            }
-        }
     }
 
     private void showControls() {
@@ -551,6 +603,9 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
         if (mNextButton != null) {
             mNextButton.show(true);
         }
+    }
+
+    private void hidePageView() {
         if (mPageNumberView != null) {
             if (mPageNumberView.getVisibility() != View.GONE) {
                 mPageNumberView.animate()
@@ -562,6 +617,18 @@ public class ChapterActivity extends BaseActivity implements ChapterView, Chapte
                                 mPageNumberView.setVisibility(View.GONE);
                             }
                         });
+            }
+        }
+    }
+
+    private void showPageView() {
+        if (mPageNumberView != null) {
+            if (mPageNumberView.getVisibility() != View.VISIBLE) {
+                mPageNumberView.setVisibility(View.VISIBLE);
+                mPageNumberView.animate()
+                        .alpha(1.0f)
+                        .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime))
+                        .setListener(null);
             }
         }
     }

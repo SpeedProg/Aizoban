@@ -51,6 +51,7 @@ public class SettingsFragment extends PreferenceFragment implements SettingsView
     public void initializeToolbar() {
         if (getActivity() instanceof ActionBarActivity) {
             ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.fragment_settings);
+            ((ActionBarActivity)getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 

@@ -8,6 +8,8 @@ import com.jparkie.aizoban.views.base.BaseToolbarView;
 public interface CatalogueView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BaseAbsListViewView {
     public void initializeButtons();
 
+    public void setSubtitlePositionText(int position);
+
     public void toastNoPreviousPage();
 
     public void toastNoNextPage();

@@ -149,6 +149,7 @@ public class FavouriteMangaFragment extends Fragment implements FavouriteMangaVi
     public void initializeToolbar() {
         if (getActivity() instanceof ActionBarActivity) {
             ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.fragment_favourite_manga);
+            ((ActionBarActivity)getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 
