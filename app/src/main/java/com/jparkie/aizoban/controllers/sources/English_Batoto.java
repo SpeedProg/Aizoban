@@ -73,7 +73,7 @@ public class English_Batoto implements Source {
 
     @Override
     public Observable<List<String>> getGenres() {
-        List<String> genres = new ArrayList<String>();
+        List<String> genres = new ArrayList<String>(38);
 
         genres.add("4-Koma");
         genres.add("Action");

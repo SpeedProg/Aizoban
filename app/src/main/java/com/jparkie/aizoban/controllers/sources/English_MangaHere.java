@@ -61,7 +61,7 @@ public class English_MangaHere implements Source {
 
     @Override
     public Observable<List<String>> getGenres() {
-        List<String> genres = new ArrayList<String>();
+        List<String> genres = new ArrayList<String>(30);
 
         genres.add("Action");
         genres.add("Adventure");
