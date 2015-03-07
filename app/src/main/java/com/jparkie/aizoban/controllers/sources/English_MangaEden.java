@@ -119,7 +119,7 @@ public class English_MangaEden implements Source {
         Element updateElement = htmlBlock.select("div.chapterDate").first();
 
         if (urlElement != null) {
-            String fieldUrl = "https://www.mangaeden.com/api/manga/" + urlElement.id() + "/";
+            String fieldUrl = "https://www.mangaeden.com/api/manga/" + urlElement.id().substring(0, 24) + "/";
             mangaFromHtmlBlock.setUrl(fieldUrl);
         }
         if (nameElement != null) {
