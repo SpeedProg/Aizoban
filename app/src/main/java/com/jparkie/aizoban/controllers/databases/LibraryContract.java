@@ -1,7 +1,7 @@
 package com.jparkie.aizoban.controllers.databases;
 
 public class LibraryContract {
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "AizobanLibrary.db";
 
     private LibraryContract() {

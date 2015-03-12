@@ -235,10 +235,8 @@ public class English_MangaHere implements Source {
                     existingManga.setUpdated(currentManga.getUpdated());
                     existingManga.setUpdateCount(currentManga.getUpdateCount());
 
-                    currentManga = existingManga;
+                    cupboard().withDatabase(sqLiteDatabase).put(existingManga);
                 }
-
-                cupboard().withDatabase(sqLiteDatabase).put(currentManga);
             }
 
             sqLiteDatabase.setTransactionSuccessful();
