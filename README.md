@@ -1,4 +1,4 @@
-Aizoban
+Aizoban (No Longer Available on Google Play)
 =======
 
 ![Feature Graphic](https://cloud.githubusercontent.com/assets/9499097/5429148/16e40ee2-83af-11e4-9588-f52f1104b9c4.jpg)
@@ -10,11 +10,6 @@ This Android application allows users to browse a catalogue of mangas from vario
 ### APK Download
 
 [**Direct Download**: (Version 1.2.5)](Aizoban/Aizoban_27.apk)
-
-<a href="https://play.google.com/store/apps/details?id=com.jparkie.aizoban">
-  <img alt="Get it on Google Play"
-       src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" />
-</a>
 
 ## Source
 
