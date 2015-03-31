@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.jparkie.aizoban"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Support Libraries:
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:recyclerview-v7:21.0.3'
+    compile 'com.android.support:palette-v7:21.0.3'
+
+    // Dependency Injection:
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    provided 'com.squareup.dagger:dagger-compiler:1.2.2'
+
+    // RxJava:
+    compile 'io.reactivex:rxjava:1.0.7'
+    compile 'io.reactivex:rxandroid:0.24.0'
+
+    // HTTP Networking
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+
+    // I/O:
+    compile 'com.squareup.okio:okio:1.2.0'
+
+    // Cache:
+    compile 'com.jakewharton:disklrucache:2.0.2'
+
+    // Databasing:
+    compile 'nl.qbusict:cupboard:2.1.1'
+
+    // Event Bus:
+    compile 'de.greenrobot:eventbus:2.4.0'
+
+    // HTML Scraping:
+    compile 'org.jsoup:jsoup:1.8.1'
+
+    // View Injection:
+    compile 'com.jakewharton:butterknife:6.1.0'
+
+    // Image Downloading and Caching:
+    compile 'com.github.bumptech.glide:glide:3.5.2'
+
+    // UI:
+    compile 'com.afollestad:material-dialogs:0.6.3.5'
+    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.0.0'
+    compile 'com.melnykov:floatingactionbutton:1.2.0'
+    compile 'com.makeramen:roundedimageview:1.5.0'
+
+    // Debugging:
+    compile 'com.facebook.stetho:stetho:1.0.0'
+    compile 'com.facebook.stetho:stetho-okhttp:1.0.0'}

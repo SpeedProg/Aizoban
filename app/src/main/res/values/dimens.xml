@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- Common: -->
+    <dimen name="baseline_grid_unit">4dp</dimen>
+    <dimen name="baseline_component_unit">8dp</dimen>
+    <dimen name="keyline_margin_unit">16dp</dimen>
+    <dimen name="keyline_content_unit">16dp</dimen>
+    <dimen name="keyline_content_left">72dp</dimen>
+    <dimen name="keyline_avatar_diameter">48dp</dimen>
+
+    <!-- Dialog: -->
+    <dimen name="dialog_content_padding">24dp</dimen>
+
+    <!-- List Items: -->
+    <dimen name="list_item_single_line_height">48dp</dimen>
+    <dimen name="list_item_single_line_avatar_height">56dp</dimen>
+    <dimen name="list_item_double_line_height">72dp</dimen>
+    <dimen name="list_item_triple_line_height">88dp</dimen>
+
+    <!-- Grid Item: -->
+    <dimen name="grid_item_width">96dp</dimen>
+    <dimen name="grid_item_thumbnail_height">144dp</dimen>
+
+    <!-- Navigation Drawer: -->
+    <dimen name="navigation_drawer_width">304dp</dimen>
+
+    <!-- Empty: -->
+    <dimen name="empty_content_minimum_height">144dp</dimen>
+
+    <!-- Header Manga: -->
+    <dimen name="header_manga_thumbnail_height">144dp</dimen>
+    <dimen name="header_manga_fab_margin_top">116dp</dimen>
+    <dimen name="header_manga_fab_margin_left">8dp</dimen>
+
+</resources>

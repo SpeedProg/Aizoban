@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/grid_item_width"
+    android:layout_height="wrap_content"
+    android:foreground="@drawable/selected_item_background">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/grid_item_thumbnail_height"
+                android:id="@+id/catalogueThumbnailImageView"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.4"
+                android:id="@+id/catalogueMaskImageView"/>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_item_single_line_height"
+            android:paddingLeft="@dimen/keyline_margin_unit"
+            android:paddingRight="@dimen/keyline_margin_unit"
+            android:id="@+id/catalogueFooterLinearLayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="middle"
+                android:maxLines="2"
+                android:textColor="@color/textAndIcons"
+                android:textSize="@dimen/typography_caption"
+                android:textStyle="bold"
+                android:id="@+id/catalogueNameTextView" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

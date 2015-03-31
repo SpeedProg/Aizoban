@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- Actions: -->
+    <string name="action_add_to_queue">Add to Queue</string>
+    <string name="action_add_to_recent_chapters">Add to Recent Chapters</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_drawer_open">Open</string>
+    <string name="action_drawer_close">Close</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_search">Search</string>
+    <string name="action_select_all">Select All</string>
+    <string name="action_sort_ascending">Sort Ascending</string>
+    <string name="action_sort_descending">Sort Descending</string>
+    <string name="action_start_downloader">Start Downloader</string>
+    <string name="action_stop_downloader">Stop Downloader</string>
+    <string name="action_swap_layouts">Swap Layouts</string>
+    <string name="action_to_top">To Top</string>
+
+    <!-- Action Modes: -->
+    <string name="action_mode_add_to_queue">Add to Queue</string>
+    <string name="action_mode_add_to_recent_chapters">Add to Recent Chapters</string>
+    <string name="action_mode_cancel">Cancel</string>
+    <string name="action_mode_delete">Delete</string>
+
+</resources>

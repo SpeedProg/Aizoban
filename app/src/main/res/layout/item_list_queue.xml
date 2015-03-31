@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_triple_line_height"
+    android:foreground="@drawable/selected_item_background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/keyline_content_unit"
+        android:layout_marginStart="@dimen/keyline_content_unit"
+        android:layout_marginRight="@dimen/keyline_content_left"
+        android:layout_marginEnd="@dimen/keyline_content_left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textColor="@color/primaryText"
+            android:textSize="@dimen/typography_subhead"
+            android:id="@+id/queueNameTextView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/queueNameTextView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/typography_body_1"
+            android:id="@+id/queueSubtitleTextView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/queueSubtitleTextView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:singleLine="true"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/typography_body_1"
+            android:textStyle="italic"
+            android:id="@+id/queueFlagTextView"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:layout_marginLeft="@dimen/keyline_content_unit"
+        android:layout_marginStart="@dimen/keyline_content_unit"
+        android:layout_marginRight="@dimen/keyline_content_unit"
+        android:layout_marginEnd="@dimen/keyline_content_unit"
+        android:background="?attr/colorAccent"
+        android:padding="@dimen/baseline_component_unit"
+        android:textColor="@color/textAndIcons"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="bold"
+        android:id="@+id/queueCurrentPageTextView" />
+
+</FrameLayout>

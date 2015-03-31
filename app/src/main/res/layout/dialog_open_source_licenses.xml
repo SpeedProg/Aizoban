@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <!-- Butter Knife: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_butter_knife"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_butter_knife"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_butter_knife" />
+
+    <!-- Cupboard: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_cupboard"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_cupboard"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_cupboard" />
+
+    <!-- Dagger: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_dagger"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_dagger"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_dagger" />
+
+    <!-- Disk Lru Cache: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_disk_lru_cache"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_disk_lru_cache"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_disk_lru_cache" />
+
+    <!-- Event Bus: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_event_bus"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_event_bus"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_event_bus" />
+
+    <!-- FloatingActionButton: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_floating_action_button"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_floating_action_button"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_floating_action_button" />
+
+    <!-- Glide: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_glide"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_glide"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_glide" />
+
+    <!-- jsoup: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_jsoup"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_jsoup"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_jsoup" />
+
+    <!-- Material Dialogs: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_material_dialogs"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_material_dialogs"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_material_dialogs" />
+
+    <!-- OkHttp: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_okhttp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_okhttp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_okhttp" />
+
+    <!-- Okio: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_okio"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_okio"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_okio" />
+
+    <!-- Cupboard: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_recyclerview_multiselect"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_recyclerview_multiselect"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_recyclerview_multiselect" />
+
+    <!-- RoundedImageView: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_roundimageview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_roundimageview"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_roundimageview" />
+
+    <!-- RxJava: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_rxjava"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_rxjava"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_rxjava" />
+
+    <!-- Stetho: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_stetho"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_stetho"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_stetho" />
+
+    <!-- SubsamplingScaleImageView: -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/typography_subhead"
+        android:textStyle="bold"
+        android:text="@string/license_title_subsampling_scale_image_view"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/typography_caption"
+        android:textStyle="italic"
+        android:text="@string/license_author_subsampling_scale_image_view"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/baseline_component_unit"
+        android:padding="@dimen/baseline_component_unit"
+        android:background="@color/secondaryBackground"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:textColor="@color/primaryText"
+        android:textColorLink="?attr/colorAccent"
+        android:textSize="@dimen/typography_body_1"
+        android:text="@string/license_content_subsampling_scale_image_view" />
+
+</LinearLayout>

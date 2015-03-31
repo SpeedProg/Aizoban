@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="toast_cleared_image_cache">Cleared image cache</string>
+    <string name="toast_cleared_latest">Cleared latest manga list</string>
+    <string name="toast_cleared_favourite">Cleared favourite manga list</string>
+    <string name="toast_cleared_recent">Cleared recent chapter list</string>
+    <string name="toast_external_storage_error">Unable to mount to external storage. Please try again later.</string>
+    <string name="toast_latest_manga_error">Unable to load latest manga updates. Please try again later.</string>
+    <string name="toast_manga_error">Unable to load manga information. Please try again later.</string>
+
+</resources>

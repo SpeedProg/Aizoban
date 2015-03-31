@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- Application Names: -->
+    <string name="app_name">Aizōban</string>
+    <string name="service_name">Aizōban Downloader</string>
+
+    <!-- Notifications: -->
+    <string name="notification_download_title">Aizōban Downloader</string>
+    <string name="notification_download_text">Downloading...</string>
+
+    <!-- Activity Names: -->
+    <string name="activity_manga">Manga</string>
+    <string name="activity_chapter">Chapter</string>
+
+    <!-- Fragment Names: -->
+    <string name="fragment_catalogue">Catalogue</string>
+    <string name="fragment_latest_manga">Latest Updates</string>
+    <string name="fragment_download_manga">Downloaded Manga</string>
+    <string name="fragment_favourite_manga">Favourite Manga</string>
+    <string name="fragment_recent_chapter">Recent Chapters</string>
+    <string name="fragment_queue">Download Queue</string>
+    <string name="fragment_settings">Settings</string>
+
+    <!-- Dialog Names: -->
+    <string name="dialog_catalogue_filter">Filter Catalogue</string>
+    <string name="dialog_disclaimer">Disclaimer</string>
+    <string name="dialog_open_source_licenses">Open Source Licenses</string>
+
+    <!-- Navigation Names: -->
+    <string name="navigation_catalogue_title">Catalogue</string>
+    <string name="navigation_latest_title">Latest Manga</string>
+    <string name="navigation_explore_title">Explore Manga</string>
+    <string name="navigation_download_title">Downloaded Manga</string>
+    <string name="navigation_favourite_title">Favourite Manga</string>
+    <string name="navigation_recent_title">Recent Chapters</string>
+    <string name="navigation_queue_title">Download Queue</string>
+    <string name="navigation_settings_title">Settings</string>
+
+    <!-- Empty Name and Instruction Pairs: -->
+    <string name="no_catalogue">Empty Catalogue</string>
+    <string name="catalogue_instructions">Try a new search or filter</string>
+    <string name="no_latest_manga">No Latest Updates</string>
+    <string name="latest_manga_instructions">Swipe down to refresh</string>
+    <string name="no_download_manga">No Downloaded Manga</string>
+    <string name="download_manga_instructions">To download a manga, \n tap the \"Download\" button in the manga activity</string>
+    <string name="no_favourite_manga">No Favourite Manga</string>
+    <string name="favourite_manga_instructions">To favourite a manga, \n tap the \"Favourite\" button in the manga activity</string>
+    <string name="no_recent_chapter">No Recent Chapters</string>
+    <string name="recent_chapter_instructions">Any opened chapters will be recorded here</string>
+    <string name="no_queued_downloads">No Queued Downloads</string>
+    <string name="queue_downloads_instructions">Any queued downloads for chapters will be displayed here</string>
+    <string name="no_manga">No Manga</string>
+    <string name="manga_instructions">Swipe down to refresh</string>
+
+    <!-- Disclaimer Dialog: -->
+    <string name="disclaimer_text">Copyrights and trademarks for the manga, and other promotional materials are held by their respective owners and their use is allowed under the fair use clause of the Copyright Law. \n Aizōban is developed by an individual who does not have any affiliation with the content providers. This individual reserves the right to change the sources of manga without prior notice. \n Please support the authors by purchasing the volumes from official avenues when they are available in your locale.</string>
+
+    <!-- Catalogue Filter Dialog Items: -->
+    <string name="catalogue_filter_title_genres">Genres</string>
+    <string name="catalogue_filter_title_status">Status</string>
+    <string name="catalogue_filter_title_order_by">Order By</string>
+    <string name="catalogue_filter_radio_option_all">All</string>
+    <string name="catalogue_filter_radio_option_completed">Completed</string>
+    <string name="catalogue_filter_radio_option_ongoing">Ongoing</string>
+    <string name="catalogue_filter_radio_option_name">Name</string>
+    <string name="catalogue_filter_radio_option_rank">Rank</string>
+    <string name="catalogue_filter_dialog_button_filter">Filter</string>
+    <string name="catalogue_filter_dialog_button_clear">Clear</string>
+    <string name="catalogue_filter_dialog_button_cancel">Cancel</string>
+
+    <!-- Queue Item Flags: -->
+    <string name="flag_failed">Failed (Retrying)</string>
+    <string name="flag_paused">Paused</string>
+    <string name="flag_pending">Pending</string>
+    <string name="flag_running_fetching">Fetching Links</string>
+    <string name="flag_running_downloading">Downloading of </string>
+    <string name="flag_completed">Completed</string>
+    <string name="flag_canceled">Canceled</string>
+
+    <!-- Header Manga Items: -->
+    <string name="header_manga_title_author">AUTHOR</string>
+    <string name="header_manga_title_artist">ARTIST</string>
+    <string name="header_manga_title_genre">GENRES</string>
+    <string name="header_manga_title_status">STATUS</string>
+    <string name="header_manga_status_completed">Completed</string>
+    <string name="header_manga_status_ongoing">Ongoing</string>
+
+    <!-- List Manga Chapter Items: -->
+    <string name="list_item_chapter_new">NEW</string>
+    <string name="list_item_chapter_no_date">No Date</string>
+
+</resources>
